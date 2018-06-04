@@ -10,18 +10,25 @@ import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-import InfoPage from './components/InfoPage/InfoPage';
+import AboutPage from './components/AboutPage/AboutPage';
+import AdvancedSearchPage from './components/AdvancedSearchPage/AdvancedSearchPage';
+import BrowsePage from './components/BrowsePage/BrowsePage';
+import CreatePage from './components/CreatePage/CreatePage';
+import EditPage from './components/EditPage/EditPage';
+import HomePage from './components/HomePage/HomePage';
+import SearchResultsPage from './components/SearchResultsPage/SearchResultsPage';
+import ViewPage from './components/ViewPage/ViewPage';
 
 import './styles/main.css';
+import './styles/color-classes.css';
 
 const App = () => (
   <div>
-    <Header title="Project Base" />
     <Router>
       <Switch>
         <Redirect exact from="/" to="/home" />
         <Route
-          path="/home"
+          path="/login"
           component={LoginPage}
         />
         <Route
@@ -33,8 +40,36 @@ const App = () => (
           component={UserPage}
         />
         <Route
-          path="/info"
-          component={InfoPage}
+          path="/about"
+          component={AboutPage}
+        />
+        <Route
+          path="/home"
+          component={HomePage}
+        />
+        <Route
+          path="/search"
+          component={AdvancedSearchPage}
+        />
+        <Route
+          path="/results"
+          component={SearchResultsPage}
+        />
+        <Route
+          path="/browse"
+          component={BrowsePage}
+        />
+        <Route
+          path="/create"
+          component={CreatePage}
+        />
+        <Route
+          path="/edit/:type/:id"
+          component={EditPage}
+        />
+        <Route
+          path="/view/:type/:id"
+          component={ViewPage}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

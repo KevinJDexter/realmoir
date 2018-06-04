@@ -7,7 +7,10 @@ class RegisterPage extends Component {
     super(props);
 
     this.state = {
+      firstName: '',
+      lastName: '',
       username: '',
+      email: '',
       password: '',
       message: '',
     };
@@ -22,7 +25,10 @@ class RegisterPage extends Component {
       });
     } else {
       const body = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         username: this.state.username,
+        email: this.state.email,
         password: this.state.password,
       };
 
@@ -72,6 +78,28 @@ class RegisterPage extends Component {
         <form onSubmit={this.registerUser}>
           <h1>Register User</h1>
           <div>
+            <label htmlFor="firstName">
+              First Name:
+              <input
+                type="text"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleInputChangeFor('firstName')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="lastName">
+              Last Name:
+              <input
+                type="text"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this.handleInputChangeFor('lastName')}
+              />
+            </label>
+          </div>
+          <div>
             <label htmlFor="username">
               Username:
               <input
@@ -79,6 +107,17 @@ class RegisterPage extends Component {
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="email">
+              Email:
+              <input
+                type="test"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChangeFor('email')}
               />
             </label>
           </div>

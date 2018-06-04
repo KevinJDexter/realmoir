@@ -2,6 +2,11 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
+.advancedSearchLink {
+    text-decoration: none;
+    padding-right: 10px
+}
+
 .instructions h1 {
     font-size: 24px;
     font-weight: 700;
@@ -20,6 +25,17 @@ form {
     margin: 20px auto;
     padding: 25px;
     border-radius: 2px;
+}
+
+.header {
+    position: relative;
+    margin: 0px;
+    /* background-color: #8F3A1B; */
+    background-image: url("/images/13c07ab9.png");
+}
+
+.headTitle {
+    margin: 20px;
 }
 
 input {
@@ -48,12 +64,27 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #00acb0;
+    position: relative;
+    height: 100%;
   width: 100%;
-  border-radius: 0px;
+}
+
+.navbar div {
+    position: absolute;
+    bottom: 0;
+  text-align: center;
+  margin: auto;
+  width: fit-content;
+}
+
+.loginStatus {
+  text-align: center;
+  margin: auto;
+  width: fit-content;
 }
 
 ul {
+    width: fit-content;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -78,3 +109,4 @@ li a:hover {
     text-decoration: underline;
     color: #eee;
 }
+

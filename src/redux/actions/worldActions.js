@@ -1,0 +1,4 @@
+export const WORLD_ACTIONS = {
+  GET_WORLDS: 'GET_WORLDS',
+  SET_WORLDS: 'SET_WORLDS',
+}
