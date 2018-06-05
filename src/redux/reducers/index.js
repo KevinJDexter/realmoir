@@ -4,6 +4,7 @@ import login from './loginReducer';
 import recentlyAdded from './recentlyAddedReducer';
 import worlds from './worldReducer';
 import stories from './storyReducer';
+import browse from './browseReducer';
 
 const store = combineReducers({
   user,
@@ -11,6 +12,7 @@ const store = combineReducers({
   recentlyAdded,
   worlds,
   stories,
+  browse,
 });
 
 export default store;

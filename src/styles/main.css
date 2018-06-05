@@ -1,5 +1,7 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('/images/6d4ebd84.png');
 }
 
 .advancedSearchLink {
@@ -31,11 +33,12 @@ form {
     position: relative;
     margin: 0px;
     /* background-color: #8F3A1B; */
-    background-image: url("/images/13c07ab9.png");
+    background-image: url('/images/13c07ab9.png');
 }
 
 .headTitle {
-    margin: 20px;
+    margin: 30px auto;
+    width: fit-content;
 }
 
 input {
@@ -64,16 +67,16 @@ input[type="submit"] {
 }
 
 .navbar {
-    position: relative;
+    /* position: relative; */
+    display: flex;
+    align-content: flex-end;
     height: 100%;
   width: 100%;
 }
 
 .navbar div {
-    position: absolute;
-    bottom: 0;
-  text-align: center;
-  margin: auto;
+  margin: 0 auto;
+  align-self: flex-end;
   width: fit-content;
 }
 
@@ -110,3 +113,33 @@ li a:hover {
     color: #eee;
 }
 
+.welcomeDiv {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.welcomeMessage {
+    max-width: 60%;
+    margin: auto;
+}
+
+.headerGrid {
+    padding: 0px 12px !important;
+}
+
+.createNewLink {
+    padding-left: 10px;
+}
+
+.mainView {
+    display: flex;
+}
+
+.pageContent {
+    flex: 7;
+}
+
+.sidebarDiv {
+    flex: 1;
+    border: solid black 3px;
+}

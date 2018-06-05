@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class LinkToStory extends Component {
@@ -10,9 +10,11 @@ class LinkToStory extends Component {
     console.log('TEST', story)
 
     return (
-      <Link to={linkTo}>
-        {story.title}
-      </Link>
+      <div style={{ marginBottom: "8px" }}>
+        <Link to={linkTo}>
+          {story.title}
+        </Link>
+      </div>
     )
   }
 }

@@ -24,4 +24,26 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/inWorld/:id', (req, res) => {
+  console.log('GET /api/story/inWorld/id');
+  if (req.isAuthenticated() ) {
+    const query = `
+      SELECT *
+      FROM "stories"
+      WHERE "world_id" = $1
+    `;
+    const params = [req.params.id];
+    pool.query(query, params)
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
 module.exports = router;

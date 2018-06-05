@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class LinkToWorld extends Component {
@@ -8,9 +8,11 @@ class LinkToWorld extends Component {
     const linkTo = `/view/world/${world.id}`;
 
     return (
-      <Link to={linkTo}>
-        {world.name}
-      </Link>
+      <div style={{marginBottom: "8px"}}>
+        <Link to={linkTo}>
+          {world.name}
+        </Link>
+      </div>
     )
   }
 }

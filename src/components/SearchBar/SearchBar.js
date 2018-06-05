@@ -21,9 +21,6 @@ class SearchBar extends Component {
   }
 
   submitSearch = () => {
-    console.log(this.state.searchQuery);
-    console.log(this.props);
-    this.props.dispatch({type: 'test'});
     this.props.history.push('/results');
   }
 

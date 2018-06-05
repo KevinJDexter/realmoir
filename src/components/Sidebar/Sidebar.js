@@ -5,6 +5,7 @@ class Sidebar extends Component {
   render () {
     return (
       <div>
+        <h3 style={{textAlign: 'center'}}>Recently Added</h3>
       </div>
     )
   }
