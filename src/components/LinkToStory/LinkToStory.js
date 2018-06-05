@@ -7,8 +7,6 @@ class LinkToStory extends Component {
     const story = this.props.story;
     const linkTo = `/view/story/${story.id}`;
 
-    console.log('TEST', story)
-
     return (
       <div style={{ marginBottom: "8px" }}>
         <Link to={linkTo}>

@@ -6,7 +6,12 @@ body {
 
 .advancedSearchLink {
     text-decoration: none;
-    padding-right: 10px
+    padding: 20px 10px;
+}
+
+.advancedSearchLink:hover {
+    color: #eee;
+    text-decoration: underline;
 }
 
 .instructions h1 {
@@ -100,11 +105,8 @@ li {
 
 li a {
     display: block;
-    color: white;
-    text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-
 }
 
 /* Change the link color to #111 (black) on hover */
@@ -136,10 +138,29 @@ li a:hover {
 }
 
 .pageContent {
-    flex: 7;
+    flex: 6;
 }
 
 .sidebarDiv {
     flex: 1;
     border: solid black 3px;
+}
+
+.sidebarList {
+    text-align: center;
+    margin: auto;
+}
+
+.sidebarList li {
+    float: none;
+}
+
+.sidebarList li a {
+    padding: 3px 0px;
+}
+
+.logoutLink:hover {
+    cursor: pointer;
+    color: #eee;
+    text-decoration: underline;
 }

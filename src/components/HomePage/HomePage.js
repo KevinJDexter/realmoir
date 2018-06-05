@@ -11,7 +11,7 @@ import CreateWorldsDropdown from '../CreateWorldsDropdown/CreateWorldsDropdown';
 import CreateStoriesDropdown from '../CreateStoriesDropdown/CreateStoriesDropdown';
 import Sidebar from '../Sidebar/Sidebar';
 
-const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse })
+const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user })
 
 class HomePage extends Component {
   constructor(props) {
@@ -36,15 +36,23 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log("STORIES", this.props.worldsReducer.stories);
-
     let storiesCreateOptions = <div></div>
+    let createOptions = <Link to="/login">Start Creating</Link>
 
     if (this.props.browseReducer.storiesInWorld.length > 0) {
       storiesCreateOptions = <div>
         <CreateStoriesDropdown />
         <Link className="createNewLink" to="/create">Create new Story</Link>
       </div>;
+    }
+
+    if (this.props.user.userName) {
+      createOptions = <div>
+        <CreateWorldsDropdown />
+        <Link className="createNewLink" to="/create">Create new World</Link>
+        <br />
+        {storiesCreateOptions}
+      </div>
     }
 
     return (
@@ -73,10 +81,7 @@ class HomePage extends Component {
               </div>
               <div style={{ flex: '1', textAlign: 'center', border: 'solid black 3px', paddingBottom: '20px' }}>
                 <h3>Create</h3>
-                <CreateWorldsDropdown />
-                <Link className="createNewLink" to="/create">Create new World</Link>
-                <br />
-                {storiesCreateOptions}
+                {createOptions}
               </div>
             </div>
           </div>
