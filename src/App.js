@@ -44,6 +44,7 @@ const App = () => (
           component={AboutPage}
         />
         <Route
+          className="TEST"
           path="/home"
           component={HomePage}
         />

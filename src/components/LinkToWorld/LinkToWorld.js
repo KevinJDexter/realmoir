@@ -8,7 +8,7 @@ class LinkToWorld extends Component {
     const linkTo = `/view/world/${world.id}`;
 
     return (
-      <div style={{marginBottom: "8px"}}>
+      <div className="homeBrowseLinks">
         <Link to={linkTo}>
           {world.name}
         </Link>

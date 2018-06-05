@@ -17,7 +17,7 @@ const Header = (props) => (
       <Grid className="headerGrid" item xs={12} sm={12} md={5} lg={4}>
         <Grid container>
           <Grid className="headerGrid" item xs={12}>
-            <LoginStatus />
+            <LoginStatus history={props.history}/>
           </Grid>
           <Grid className="headerGrid" item xs={12}>
             <SearchBar history={props.history}/>

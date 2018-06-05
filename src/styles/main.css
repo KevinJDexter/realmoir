@@ -37,6 +37,7 @@ form {
 .header {
     position: relative;
     margin: 0px;
+    padding-bottom: 15px;
     /* background-color: #8F3A1B; */
     background-image: url('/images/13c07ab9.png');
 }
@@ -135,15 +136,18 @@ li a:hover {
 
 .mainView {
     display: flex;
-}
-
-.pageContent {
-    flex: 6;
+    height: 100%;
 }
 
 .sidebarDiv {
     flex: 1;
-    border: solid black 3px;
+    border-left: solid black 3px;
+    align-self: stretch;
+}
+
+.sidebarHeader {
+    text-align: center;
+    padding: 5px;
 }
 
 .sidebarList {

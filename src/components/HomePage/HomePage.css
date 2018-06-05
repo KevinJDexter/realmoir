@@ -1,0 +1,41 @@
+.homePageContent {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.homeWelcomeDiv {
+  flex: 3;
+}
+
+.homeBottomFlexForm {
+  flex: 2;
+  display: flex;
+}
+
+.homeBrowseDiv {
+  flex: 1;
+  text-align: center;
+  border: solid black 3px;
+  padding-bottom: 20px;
+}
+
+.homeCreateDiv {
+  flex: 1;
+  text-align: center;
+  border: solid black 3px;
+  padding-bottom: 20px;
+}
+
+.homeBrowseInnerDiv {
+  display: flex;
+}
+
+.homeBrowseChildDiv {
+  flex: 1;
+}
+
+.homeBrowseLinks {
+  margin-bottom: 8px;
+}

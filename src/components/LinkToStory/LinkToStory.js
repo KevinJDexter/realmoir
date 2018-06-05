@@ -8,7 +8,7 @@ class LinkToStory extends Component {
     const linkTo = `/view/story/${story.id}`;
 
     return (
-      <div style={{ marginBottom: "8px" }}>
+      <div className="homeBrowseLinks">
         <Link to={linkTo}>
           {story.title}
         </Link>

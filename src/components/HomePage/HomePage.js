@@ -11,6 +11,8 @@ import CreateWorldsDropdown from '../CreateWorldsDropdown/CreateWorldsDropdown';
 import CreateStoriesDropdown from '../CreateStoriesDropdown/CreateStoriesDropdown';
 import Sidebar from '../Sidebar/Sidebar';
 
+import './HomePage.css'
+
 const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user })
 
 class HomePage extends Component {
@@ -19,12 +21,29 @@ class HomePage extends Component {
 
     this.state = {
       storiesCollected: false,
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
+  }
+
+  updateWindowDimensions = () => {
+    if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
+      this.setState({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
     }
   }
 
   componentDidMount() {
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
+    window.addEventListener("resize", this.updateWindowDimensions)
   }
+
+  componentWillMount = () => {
+    window.addEventListener("resize", this.updateWindowDimensions)
+  }
+
 
   componentDidUpdate() {
     if (!this.props.worldsReducer.isLoading
@@ -56,30 +75,32 @@ class HomePage extends Component {
     }
 
     return (
-      <div>
+      <div style={{height: this.state.height, width: this.state.width, display: "flex", flexDirection: "column"}}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView">
-          <div className="pageContent">
+          <div className="homePageContent">
+            <div className="homeWelcomeDiv">
             <WelcomeMessage />
+            </div>
             <br />
             <br />
-            <div style={{ display: 'flex' }}>
-              <div style={{ flex: '1', textAlign: 'center', border: 'solid black 3px', paddingBottom: '20px' }}>
+            <div class="homeBottomFlexForm">
+              <div className="homeBrowseDiv">
                 <h3>Browse</h3>
-                <div style={{ display: 'flex' }}>
-                  <div style={{ flex: '1' }}>
+                <div className="homeBrowseInnerDiv">
+                  <div className="homeBrowseChildDiv">
                     <h4>Worlds</h4>
                     {this.props.worldsReducer.worlds.map(world => <LinkToWorld key={world.id} world={world} />)}
                     <Link to="/browse">See More...</Link>
                   </div>
-                  <div style={{ flex: '1' }}>
+                  <div className="homeBrowseChildDiv">
                     <h4>Stories</h4>
                     {this.props.storiesReducer.stories.map(story => <LinkToStory key={story.id} story={story} />)}
                     <Link to="/browse">See More...</Link>
                   </div>
                 </div>
               </div>
-              <div style={{ flex: '1', textAlign: 'center', border: 'solid black 3px', paddingBottom: '20px' }}>
+              <div className="homeCreateDiv">
                 <h3>Create</h3>
                 {createOptions}
               </div>

@@ -13,14 +13,11 @@ class LoginStatus extends Component {
 
   logout = () => {
     this.props.dispatch(triggerLogout());
-    // this.props.history.push('home');
+    this.props.history.push('/home');
   }
 
   render() {
-    let options = <ul>
-      <li><Link className="color-secondary-2-2" to="/login">Login</Link></li>
-      <li><Link className="color-secondary-2-2" to="/register">Register</Link></li>
-    </ul>
+    let options = <div></div>
     if (this.props.user.userName !== null) {
       options = <div>
         <p>
@@ -29,6 +26,11 @@ class LoginStatus extends Component {
             </a>
         </p>
       </div>;
+    } else {
+      options = <ul>
+      <li><Link className="color-secondary-2-2" to="/login">Login</Link></li>
+      <li><Link className="color-secondary-2-2" to="/register">Register</Link></li>
+    </ul>
     }
 
     return (

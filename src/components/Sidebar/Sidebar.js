@@ -18,9 +18,9 @@ class Sidebar extends Component {
   render () {
     return (
       <div>
-        <h3 style={{textAlign: 'center', padding: '5px'}}>Recently Added</h3>
+        <h3 className="sidebarHeader">Recently Added</h3>
         <ul className="sidebarList">
-          {this.props.sidebarReducer.recentlyAdded.map(item => <SidebarItem key={item.id} item={item} />)}
+          {this.props.sidebarReducer.recentlyAdded.map(item => <SidebarItem key={item.objectType + item.id} item={item} />)}
         </ul>
       </div>
     )
