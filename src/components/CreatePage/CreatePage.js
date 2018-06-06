@@ -43,8 +43,9 @@ class CreatePage extends Component {
     let formToDisplay = <div></div>;
     if (this.props.createReducer.formType === 'world') {
       formToDisplay = <WorldForm />;
+    } else if (this.props.createReducer.formType === 'story') {
+      formToDisplay = <StoryForm />
     }
-    formToDisplay = <StoryForm />
 
     return (
       <div style={{ width: this.state.width, height: this.state.height }}>

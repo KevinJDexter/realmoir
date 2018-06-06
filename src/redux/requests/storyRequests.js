@@ -24,11 +24,22 @@ export function callStoriesInWorld(id) {
 
 export function callGenreList() {
   const config = {
-    headers: {'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
   return axios.get('/api/genre', config)
     .then(response => response.data)
     .catch((error) => { throw error.response || error; })
+}
+
+export function postNewStory(payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.post('/api/story', payload, config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error })
 }

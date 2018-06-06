@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Typography, Button, Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 
-const mapStateToProps = (reduxState) => ({storyReducer: reduxState.stories})
+const mapStateToProps = (reduxState) => ({ storyReducer: reduxState.stories, createReducer: reduxState.create })
 
 class StoryForm extends Component {
 
@@ -20,7 +20,7 @@ class StoryForm extends Component {
   }
 
   componentDidMount = () => {
-    this.props.dispatch({type: STORY_ACTIONS.GET_STORY_GENRES })
+    this.props.dispatch({ type: STORY_ACTIONS.GET_STORY_GENRES })
   }
 
   handleChange = (property) => (event) => {
@@ -30,29 +30,42 @@ class StoryForm extends Component {
   }
 
   submitStory = () => {
-    let toSend = {...this.state};
+    let toSend = { ...this.state };
     for (var key in toSend) {
       if (toSend[key] == '') {
         toSend[key] = null;
       }
     }
+    toSend.world_id = this.props.createReducer.world.id;
     let storiesWithName = this.props.storyReducer.storiesInWorld.filter(story => story.title === toSend.title);
-    if (toSend.name !== null && storiesWithName.length === 0 ) {
+    if (toSend.title !== null && toSend.synopsis !== null && storiesWithName.length === 0) {
       this.props.dispatch({ type: STORY_ACTIONS.SUBMIT_NEW_STORY, payload: toSend })
     } else {
-      alert('New World must be named a unique name');
+      alert('New Story must be named a unique name and have a synopsis');
     }
   }
 
   render() {
     return (
       <div>
-        <h3>New World</h3>
+        <h3>New Story in {this.props.createReducer.world.name}</h3>
         <form>
-          <TextField className="createFormName" label="Title" value={this.state.title} onChange={this.handleChange('name')} />
+          <TextField className="createFormName" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
           <br />
           <br />
-          <TextField className="createFormDescription" rows="6" multiline label="Description" value={this.state.synopsis} onChange={this.handleChange('description')} />
+          <FormControl>
+            <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
+            <Select
+              style={{ minWidth: "160px" }}
+              value={this.state.genre_id}
+              onChange={this.handleChange('genre_id')}
+              inputProps={{ name: 'genre', id: 'genre-select' }}>
+              {this.props.storyReducer.genres.map(genre => <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>)}
+            </Select>
+          </FormControl>
+          <br />
+          <br />
+          <TextField className="createFormDescription" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
           <br />
           <br />
           <TextField className="createFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />

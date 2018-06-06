@@ -49,10 +49,10 @@ router.get('/inWorld/:id', (req, res) => {
 router.post('/', (req, res) => {
   console.log('POST /api/story/');
   if (req.isAuthenticated()) {
-    let story = req.body.story;
+    let story = req.body;
     const query = `
       INSERT INTO "stories" ("title", "synopsis", "genre_id", "img_url", "private_notes", "world_id")
-      VALUES ($1, $2, $3, $4, $5, %6);
+      VALUES ($1, $2, $3, $4, $5, $6);
     `;
     const params = [story.title, story.synopsis, story.genre_id, story.img_url, story.private_notes, story.world_id];
     pool.query(query, params)
