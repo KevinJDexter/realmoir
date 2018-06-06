@@ -6,7 +6,7 @@ export function callStories() {
     withCredentials: true,
   };
 
-  return axios.get('api/story', config)
+  return axios.get('/api/story', config)
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
@@ -17,7 +17,7 @@ export function callStoriesInWorld(id) {
     withCredentials: true,
   };
 
-  return axios.get(`api/story/inWorld/${id}`, config)
+  return axios.get(`/api/story/inWorld/${id}`, config)
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
@@ -41,5 +41,16 @@ export function postNewStory(payload) {
 
   return axios.post('/api/story', payload, config)
     .then(response => response.data)
+    .catch((error) => { throw error.response || error })
+}
+
+export function callStoryDetails(payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/story/${payload}`)
+    .then(response => response.data[0])
     .catch((error) => { throw error.response || error })
 }

@@ -8,35 +8,21 @@ import WorldForm from '../CreatePageForms/WorldForm';
 
 import './CreatePage.css';
 import StoryForm from '../CreatePageForms/StoryForm';
+import { USER_ACTIONS } from '../../redux/actions/userActions';
 
-const mapStateToProps = (reduxState) => ({ createReducer: reduxState.create })
+const mapStateToProps = (reduxState) => ({ createReducer: reduxState.create, user: reduxState.user })
 
 class CreatePage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }
-  }
-
-  updateWindowDimensions = () => {
-    if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
-      this.setState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-  }
 
   componentDidMount() {
+    if (!this.props.user.userName && !this.props.user.isLoading) {
+      this.props.history.push('/home');
+    }
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
-    window.addEventListener("resize", this.updateWindowDimensions)
   }
 
-  componentWillMount = () => {
-    window.addEventListener("resize", this.updateWindowDimensions)
+  componentWillMount() {
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER })
   }
 
   render() {
@@ -48,7 +34,7 @@ class CreatePage extends Component {
     }
 
     return (
-      <div style={{ width: this.state.width, height: this.state.height }}>
+      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
         <Header history={this.props.history} />
         <div className="mainView">
           <div className="createSidebarDiv">

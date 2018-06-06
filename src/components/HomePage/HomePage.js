@@ -17,31 +17,9 @@ import './HomePage.css'
 const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user, createReducer: reduxState.create })
 
 class HomePage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }
-  }
-
-  updateWindowDimensions = () => {
-    if (window.innerWidth !== this.state.width || window.innerHeight !== this.state.height) {
-      this.setState({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-  }
 
   componentDidMount() {
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
-    window.addEventListener("resize", this.updateWindowDimensions)
-  }
-
-  componentWillMount = () => {
-    window.addEventListener("resize", this.updateWindowDimensions)
   }
 
   setCreateTypeStory = () => {
@@ -73,7 +51,7 @@ class HomePage extends Component {
     }
 
     return (
-      <div style={{height: this.state.height, width: this.state.width, display: "flex", flexDirection: "column"}}>
+      <div style={{height: window.innerHeight, width: window.innerWidth, display: "flex", flexDirection: "column"}}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView">
           <div className="homePageContent">

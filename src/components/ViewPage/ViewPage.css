@@ -1,0 +1,9 @@
+.viewPageContent {
+  flex: 6;
+  text-align: center;
+}
+
+.formContainer {
+  width: 70%;
+  margin: 50px auto;
+}

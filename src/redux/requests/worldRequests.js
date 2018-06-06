@@ -6,7 +6,7 @@ export function callWorlds() {
     withCredentials: true,
   };
 
-  return axios.get('api/world', config)
+  return axios.get('/api/world', config)
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
