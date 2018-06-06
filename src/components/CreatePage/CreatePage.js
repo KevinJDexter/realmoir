@@ -7,6 +7,9 @@ import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 import WorldForm from '../CreatePageForms/WorldForm';
 
 import './CreatePage.css';
+import StoryForm from '../CreatePageForms/StoryForm';
+
+const mapStateToProps = (reduxState) => ({ createReducer: reduxState.create })
 
 class CreatePage extends Component {
   constructor(props) {
@@ -28,7 +31,7 @@ class CreatePage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({type: WORLD_ACTIONS.GET_WORLDS})
+    this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
     window.addEventListener("resize", this.updateWindowDimensions)
   }
 
@@ -38,10 +41,13 @@ class CreatePage extends Component {
 
   render() {
     let formToDisplay = <div></div>;
-    formToDisplay = <WorldForm />;
+    if (this.props.createReducer.formType === 'world') {
+      formToDisplay = <WorldForm />;
+    }
+    formToDisplay = <StoryForm />
 
     return (
-      <div style={{width: this.state.width, height: this.state.height}}>
+      <div style={{ width: this.state.width, height: this.state.height }}>
         <Header history={this.props.history} />
         <div className="mainView">
           <div className="createSidebarDiv">
@@ -60,4 +66,4 @@ class CreatePage extends Component {
   }
 }
 
-export default connect()(CreatePage);
+export default connect(mapStateToProps)(CreatePage);

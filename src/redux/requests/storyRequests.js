@@ -21,3 +21,14 @@ export function callStoriesInWorld(id) {
     .then(response => response.data)
     .catch((error) => { throw error.response || error; });
 }
+
+export function callGenreList() {
+  const config = {
+    headers: {'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get('/api/genre', config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; })
+}

@@ -33,4 +33,5 @@ const formType = (state = '', action) => {
 export default combineReducers({
   world,
   story,
+  formType,
 })

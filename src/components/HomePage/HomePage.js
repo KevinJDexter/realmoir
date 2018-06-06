@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
+import { CREATE_PAGE_ACTIONS } from '../../redux/actions/createPageActions';
 import LinkToWorld from '../LinkToWorld/LinkToWorld';
 import LinkToStory from '../LinkToStory/LinkToStory';
 import WelcomeMessage from '../WelcomeMessage/WelcomeMessage';
@@ -43,6 +44,14 @@ class HomePage extends Component {
     window.addEventListener("resize", this.updateWindowDimensions)
   }
 
+  setCreateTypeStory = () => {
+    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_STORY })
+  }
+
+  setCreateTypeWorld = () => {
+    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_WORLD })
+  }
+
   render() {
     let storiesCreateOptions = <div></div>
     let createOptions = <Link to="/login">Start Creating</Link>
@@ -50,14 +59,14 @@ class HomePage extends Component {
     if (this.props.storiesReducer.storiesInWorld.length > 0) {
       storiesCreateOptions = <div>
         <CreateStoriesDropdown />
-        <Link className="homeCreateNewLink" to="/create">Create new Story</Link>
+        <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create new Story</Link>
       </div>;
     }
 
     if (this.props.user.userName) {
       createOptions = <div>
         <CreateWorldsDropdown />
-        <Link className="homeCreateNewLink" to="/create">Create new World</Link>
+        <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeWorld} >Create new World</Link>
         <br />
         {storiesCreateOptions}
       </div>

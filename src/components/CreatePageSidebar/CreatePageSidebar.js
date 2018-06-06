@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import CreateWorldsDropdown from '../CreateWorldsDropdown/CreateWorldsDropdown';
 import CreateStoriesDropdown from '../CreateStoriesDropdown/CreateStoriesDropdown';
-import CREATE_PAGE_ACTIONS from '../../redux/actions/createPageActions';
+import { CREATE_PAGE_ACTIONS } from '../../redux/actions/createPageActions';
 import { connect } from 'react-redux';
 
 const mapStateToRedux = (reduxState) => ({ createPageReducer: reduxState.create })
 
 class CreatePageSidebar extends Component {
+
+
+  getStoryForm = () => {
+    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_STORY })
+  }
+
+  getWorldForm = () => {
+    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_WORLD })
+  }
 
   render() {
 
@@ -16,7 +25,7 @@ class CreatePageSidebar extends Component {
         <CreateStoriesDropdown />
         <br />
         <p>OR</p>
-        <a className="createNewLink color-secondary-1-0" to="/create">Create new Story</a>
+        <a className="createNewLink color-secondary-1-0" onClick={this.getStoryForm} >Create new Story</a>
       </div>
     }
 
@@ -26,7 +35,7 @@ class CreatePageSidebar extends Component {
           <CreateWorldsDropdown />
           <br />
           <p>OR</p>
-          <a className="createNewLink color-secondary-1-0" to="/create">Create new World</a>
+          <a className="createNewLink color-secondary-1-0" onClick={this.getWorldForm} >Create new World</a>
         </div>
         <br />
         {storyDiv}
