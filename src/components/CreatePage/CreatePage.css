@@ -1,3 +1,45 @@
 .createSidebarDiv {
-  border: black solid 3px;
+  border-right: black solid 3px;
+  text-align: center;
+  height: 100%;
+  flex: 2;
+}
+
+.createPageSidebarContent {
+  margin-top: 20px;
+}
+
+.createSidebarDropdown {
+  margin-top: 50px;
+}
+
+.createPageContent {
+  flex: 4;
+  text-align: center;
+}
+
+.createNewLink:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #eee;
+}
+
+.createFormName {
+  width: 70%;
+  background-color: rgba(255,255,255,.1);
+}
+
+.createFormDescription {
+  width: 80%;
+  background-color: rgba(255,255,255,.1)
+}
+
+.createFormUrl {
+  width: 70%;
+  background-color: rgba(255,255,255,.1)
+}
+
+.createFormNotes {
+  width: 80%;
+  background-color: rgba(255,255,255,.1)
 }

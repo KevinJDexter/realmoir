@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { BROWSE_ACTIONS } from '../../redux/actions/browseActions';
+import { CREATE_PAGE_ACTIONS } from '../../redux/actions/createPageActions';
 import { FormControl } from '@material-ui/core';
 
-const mapStateToProps = (reduxState) => ({ browseReducer: reduxState.browse, worldReducer: reduxState.worlds });
+const mapStateToProps = (reduxState) => ({worldReducer: reduxState.worlds, createReducer: reduxState.create });
 
 class CreateWorldsDropdown extends Component {
 
@@ -18,10 +18,19 @@ class CreateWorldsDropdown extends Component {
     }
   }
 
-  componentDidUpdate = () => {
-    if (this.props.browseReducer.browse.world.id && this.state.valueField !== this.props.browseReducer.browse.world.id) {
+  componentDidMount = () => {
+    if (this.props.createReducer.world.id && this.state.valueField !== this.props.createReducer.world.id) {
       this.setState({
-        valueField: this.props.browseReducer.browse.world.id,
+        valueField: this.props.createReducer.world.id,
+      })
+    }
+    console.log(this.props.createReducer.world.id);
+  }
+
+  componentDidUpdate = () => {
+    if (this.props.createReducer.world.id && this.state.valueField !== this.props.createReducer.world.id) {
+      this.setState({
+        valueField: this.props.createReducer.world.id,
       })
     }
   }
@@ -29,7 +38,7 @@ class CreateWorldsDropdown extends Component {
   handleChange = (event) => {
     const payload = this.props.worldReducer.worlds.filter(world => world.id === event.target.value)[0];
     const action = {
-      type: 'CHANGE_BROWSE_WORLD',
+      type: CREATE_PAGE_ACTIONS.CHANGE_CREATE_WORLD,
       payload: payload,
     }
     this.props.dispatch(action);
@@ -40,7 +49,7 @@ class CreateWorldsDropdown extends Component {
 
     return (
       <FormControl>
-        <InputLabel htmlFor='world-select'>World</InputLabel>
+        <InputLabel htmlFor='world-select'>Select World</InputLabel>
         <Select
           style={{minWidth: "160px"}}
           value={this.state.valueField}

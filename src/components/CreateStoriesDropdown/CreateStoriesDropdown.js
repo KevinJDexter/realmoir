@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { BROWSE_ACTIONS } from '../../redux/actions/browseActions';
 import { FormControl } from '@material-ui/core';
+import { CREATE_PAGE_ACTIONS } from '../../redux/actions/createPageActions';
 
-const mapStateToProps = (reduxState) => ({ browseReducer: reduxState.browse, storiesReducer: reduxState.stories });
+const mapStateToProps = (reduxState) => ({ storiesReducer: reduxState.stories, createReducer: reduxState.create });
 
 class CreateStoriesReducer extends Component {
 
@@ -18,10 +18,18 @@ class CreateStoriesReducer extends Component {
     }
   }
 
-  componentDidUpdate = () => {
-    if (this.props.browseReducer.browse.story.id && this.state.valueField !== this.props.browseReducer.browse.story.id) {
+  componentDidMount = () => {
+    if (this.props.createReducer.story.id && this.state.valueField !== this.props.createReducer.story.id) {
       this.setState({
-        valueField: this.props.browseReducer.browse.story.id,
+        valueField: this.props.createReducer.story.id,
+      })
+    }
+  }
+
+  componentDidUpdate = () => {
+    if (this.props.createReducer.story.id && this.state.valueField !== this.props.createReducer.story.id) {
+      this.setState({
+        valueField: this.props.createReducer.story.id,
       })
     }
   }
@@ -29,7 +37,7 @@ class CreateStoriesReducer extends Component {
   handleChange = (event) => {
     const payload = this.props.storiesReducer.stories.filter(story => story.id === event.target.value)[0];
     const action = {
-      type: 'SET_BROWSE_STORY',
+      type: CREATE_PAGE_ACTIONS.SET_CREATE_STORY,
       payload: payload,
     }
     this.props.dispatch(action);
@@ -40,7 +48,7 @@ class CreateStoriesReducer extends Component {
 
     return (
       <FormControl>
-        <InputLabel htmlFor='story-select'>Story</InputLabel>
+        <InputLabel htmlFor='story-select'>Select Story</InputLabel>
         <Select
           style={{minWidth: "160px"}}
           value={this.state.valueField}

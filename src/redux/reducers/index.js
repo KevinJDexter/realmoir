@@ -5,6 +5,7 @@ import recentlyAdded from './recentlyAddedReducer';
 import worlds from './worldReducer';
 import stories from './storyReducer';
 import browse from './browseReducer';
+import create from './createPageReducer';
 
 const store = combineReducers({
   user,
@@ -13,6 +14,7 @@ const store = combineReducers({
   worlds,
   stories,
   browse,
+  create,
 });
 
 export default store;

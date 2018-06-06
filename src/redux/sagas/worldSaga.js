@@ -21,8 +21,21 @@ function* fetchWorlds() {
   }
 }
 
+function* postNewWorld() {
+  try {
+    yield put ({ type: WORLD_ACTIONS.REQUEST_START });
+
+    yield put ({ type: WORLD_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put ({
+      type: WORLD_ACTIONS.REQUEST_DONE,
+    })
+  }
+}
+
 function* worldSaga() {
   yield takeEvery(WORLD_ACTIONS.GET_WORLDS, fetchWorlds);
+  // yield takeEvery(WORLD_ACTIONS.POST_CREATE_WORLD, postNewWorld);
 }
 
 export default worldSaga;

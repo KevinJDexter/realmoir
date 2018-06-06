@@ -25,10 +25,19 @@ body {
     color: #ece7e7;
 }
 
-form {
+.loginForm {
     background-color: #dbd5d5;
     width: 30%;
     height: 250px;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 2px;
+}
+
+.registerForm {
+    background-color: #dbd5d5;
+    width: 30%;
+    height: 350px;
     margin: 20px auto;
     padding: 25px;
     border-radius: 2px;
@@ -130,10 +139,6 @@ li a:hover {
     padding: 0px 12px !important;
 }
 
-.createNewLink {
-    padding-left: 10px;
-}
-
 .mainView {
     display: flex;
     height: 100%;
@@ -142,7 +147,6 @@ li a:hover {
 .sidebarDiv {
     flex: 1;
     border-left: solid black 3px;
-    align-self: stretch;
 }
 
 .sidebarHeader {

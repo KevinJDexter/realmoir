@@ -1,14 +1,14 @@
 import { put, takeEvery } from 'redux-saga/effects';
-import { BROWSE_ACTIONS } from '../actions/browseActions';
+import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { callStoriesInWorld } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* changeWorld(action) {
   try {
-    yield put({ type: BROWSE_ACTIONS.REQUEST_START });
+    yield put({ type: CREATE_PAGE_ACTIONS.REQUEST_START });
     yield put({
-      type: BROWSE_ACTIONS.SET_BROWSE_WORLD,
+      type: CREATE_PAGE_ACTIONS.SET_CREATE_WORLD,
       payload: action.payload,
     });
     const stories = yield callStoriesInWorld(action.payload.id);
@@ -16,18 +16,21 @@ function* changeWorld(action) {
       type: STORY_ACTIONS.SET_STORIES_IN_WORLD,
       payload: stories,
     })
+    yield put ({
+      type: STORY_ACTIONS.GET_STORIES,
+    })
     yield put({
-      type: BROWSE_ACTIONS.REQUEST_DONE,
+      type: CREATE_PAGE_ACTIONS.REQUEST_DONE,
     });
   } catch (error) {
     yield put({
-      type: BROWSE_ACTIONS.REQUEST_DONE,
+      type: CREATE_PAGE_ACTIONS.REQUEST_DONE,
     });
   }
 }
 
-function* browseSaga() {
-  yield takeEvery(BROWSE_ACTIONS.CHANGE_BROWSE_WORLD, changeWorld);
+function* createSaga() {
+  yield takeEvery(CREATE_PAGE_ACTIONS.CHANGE_CREATE_WORLD, changeWorld);
 }
 
-export default browseSaga;
+export default createSaga;

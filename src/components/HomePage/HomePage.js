@@ -13,14 +13,13 @@ import Sidebar from '../Sidebar/Sidebar';
 
 import './HomePage.css'
 
-const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user })
+const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user, createReducer: reduxState.create })
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      storiesCollected: false,
       width: window.innerWidth,
       height: window.innerHeight,
     }
@@ -44,31 +43,21 @@ class HomePage extends Component {
     window.addEventListener("resize", this.updateWindowDimensions)
   }
 
-
-  componentDidUpdate() {
-    if (!this.props.worldsReducer.isLoading
-      && this.props.worldsReducer.worlds.length !== 0
-      && !this.state.storiesCollected) {
-      this.props.dispatch({ type: STORY_ACTIONS.GET_STORIES });
-      this.setState({ storiesCollected: true });
-    }
-  }
-
   render() {
     let storiesCreateOptions = <div></div>
     let createOptions = <Link to="/login">Start Creating</Link>
 
-    if (this.props.browseReducer.storiesInWorld.length > 0) {
+    if (this.props.storiesReducer.storiesInWorld.length > 0) {
       storiesCreateOptions = <div>
         <CreateStoriesDropdown />
-        <Link className="createNewLink" to="/create">Create new Story</Link>
+        <Link className="homeCreateNewLink" to="/create">Create new Story</Link>
       </div>;
     }
 
     if (this.props.user.userName) {
       createOptions = <div>
         <CreateWorldsDropdown />
-        <Link className="createNewLink" to="/create">Create new World</Link>
+        <Link className="homeCreateNewLink" to="/create">Create new World</Link>
         <br />
         {storiesCreateOptions}
       </div>
@@ -84,7 +73,7 @@ class HomePage extends Component {
             </div>
             <br />
             <br />
-            <div class="homeBottomFlexForm">
+            <div className="homeBottomFlexForm">
               <div className="homeBrowseDiv">
                 <h3>Browse</h3>
                 <div className="homeBrowseInnerDiv">

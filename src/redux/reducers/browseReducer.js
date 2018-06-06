@@ -16,17 +16,6 @@ const browse = (state = {story: {}, world: {}}, action) => {
   }
 }
 
-const storiesInWorld = (state = [], action) => {
-  switch (action.type) {
-    case BROWSE_ACTIONS.GET_WORLD_STORIES:
-      return state;
-    case BROWSE_ACTIONS.SET_WORLD_STORIES:
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
 const isLoading = (state = false, action) => {
   switch (action.type) {
     case BROWSE_ACTIONS.REQUEST_START:
@@ -40,5 +29,4 @@ const isLoading = (state = false, action) => {
 
 export default combineReducers({
   browse,
-  storiesInWorld,
 }) 
