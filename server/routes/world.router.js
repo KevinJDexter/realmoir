@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
   const query = `
-    SELECT "w"."id", "w"."name", "w"."description",
+    SELECT "w"."id", "w"."name", "w"."description", "w"."img_url",
     CASE WHEN "u"."id" = $1
          THEN "w"."private_notes"
          ELSE NULL

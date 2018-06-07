@@ -43,3 +43,14 @@ export function editWorldDetails(action) {
     .then(response => response)
     .catch((error) => {throw error.response || error });
 }
+
+export function deleteWorld(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/world/${id}`, config)
+    .then(response => response)
+    .catch((error) => {throw error.response || error});
+}

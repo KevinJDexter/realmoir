@@ -16,6 +16,9 @@ class WorldLayout extends Component {
   }
 
   componentDidUpdate = () => {
+    if (!this.props.worldReducer.isLoading && !this.props.worldReducer.worldDetails.id) {
+      this.props.history.push('/home');
+    }
     if (this.props.match.params.id != this.props.worldReducer.worldDetails.id) {
       this.props.dispatch({
         type: WORLD_ACTIONS.GET_WORLD_DETAILS,

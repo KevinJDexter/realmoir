@@ -10,6 +10,17 @@ const stories = (state = [], action) => {
   }
 }
 
+const isLoading = (state = false, action) => {
+  switch (action.type) {
+    case STORY_ACTIONS.REQUEST_START:
+      return true;
+    case STORY_ACTIONS.REQUEST_DONE:
+      return false
+    default: 
+      return state;
+  }
+}
+
 const storiesInWorld = (state = [], action) => {
   switch (action.type) {
     case STORY_ACTIONS.SET_STORIES_IN_WORLD:
@@ -42,4 +53,5 @@ export default combineReducers({
   storiesInWorld,
   genres,
   storyDetails,
+  isLoading,
 }) 

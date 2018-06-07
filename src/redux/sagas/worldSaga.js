@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { WORLD_ACTIONS } from '../actions/worldActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
-import { callWorlds, postNewWorld, callWorldDetails, callIsOwnerOfWorld, editWorldDetails } from '../requests/worldRequests';
+import { callWorlds, postNewWorld, callWorldDetails, callIsOwnerOfWorld, editWorldDetails, deleteWorld } from '../requests/worldRequests';
 import { callStoriesInWorld } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -71,11 +71,24 @@ function* modifyWorldDetails(action) {
   }
 }
 
+function* removeWorld(action) {
+  try {
+    yield put({type: WORLD_ACTIONS.REQUEST_START});
+    yield deleteWorld(action.payload);
+    yield put ({type: WORLD_ACTIONS.CLEAR_WORLD_DETAILS});
+    yield put ({type: WORLD_ACTIONS.REQUEST_DONE});
+    yield put ({type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
+  } catch (error) {
+    yield put ({type: WORLD_ACTIONS.REQUEST_DONE});
+  }
+}
+
 function* worldSaga() {
   yield takeEvery(WORLD_ACTIONS.GET_WORLDS, fetchWorlds);
   yield takeEvery(WORLD_ACTIONS.SUBMIT_NEW_WORLD, submitNewWorld);
   yield takeEvery(WORLD_ACTIONS.GET_WORLD_DETAILS, fetchWorldDetails);
   yield takeEvery(WORLD_ACTIONS.SUBMIT_WORLD_EDITS, modifyWorldDetails);
+  yield takeEvery(WORLD_ACTIONS.DELETE_WORLD, removeWorld);
 }
 
 export default worldSaga;

@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 import { TextField, Button } from '@material-ui/core';
 
-const mapStateToRedux = (reduxState) => ({worldReducer: reduxState.worlds});
+const mapStateToRedux = (reduxState) => ({ worldReducer: reduxState.worlds });
 
 class WorldEditLayout extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -18,15 +18,24 @@ class WorldEditLayout extends Component {
   }
 
   componentWillMount = () => {
-    this.props.dispatch ({
+    this.props.dispatch({
       type: WORLD_ACTIONS.GET_WORLD_DETAILS,
       payload: this.props.match.params.id,
     })
   }
 
   componentDidUpdate = () => {
+    if (!this.props.worldReducer.isLoading && !this.props.worldReducer.worldDetails.id) {
+      this.props.history.push('/home');
+    }
     if (this.state.name != this.props.worldReducer.worldDetails.name && !this.props.worldReducer.isLoading) {
-      const details = { ...this.props.worldReducer.worldDetails };
+      let details = { ...this.props.worldReducer.worldDetails };
+      for (var key in details) {
+        if (details[key] == null) {
+          details[key] = '';
+        }
+      }
+      console.log(details);
       this.setState({
         name: details.name,
         description: details.description,
@@ -52,11 +61,22 @@ class WorldEditLayout extends Component {
     this.props.history.push(`/view/world/${this.props.match.params.id}`);
   }
 
+  deleteWorld = () => {
+    const toDelete = window.confirm('Are you sure you want to delete this world? This can\'t be undone.');
+    if (toDelete) {
+      this.props.dispatch({
+        type: WORLD_ACTIONS.DELETE_WORLD,
+        payload: this.props.match.params.id,
+      })
+      this.props.history.push('/home');
+    }
+  }
+
   render() {
 
     return (
       <div>
-      <h2>Modifying World: {this.props.worldReducer.worldDetails.name}</h2>
+        <h2>Modifying World: {this.props.worldReducer.worldDetails.name}</h2>
         <form>
           <TextField className="createFormName" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
           <br />
@@ -70,9 +90,10 @@ class WorldEditLayout extends Component {
           <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
-          <Button variant="contained" className="createFormButton" color="primary" onClick={this.confirmEdits}>Save Edits</Button>
+          <Button variant="contained" id="confirmWorldEditsButton" color="primary" onClick={this.confirmEdits}>Save Edits</Button>
+          <Button variant="contained" id="deleteWorldButton" color="secondary" onClick={this.deleteWorld}>Delete World</Button>
         </form>
-        </div>
+      </div>
     )
   }
 }
