@@ -1,7 +1,33 @@
-#confirmWorldEditsButton {
+#confirmWorldEditsButton, #confirmStoryEditsButton {
   margin: 0px 20px;
 }
 
-#deleteWorldButton {
+#deleteWorldButton, #deleteStoryButton {
   margin: 0px 20px;
+}
+
+.editFormName {
+  width: 70%;
+  background-color: rgba(255,255,255,.1);
+}
+
+.editFormDescription {
+  width: 80%;
+  background-color: rgba(255,255,255,.1);
+}
+
+.editFormUrl {
+  width: 70%;
+  background-color: rgba(255,255,255,.1);
+}
+
+.editFormNotes {
+  width: 80%;
+  background-color: rgba(255,255,255,.1);
+}
+
+.editFormGenre {
+  background-color: rgba(255,255,255,.1);
+  width: fit-content;
+  margin: auto;
 }

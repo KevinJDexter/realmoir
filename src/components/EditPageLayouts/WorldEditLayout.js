@@ -10,6 +10,7 @@ class WorldEditLayout extends Component {
     super(props);
 
     this.state = {
+      startingName: '',
       name: '',
       description: '',
       img_url: '',
@@ -28,7 +29,7 @@ class WorldEditLayout extends Component {
     if (!this.props.worldReducer.isLoading && !this.props.worldReducer.worldDetails.id) {
       this.props.history.push('/home');
     }
-    if (this.state.name != this.props.worldReducer.worldDetails.name && !this.props.worldReducer.isLoading) {
+    if (this.state.startingName != this.props.worldReducer.worldDetails.name && !this.props.worldReducer.isLoading) {
       let details = { ...this.props.worldReducer.worldDetails };
       for (var key in details) {
         if (details[key] == null) {
@@ -37,6 +38,7 @@ class WorldEditLayout extends Component {
       }
       console.log(details);
       this.setState({
+        startingName: details.name,
         name: details.name,
         description: details.description,
         img_url: details.img_url,
@@ -78,16 +80,16 @@ class WorldEditLayout extends Component {
       <div>
         <h2>Modifying World: {this.props.worldReducer.worldDetails.name}</h2>
         <form>
-          <TextField className="createFormName" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField className="editFormName" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
           <br />
           <br />
-          <TextField className="createFormDescription" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
+          <TextField className="editFormDescription" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
           <br />
           <br />
-          <TextField className="createFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          <TextField className="editFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
           <br />
           <br />
-          <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <TextField className="editFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
           <Button variant="contained" id="confirmWorldEditsButton" color="primary" onClick={this.confirmEdits}>Save Edits</Button>

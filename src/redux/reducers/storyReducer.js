@@ -43,6 +43,8 @@ const storyDetails = (state = {}, action) => {
   switch (action.type) {
     case STORY_ACTIONS.SET_STORY_DETAILS:
       return action.payload;
+    case STORY_ACTIONS.CLEAR_STORY_DETAILS:
+      return {};
     default:
       return state;
   }
