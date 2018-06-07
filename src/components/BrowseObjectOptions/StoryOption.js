@@ -11,7 +11,7 @@ class StoryOption extends Component {
           {this.props.story.title}
         </Button>
         <br />
-        <Link to={`/view/world/${this.props.story.id}`}>View</Link>
+        <Link to={`/view/story/${this.props.story.id}`}>View</Link>
         </div>
       </div>
     )
