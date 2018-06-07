@@ -33,7 +33,8 @@ class WorldForm extends Component {
     }
     let worldsWithName = this.props.worldReducer.worlds.filter(world => world.name === toSend.name);
     if (toSend.name !== null && worldsWithName.length === 0 ) {
-      this.props.dispatch({ type: WORLD_ACTIONS.SUBMIT_NEW_WORLD, payload: toSend })
+      this.props.dispatch({ type: WORLD_ACTIONS.SUBMIT_NEW_WORLD, payload: toSend });
+      this.props.history.push('/home');
     } else {
       alert('New World must be named a unique name');
     }

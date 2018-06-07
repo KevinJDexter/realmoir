@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
+import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -42,6 +43,7 @@ function* submitStory(action) {
     yield postNewStory(action.payload);
     yield put({ type: STORY_ACTIONS.GET_STORIES });
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
+    yield put ({ type: CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO });
     yield put({ type: STORY_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put({ type: STORY_ACTIONS.REQUEST_DONE });

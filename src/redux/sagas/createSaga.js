@@ -16,9 +16,6 @@ function* changeWorld(action) {
       type: STORY_ACTIONS.SET_STORIES_IN_WORLD,
       payload: stories,
     })
-    yield put ({
-      type: STORY_ACTIONS.GET_STORIES,
-    })
     yield put({
       type: CREATE_PAGE_ACTIONS.REQUEST_DONE,
     });

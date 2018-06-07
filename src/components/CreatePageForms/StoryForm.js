@@ -39,7 +39,8 @@ class StoryForm extends Component {
     toSend.world_id = this.props.createReducer.world.id;
     let storiesWithName = this.props.storyReducer.storiesInWorld.filter(story => story.title === toSend.title);
     if (toSend.title !== null && toSend.synopsis !== null && storiesWithName.length === 0) {
-      this.props.dispatch({ type: STORY_ACTIONS.SUBMIT_NEW_STORY, payload: toSend })
+      this.props.dispatch({ type: STORY_ACTIONS.SUBMIT_NEW_STORY, payload: toSend });
+      this.props.history.push('/home');
     } else {
       alert('New Story must be named a unique name and have a synopsis');
     }

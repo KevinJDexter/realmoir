@@ -20,7 +20,6 @@ class SidebarItem extends Component {
       default:
         break;
     }
-    console.log(toDisplay);
     return (
       <li>{toDisplay}</li>
     )

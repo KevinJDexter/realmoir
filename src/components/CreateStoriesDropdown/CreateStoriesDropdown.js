@@ -35,7 +35,7 @@ class CreateStoriesReducer extends Component {
   }
 
   handleChange = (event) => {
-    const payload = this.props.storiesReducer.stories.filter(story => story.id === event.target.value)[0];
+    const payload = this.props.storiesReducer.storiesInWorld.filter(story => story.id === event.target.value)[0];
     const action = {
       type: CREATE_PAGE_ACTIONS.SET_CREATE_STORY,
       payload: payload,
@@ -54,7 +54,7 @@ class CreateStoriesReducer extends Component {
           value={this.state.valueField}
           onChange={this.handleChange}
           inputProps={{ name: 'story', id: 'story-select' }}>
-          {this.props.storiesReducer.stories.map(story => <MenuItem key={story.id} value={story.id}>{story.title}</MenuItem>)}
+          {this.props.storiesReducer.storiesInWorld.map(story => <MenuItem key={story.id} value={story.id}>{story.title}</MenuItem>)}
         </Select>
       </FormControl>
     )

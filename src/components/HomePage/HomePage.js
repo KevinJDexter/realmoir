@@ -20,6 +20,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
+    this.props.dispatch({ type: STORY_ACTIONS.GET_STORIES })
   }
 
   setCreateTypeStory = () => {

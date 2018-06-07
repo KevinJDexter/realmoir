@@ -1,6 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { WORLD_ACTIONS } from '../actions/worldActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
+import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callWorlds, postNewWorld, callWorldDetails, callIsOwnerOfWorld, editWorldDetails, deleteWorld } from '../requests/worldRequests';
 import { callStoriesInWorld } from '../requests/storyRequests';
 
@@ -35,6 +36,7 @@ function* submitNewWorld(action) {
     yield put ({
       type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED,
     })
+    yield put ({ type: CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO })
     yield put ({ type: WORLD_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put ({

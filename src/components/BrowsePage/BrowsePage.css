@@ -1,0 +1,23 @@
+.browsePageContent {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.browseDiv {
+  margin: 0px auto;
+  width: 20%
+}
+
+.browseLineBreak {
+  width: 100%;
+  text-align: center;
+}
+
+.objectContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+}
