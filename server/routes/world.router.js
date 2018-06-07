@@ -83,7 +83,7 @@ router.put('/:id', (req, res) => {
     SET "name" = $1,
         "description" = $2,
         "img_url" = $3,
-        "private_notes" = $4,
+        "private_notes" = $4
     WHERE "id" = $5
     AND "user_id" = $6;
   `;
@@ -91,7 +91,7 @@ router.put('/:id', (req, res) => {
     pool.query(query, params)
       .then((results) => {
         console.log(results);
-        res.send(202)
+        res.sendStatus(202)
       })
       .catch((error) => {
         res.sendStatus(500);

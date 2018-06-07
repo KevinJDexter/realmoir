@@ -33,13 +33,13 @@ export function callWorldDetails(id) {
     .catch((error) => { throw error.response || error })
 }
 
-// export function callIsOwnerOfWorld(id) {
-//   const config = {
-//     headers: { 'Content-Type': 'application/json' },
-//     withCredentials: true,
-//   } 
+export function editWorldDetails(action) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
 
-//   return axios.get(`/api/world/isOwner/${id}`, config)
-//     .then(response => response.data.isOwner)
-//     .catch((error) => {throw error.response || error })
-// }
+  return axios.put(`/api/world/${action.id}`, action.payload, config)
+    .then(response => response)
+    .catch((error) => {throw error.response || error });
+}

@@ -46,7 +46,10 @@ class WorldEditLayout extends Component {
     const action = {
       type: WORLD_ACTIONS.SUBMIT_WORLD_EDITS,
       payload: this.state,
+      id: this.props.match.params.id,
     }
+    this.props.dispatch(action);
+    this.props.history.push(`/view/world/${this.props.match.params.id}`);
   }
 
   render() {
@@ -67,7 +70,7 @@ class WorldEditLayout extends Component {
           <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
-          <Button variant="contained" className="createFormButton" color="primary" raised="raised" onClick={this.confirmEdits}>Save Edits</Button>
+          <Button variant="contained" className="createFormButton" color="primary" onClick={this.confirmEdits}>Save Edits</Button>
         </form>
         </div>
     )

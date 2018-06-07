@@ -41,7 +41,7 @@ class WorldLayout extends Component {
       storiesContent = <li className="linkedStories">None</li>
     } 
 
-    let editButton = <Button onClick={this.editWorld} >Edit World</Button>;
+    let editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
     if (details.is_owner === false) {

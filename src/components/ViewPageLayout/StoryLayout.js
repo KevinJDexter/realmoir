@@ -35,7 +35,7 @@ class StoryLayout extends Component {
       details.genre = "None";
     }
 
-    let editButton = <Button onClick={this.editStory} >Edit Story</Button>;
+    let editButton = <Button onClick={this.editStory} variant="contained" color="primary" >Edit Story</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
     if (details.is_owner === false) {

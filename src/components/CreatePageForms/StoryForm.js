@@ -74,7 +74,7 @@ class StoryForm extends Component {
           <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
-          <Button variant="contained" className="createFormButton" color="primary" raised="raised" onClick={this.submitStory}>Create Story</Button>
+          <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitStory}>Create Story</Button>
         </form>
       </div>
     )
