@@ -45,11 +45,25 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
   const query = `
-    SELECT "id", "name", "description"
-    FROM "worlds"
-    WHERE "id" = $1;
+    SELECT "w"."id", "w"."name", "w"."description",
+    CASE WHEN "u"."id" = $1
+         THEN "w"."private_notes"
+         ELSE NULL
+         END AS "private_notes",
+    CASE WHEN "u"."id" = $1
+         THEN true
+         ELSE false
+         END AS "is_owner"
+    FROM "worlds" as "w"
+    JOIN "users" as "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "w"."id" = $2;
   `;
-  const params = [req.params.id];
+  let userId = null;
+  if (req.isAuthenticated()) {
+    userId = req.user.id
+  }
+  const params = [userId, req.params.id];
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -62,41 +76,52 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   console.log('PUT /api/world/id');
-  const update = req.body;
-  const query = `
+  if (req.isAuthenticated()) {
+    const update = req.body;
+    const query = `
     UPDATE "worlds"
     SET "name" = $1,
         "description" = $2,
         "img_url" = $3,
         "private_notes" = $4,
-    WHERE "id" = $5;
+    WHERE "id" = $5
+    AND "user_id" = $6;
   `;
-  const params = [update.name, update.description, update.img_url, update.private_notes, req.params.id];
-  pool.query (query, params)
-    .then(() => {
-      res.send(202)
-    })
-    .catch((error) => {
-      res.sendStatus(500);
-      console.log(error);
-    })
+    const params = [update.name, update.description, update.img_url, update.private_notes, req.params.id, req.user.id];
+    pool.query(query, params)
+      .then((results) => {
+        console.log(results);
+        res.send(202)
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
 })
 
 router.delete('/:id', (req, res) => {
   console.log('DELETE /api/world/:id');
-  const query = `
+  if (req.isAuthenticated()) {
+    const query = `
     DELETE FROM "worlds"
-    WHERE "id" = $1;
+    WHERE "id" = $1
+    AND "user_id" = $2;
   `;
-  const params = [req.params.id];
-  pool.query(query, params)
-    .then(() => {
-      res.sendStatus(204);
-    })
-    .catch((error) => {
-      res.sendStatus(500);
-      console.log(error);
-    })
+    const params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(204);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
 })
 
 module.exports = router;

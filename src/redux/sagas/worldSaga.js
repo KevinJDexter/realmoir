@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { WORLD_ACTIONS } from '../actions/worldActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
-import { callWorlds, postNewWorld, callWorldDetails } from '../requests/worldRequests';
+import { callWorlds, postNewWorld, callWorldDetails, callIsOwnerOfWorld } from '../requests/worldRequests';
 import { callStoriesInWorld } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -48,9 +48,7 @@ function* fetchWorldDetails(action) {
     yield put ({ type: WORLD_ACTIONS.REQUEST_START });
     const worldDetails = yield callWorldDetails(action.payload);
     worldDetails.stories = yield callStoriesInWorld(action.payload);
-    // if (worldDetails.stories === undefined) {
-    //   worldDetails.stories = [];
-    // }
+    // const isOwner = yield callIsOwnerOfWorld(action.payload);
     yield put ({ 
       type: WORLD_ACTIONS.SET_WORLD_DETAILS,
       payload: worldDetails,

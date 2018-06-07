@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 const mapStateToRedux = (reduxState) => ({ storyReducer: reduxState.stories })
 
@@ -23,11 +24,23 @@ class StoryLayout extends Component {
     }
   }
 
+  editStory = () => {
+    this.props.history.push(`/edit/story/${this.props.match.params.id}`)
+  }
+
   render() {
     const details = {...this.props.storyReducer.storyDetails};
 
     if (details.genre == null) {
       details.genre = "None";
+    }
+
+    let editButton = <Button onClick={this.editStory} >Edit Story</Button>;
+    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+
+    if (details.is_owner === false) {
+      editButton = <div></div>
+      privateNotes = <div></div>
     }
 
     return (
@@ -39,6 +52,8 @@ class StoryLayout extends Component {
         <p>{details.genre}</p>
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
+        {privateNotes}
+        {editButton}
       </div>
     )
   }

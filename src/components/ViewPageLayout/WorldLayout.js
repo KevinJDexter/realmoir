@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
+import { Button } from '@material-ui/core';
 
 const mapStateToRedux = (reduxState) => ({ worldReducer: reduxState.worlds })
 
@@ -23,6 +24,10 @@ class WorldLayout extends Component {
     }
   }
 
+  editWorld = () => {
+    this.props.history.push(`/edit/world/${this.props.match.params.id}`)
+  }
+
   render() {
     const details = { ...this.props.worldReducer.worldDetails };
 
@@ -36,15 +41,25 @@ class WorldLayout extends Component {
       storiesContent = <li className="linkedStories">None</li>
     } 
 
+    let editButton = <Button onClick={this.editWorld} >Edit World</Button>;
+    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+
+    if (details.is_owner === false) {
+      editButton = <div></div>
+      privateNotes = <div></div>
+    }
+
     return (
       <div className="formContainer" >
         <h2>{details.name}</h2>
         <h4>Description</h4>
         <p>{descriptionContent}</p>
         <ul className="worldStoriesList" >
-          <li><label>Stories:</label></li>
+          <li><strong>Stories:</strong></li>
           {storiesContent}
         </ul>
+        {privateNotes}
+        {editButton}
       </div>
     )
   }

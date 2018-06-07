@@ -11,20 +11,13 @@ const mapStateToProps = (reduxState) => ({ user: reduxState.user })
 
 class ViewPage extends Component {
 
-  componentWillMount = () => {
-    // if (!this.props.user.userName && !this.props.user.isLoading) {
-    //   this.props.history.push('/login');
-    // }
-  }
-
-
   render() {
 
     let componentToMount = <div></div>
     if (this.props.match.params.type === 'world') {
-      componentToMount = <WorldLayout match={this.props.match} />
+      componentToMount = <WorldLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'story') {
-      componentToMount = <StoryLayout match={this.props.match} />
+      componentToMount = <StoryLayout match={this.props.match} history={this.props.history} />
     }
 
     return (

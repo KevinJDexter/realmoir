@@ -12,7 +12,6 @@ export function callWorlds() {
 }
 
 export function postNewWorld(payload) {
-  console.log("ERMAGERD", payload);
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
@@ -29,9 +28,18 @@ export function callWorldDetails(id) {
     withCredentials: true,
   };
 
-  console.log('HERE BE THE BEER', id)
-
   return axios.get(`/api/world/${id}`, config)
     .then(response => response.data[0])
     .catch((error) => { throw error.response || error })
 }
+
+// export function callIsOwnerOfWorld(id) {
+//   const config = {
+//     headers: { 'Content-Type': 'application/json' },
+//     withCredentials: true,
+//   } 
+
+//   return axios.get(`/api/world/isOwner/${id}`, config)
+//     .then(response => response.data.isOwner)
+//     .catch((error) => {throw error.response || error })
+// }
