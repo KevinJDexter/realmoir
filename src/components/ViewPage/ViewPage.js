@@ -7,8 +7,6 @@ import './ViewPage.css';
 import WorldLayout from '../ViewPageLayout/WorldLayout';
 import StoryLayout from '../ViewPageLayout/StoryLayout';
 
-const mapStateToProps = (reduxState) => ({ user: reduxState.user })
-
 class ViewPage extends Component {
 
   render() {
@@ -31,10 +29,9 @@ class ViewPage extends Component {
             <Sidebar />
           </div>
         </div>
-        {JSON.stringify(this.props.match.params)}
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps)(ViewPage);
+export default connect()(ViewPage);

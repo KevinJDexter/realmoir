@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import WorldEditLayout from '../EditPageLayouts/WorldEditLayout';
 import StoryEditLayout from '../EditPageLayouts/StoryEditLayout';
+import Sidebar from '../Sidebar/Sidebar';
+
+import './EditPage.css';
 
 class EditPage extends Component {
   render () {
@@ -15,10 +18,16 @@ class EditPage extends Component {
     }
 
     return (
-      <div>
+      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
         <Header title="Realmoir" history={this.props.history} />
-        <h2>Edit Page</h2>
-        {componentToMount}
+        <div className="mainView">
+          <div className="viewPageContent">
+            {componentToMount}
+          </div>
+          <div className="sidebarDiv">
+            <Sidebar />
+          </div>
+        </div>
       </div>
     )
   }
