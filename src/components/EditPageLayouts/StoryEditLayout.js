@@ -16,6 +16,7 @@ class StoryEditLayout extends Component {
       img_url: '',
       genre_id: '',
       private_notes: '',
+      world_id: '',
     }
   }
 
@@ -48,6 +49,7 @@ class StoryEditLayout extends Component {
         img_url: details.img_url,
         private_notes: details.private_notes,
         genre_id: details.genre_id,
+        world_id: details.world_id,
       })
     }
   }
@@ -59,7 +61,12 @@ class StoryEditLayout extends Component {
   }
 
   submitEdits = () => {
-
+    this.props.dispatch({
+      type: STORY_ACTIONS.SUBMIT_EDIT_STORY,
+      payload: this.state,
+      id: this.props.match.params.id,
+    });
+    this.props.history.push(`/view/story/${this.props.match.params.id}`);
   }
 
   deleteStory = () => {

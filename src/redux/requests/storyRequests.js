@@ -54,3 +54,25 @@ export function callStoryDetails(payload) {
     .then(response => response.data[0])
     .catch((error) => { throw error.response || error })
 }
+
+export function editStoryDetails(action) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.put(`/api/story/${action.id}`, action.payload, config)
+    .then(response => response)
+    .catch((error) => { throw error.response || error });
+}
+
+export function deleteStory(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/story/${id}`, config)
+    .then(response => response)
+    .catch((error) => { throw error.response || error });
+}
