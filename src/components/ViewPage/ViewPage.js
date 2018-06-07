@@ -22,7 +22,7 @@ class ViewPage extends Component {
 
     let componentToMount = <div></div>
     if (this.props.match.params.type === 'world') {
-      componentToMount = <WorldLayout />
+      componentToMount = <WorldLayout match={this.props.match} />
     } else if (this.props.match.params.type === 'story') {
       componentToMount = <StoryLayout match={this.props.match} />
     }

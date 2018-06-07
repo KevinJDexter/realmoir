@@ -21,6 +21,17 @@ const isLoading = (state = false, action) => {
   }
 }
 
+const worldDetails = (state = {stories: []}, action) => {
+  switch (action.type) {
+    case WORLD_ACTIONS.SET_WORLD_DETAILS:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   worlds,
+  isLoading,
+  worldDetails,
 }) 

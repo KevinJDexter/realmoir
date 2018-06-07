@@ -19,6 +19,19 @@ export function postNewWorld(payload) {
   };
 
   return axios.post('/api/world', payload, config)
-    .then(response => console.log(response))
+    .then(response => response)
     .catch((error) => { throw error.response || error; })
+}
+
+export function callWorldDetails(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  console.log('HERE BE THE BEER', id)
+
+  return axios.get(`/api/world/${id}`, config)
+    .then(response => response.data[0])
+    .catch((error) => { throw error.response || error })
 }

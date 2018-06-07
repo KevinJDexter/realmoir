@@ -48,7 +48,6 @@ router.get('/inWorld/:id', (req, res) => {
 
 router.get('/:id', (req, res) => {
   console.log('GET /api/story/id');
-  console.log(req.params.id)
   const query = `
     SELECT "s"."id", "s"."title", "s"."synopsis", "s"."img_url", "w"."name" as "world", "s"."world_id", "g"."name" as "genre"
     FROM "stories" as "s"

@@ -50,7 +50,7 @@ export function callStoryDetails(payload) {
     withCredentials: true,
   };
 
-  return axios.get(`/api/story/${payload}`)
+  return axios.get(`/api/story/${payload}`, config)
     .then(response => response.data[0])
     .catch((error) => { throw error.response || error })
 }

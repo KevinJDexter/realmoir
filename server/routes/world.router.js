@@ -40,7 +40,46 @@ router.post('/', (req, res) => {
   } else {
     res.sendStatus(403);
   }
+})
 
+router.get('/:id', (req, res) => {
+  console.log('GET /api/world/id');
+  const query = `
+    SELECT "id", "name", "description"
+    FROM "worlds"
+    WHERE "id" = $1;
+  `;
+  const params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
+router.put('/:id', (req, res) => {
+  console.log('PUT /api/world/id');
+  const update = req.body;
+  const query = `
+    UPDATE "worlds"
+    SET "name" = $1,
+        "description" = $2,
+        "img_url" = $3,
+        "private_notes" = $4,
+    WHERE "id" = $5;
+  `;
+  const params = [update.name, update.description, update.img_url, update.private_notes, req.params.id];
+  pool.query (query, params)
+    .then(() => {
+      res.send(202)
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
 })
 
 module.exports = router;
