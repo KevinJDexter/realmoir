@@ -90,4 +90,45 @@ router.post('/', (req, res) => {
   }
 })
 
+router.put('/:id', (req, res) => {
+  console.log('PUT /api/story/id');
+  const update = req.body;
+  const query = `
+    UPDATE "stories"
+    SET "title" = $1,
+        "synopsis" = $2,
+        "genre_id" = $3,
+        "img_url" = $4,
+        "private_notes" = $5,
+        "world_id" = $6
+    WHERE "id" = $7;
+  `;
+  const params = [update.title, update.synopsis, update.genre_id, update.img_url, update.private_notes, update.world_id, req.params.id];
+  pool.query(query, params)
+    .then(() => {
+      res.sendStatus(202);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
+router.delete('/:id', (req, res) => {
+  console.log('DELETE /api/story/:id');
+  const query = `
+    DELETE FROM "stories"
+    WHERE "id" = $1;
+  `;
+  const params = [req.params.id];
+  pool.query(query, params)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 module.exports = router;

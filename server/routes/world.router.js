@@ -82,4 +82,21 @@ router.put('/:id', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+  console.log('DELETE /api/world/:id');
+  const query = `
+    DELETE FROM "worlds"
+    WHERE "id" = $1;
+  `;
+  const params = [req.params.id];
+  pool.query(query, params)
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 module.exports = router;
