@@ -76,12 +76,25 @@ function* modifyStoryDetails (action) {
   }
 }
 
+function* removeStory (action) {
+  try {
+    yield put ({type: STORY_ACTIONS.REQUEST_START});
+    yield deleteStory(action.payload);
+    yield put ({type: STORY_ACTIONS.CLEAR_STORY_DETAILS});
+    yield put({type: STORY_ACTIONS.REQUEST_DONE});
+    yield put ({type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
+  } catch (error) {
+    yield put({type: STORY_ACTIONS.REQUEST_DONE});
+  }
+}
+
 function* storySaga() {
   yield takeEvery(STORY_ACTIONS.GET_STORIES, fetchStories);
   yield takeEvery(STORY_ACTIONS.GET_STORY_GENRES, fetchGenres);
   yield takeEvery(STORY_ACTIONS.SUBMIT_NEW_STORY, submitStory);
   yield takeEvery(STORY_ACTIONS.GET_STORY_DETAILS, fetchStoryDetails);
   yield takeEvery(STORY_ACTIONS.SUBMIT_EDIT_STORY, modifyStoryDetails);
+  yield takeEvery(STORY_ACTIONS.DELETE_STORY, removeStory);
 }
 
 export default storySaga;

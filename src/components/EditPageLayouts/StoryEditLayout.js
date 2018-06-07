@@ -71,6 +71,13 @@ class StoryEditLayout extends Component {
 
   deleteStory = () => {
     const toDelete = window.confirm('Are you sure you want to delete this Story? You can\'t undo this.')
+    if (toDelete) {
+      this.props.dispatch({
+        type: STORY_ACTIONS.DELETE_STORY,
+        payload: this.props.match.params.id,
+      });
+      this.props.history.push(`/home`);
+    }
   }
 
   render() {
