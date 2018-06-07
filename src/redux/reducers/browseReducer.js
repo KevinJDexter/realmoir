@@ -1,17 +1,24 @@
 import { combineReducers } from 'redux';
 import { BROWSE_ACTIONS } from '../actions/browseActions';
 
-const browse = (state = {story: {}, world: {}}, action) => {
+const world = (state = {}, action) => {
   switch (action.type) {
-    case BROWSE_ACTIONS.GET_BROWSE_WORLD:
-      return state.world;
     case BROWSE_ACTIONS.SET_BROWSE_WORLD:
-      return {...state, world: action.payload};
-    case BROWSE_ACTIONS.GET_BROWSE_STORY:
-      return state.story;
-    case BROWSE_ACTIONS.SET_BROWSE_STORY:
-      return {...state, story: action.payload};
+      return action.payload;
+    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
+      return {};
     default: 
+      return state;
+  }
+}
+
+const story = (state = {}, action) => {
+  switch(action.type) {
+    case BROWSE_ACTIONS.SET_BROWSE_STORY:
+      return action.payload;
+    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
+      return {};
+    default:
       return state;
   }
 }
@@ -28,5 +35,7 @@ const isLoading = (state = false, action) => {
 }
 
 export default combineReducers({
-  browse,
+  world,
+  story,
+  isLoading,
 }) 

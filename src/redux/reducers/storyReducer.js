@@ -25,6 +25,8 @@ const storiesInWorld = (state = [], action) => {
   switch (action.type) {
     case STORY_ACTIONS.SET_STORIES_IN_WORLD:
       return action.payload;
+    case STORY_ACTIONS.CLEAR_STORIES_IN_WORLD:
+      return [];
     default: 
       return state;
   }
