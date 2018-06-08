@@ -1,0 +1,15 @@
+.searchPageContent {
+  flex: 6;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchLineBreak {
+  width: 100%;
+}
+
+.searchItemType {
+  margin: 18.720px;
+  display: inline;
+}

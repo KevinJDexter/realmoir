@@ -13,4 +13,4 @@ class AdvancedSearchPage extends Component {
   }
 }
 
-export default AdvancedSearchPage;
+export default connect()(AdvancedSearchPage);
