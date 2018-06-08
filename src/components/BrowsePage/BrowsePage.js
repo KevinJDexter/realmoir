@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import Sidebar from '../Sidebar/Sidebar';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
-import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 
 import './BrowsePage.css';
 import WorldOption from '../BrowseObjectOptions/WorldOption';

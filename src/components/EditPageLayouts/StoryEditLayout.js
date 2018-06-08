@@ -34,7 +34,7 @@ class StoryEditLayout extends Component {
     if (!this.props.storyReducer.isLoading && !this.props.storyReducer.storyDetails.id) {
       this.props.history.push('/home');
     }
-    if (this.state.startingTitle != this.props.storyReducer.storyDetails.title && !this.props.storyReducer.isLoading) {
+    if (this.state.startingTitle !== this.props.storyReducer.storyDetails.title && !this.props.storyReducer.isLoading) {
       let details = { ...this.props.storyReducer.storyDetails };
       for (var key in details) {
         if (details[key] == null) {

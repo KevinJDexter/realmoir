@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 
 const mapStateToProps = (reduxState) => ({worldReducer: reduxState.worlds})
@@ -27,7 +27,7 @@ class WorldForm extends Component {
   submitWorld = () => {
     let toSend = {...this.state};
     for (var key in toSend) {
-      if (toSend[key] == '') {
+      if (toSend[key] === '') {
         toSend[key] = null;
       }
     }

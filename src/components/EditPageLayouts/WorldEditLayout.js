@@ -29,7 +29,7 @@ class WorldEditLayout extends Component {
     if (!this.props.worldReducer.isLoading && !this.props.worldReducer.worldDetails.id) {
       this.props.history.push('/home');
     }
-    if (this.state.startingName != this.props.worldReducer.worldDetails.name && !this.props.worldReducer.isLoading) {
+    if (this.state.startingName !== this.props.worldReducer.worldDetails.name && !this.props.worldReducer.isLoading) {
       let details = { ...this.props.worldReducer.worldDetails };
       for (var key in details) {
         if (details[key] == null) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RECENTLY_ADDED_ACTIONS } from '../../redux/actions/recentlyAddedActions'
-import { Link } from 'react-router-dom';
 import SidebarItem from '../SidebarItem/SidebarItem';
 
 const mapStateToProps = (reduxState) => ({ sidebarReducer: reduxState.recentlyAdded });

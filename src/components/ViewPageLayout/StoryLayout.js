@@ -19,7 +19,7 @@ class StoryLayout extends Component {
     if (!this.props.storyReducer.isLoading && !this.props.storyReducer.storyDetails.id) {
       this.props.history.push('/home');
     }
-    if (this.props.match.params.id != this.props.storyReducer.storyDetails.id) {
+    if (this.props.match.params.id !== String(this.props.storyReducer.storyDetails.id)) {
       this.props.dispatch({
         type: STORY_ACTIONS.GET_STORY_DETAILS,
         payload: this.props.match.params.id,

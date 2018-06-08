@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TextField, Typography, Button, Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
+import { TextField, Button, Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 
 const mapStateToProps = (reduxState) => ({ storyReducer: reduxState.stories, createReducer: reduxState.create })
@@ -32,7 +32,7 @@ class StoryForm extends Component {
   submitStory = () => {
     let toSend = { ...this.state };
     for (var key in toSend) {
-      if (toSend[key] == '') {
+      if (toSend[key] === '') {
         toSend[key] = null;
       }
     }

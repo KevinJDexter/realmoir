@@ -2,7 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { WORLD_ACTIONS } from '../actions/worldActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
-import { callWorlds, postNewWorld, callWorldDetails, callIsOwnerOfWorld, editWorldDetails, deleteWorld } from '../requests/worldRequests';
+import { callWorlds, postNewWorld, callWorldDetails, editWorldDetails, deleteWorld } from '../requests/worldRequests';
 import { callStoriesInWorld } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
