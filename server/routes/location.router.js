@@ -52,4 +52,22 @@ router.get('/search/general', (req, res) => {
     })
 })
 
+router.get('/inWorld/:id', (req, res) => {
+  console.log('GET /api/location/inWorld/id');
+  let query = `
+    SELECT *
+    FROM "locations"
+    WHERE "world_id" = $1;
+  `;
+  const params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 module.exports = router;

@@ -25,3 +25,16 @@ export function callSearchLocations(searchQuery) {
       throw error.response || error;
     })
 } 
+
+export function callLocationsInWorld(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/location/inWorld/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    });
+}

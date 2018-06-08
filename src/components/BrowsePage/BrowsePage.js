@@ -7,24 +7,79 @@ import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 import './BrowsePage.css';
 import WorldOption from '../BrowseObjectOptions/WorldOption';
 import StoryOption from '../BrowseObjectOptions/StoryOption';
+import LocationOption from '../BrowseObjectOptions/LocationOption';
+import ObjectOption from '../BrowseObjectOptions/ObjectOption';
 
-const mapStateToProps = (reduxState) => ({ worldReducer: reduxState.worlds, storyReducer: reduxState.stories, browse: reduxState.browse })
+const mapStateToProps = (reduxState) => ({
+  worldReducer: reduxState.worlds,
+  storyReducer: reduxState.stories,
+  browse: reduxState.browse,
+  locationReducer: reduxState.locations,
+})
 
 class BrowsePage extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      afterWorldObjectOptions: [
+        'Location',
+        'Story',
+      ],
+      selectedWorld: 0,
+      selectedStory: 0,
+    }
+  }
 
   componentWillMount = () => {
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS });
   }
 
+  changeWorld = (newWorld) => {
+    this.setState({
+      selectedWorld: newWorld,
+    })
+  }
+
+  changeStory = (newStory) => {
+    this.setState({
+      selectedStory: newStory,
+    })
+  }
+
   render() {
 
     let storyDiv = <div></div>
-    if (this.props.browse.world.id) {
+    if (this.props.browse.afterWorldOption === 'story') {
       storyDiv = <div>
+        <h3>Select a Story</h3>
         <div className="objectContent">
-        {this.props.storyReducer.storiesInWorld.map(story => <StoryOption key={story.id} story={story} />)}
+          {this.props.storyReducer.storiesInWorld.map(story => <StoryOption key={story.id} story={story} selectedStory={this.state.selectedStory} changeStory={this.changeStory} />)}
+        </div>
+        <hr className="browseLineBreak" />
       </div>
-      <hr className="browseLineBreak" />
+    }
+
+    let locationDiv = <div></div>
+    if (this.props.browse.afterWorldOption === 'location') {
+      locationDiv = <div>
+        <h3>Select a Location</h3>
+        <div className="objectContent">
+          {this.props.locationReducer.locationsInWorld.map(location => <LocationOption key={location.id} location={location} />)}
+        </div>
+        <hr className="browseLineBreak" />
+      </div>
+    }
+
+    let worldSelectedDiv = <div></div>
+    if (this.props.browse.world.id) {
+      worldSelectedDiv = <div>
+        <h3>Select an Object</h3>
+        <div className="objectContent">
+          {this.state.afterWorldObjectOptions.map(option => <ObjectOption key={option} option={option} /> )}
+        </div>
+        <hr className="browseLineBreak" />
       </div>
     }
 
@@ -35,11 +90,14 @@ class BrowsePage extends Component {
           <div className="browsePageContent" >
             <h2>Browse</h2>
             <hr className="browseLineBreak" />
+            <h3>Select a World</h3>
             <div className="objectContent">
-              {this.props.worldReducer.worlds.map(world => <WorldOption key={world.id} world={world} />)}
+              {this.props.worldReducer.worlds.map(world => <WorldOption key={world.id} world={world} selectedWorld={this.state.selectedWorld} changeWorld={this.changeWorld} />)}
             </div>
             <hr className="browseLineBreak" />
+            {worldSelectedDiv}
             {storyDiv}
+            {locationDiv}
           </div>
           <div className="sidebarDiv">
             <Sidebar />

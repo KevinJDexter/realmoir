@@ -34,8 +34,20 @@ const isLoading = (state = false, action) => {
   }
 }
 
+const afterWorldOption = (state = '', action) => {
+  switch (action.type) {
+    case BROWSE_ACTIONS.SET_AFTER_WORLD_OPTION:
+      return action.payload;
+    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
+      return '';
+    default: 
+      return state;
+  }
+}
+
 export default combineReducers({
   world,
   story,
   isLoading,
+  afterWorldOption,
 }) 

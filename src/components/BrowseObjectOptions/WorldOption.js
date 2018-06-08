@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 class WorldOption extends Component {
 
   setBrowseWorld = () => {
+    this.props.changeWorld(this.props.world.id);
     this.props.dispatch({ 
       type: BROWSE_ACTIONS.CHANGE_BROWSE_WORLD,
       payload: this.props.world,
@@ -14,9 +15,15 @@ class WorldOption extends Component {
   }
 
   render() {
+
+    let divClass = 'browseInnerContent';
+    if (this.props.world.id === this.props.selectedWorld) {
+      divClass = 'browseInnerContentSelected';
+    }
+
     return (
       <div className="browseDiv" >
-        <div className="browseInnerContent">
+        <div className={divClass}>
         <Button variant="contained" onClick={this.setBrowseWorld} >
           {this.props.world.name}
         </Button>
