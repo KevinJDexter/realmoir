@@ -16,7 +16,7 @@ class CreatePage extends Component {
 
   componentDidMount() {
     if (!this.props.user.userName && !this.props.user.isLoading) {
-      this.props.history.push('/home');
+      this.props.history.push('/login');
     }
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
   }
