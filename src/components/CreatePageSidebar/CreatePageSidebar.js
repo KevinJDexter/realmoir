@@ -10,11 +10,17 @@ class CreatePageSidebar extends Component {
 
 
   getStoryForm = () => {
-    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_STORY })
+    this.props.dispatch({
+      type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE,
+      payload: 'story',
+    })
   }
 
   getWorldForm = () => {
-    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_WORLD })
+    this.props.dispatch({
+      type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE,
+      payload: 'world',
+    })
   }
 
   render() {

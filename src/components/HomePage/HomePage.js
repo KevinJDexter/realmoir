@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../Header/Header';
-import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
-import { STORY_ACTIONS } from '../../redux/actions/storyActions';
+import { HOME_ACTIONS } from '../../redux/actions/homeActions';
 import { CREATE_PAGE_ACTIONS } from '../../redux/actions/createPageActions';
 import LinkToWorld from '../LinkToWorld/LinkToWorld';
 import LinkToStory from '../LinkToStory/LinkToStory';
@@ -13,36 +12,56 @@ import CreateStoriesDropdown from '../CreateStoriesDropdown/CreateStoriesDropdow
 import Sidebar from '../Sidebar/Sidebar';
 
 import './HomePage.css'
+import CreateObjectDropdown from '../CreateObjectDropdown/CreateObjectDropdown';
 
-const mapStateToProps = (reduxState) => ({ worldsReducer: reduxState.worlds, storiesReducer: reduxState.stories, browseReducer: reduxState.browse, user: reduxState.user, createReducer: reduxState.create })
+const mapStateToProps = (reduxState) => ({
+  worldsReducer: reduxState.worlds,
+  storiesReducer: reduxState.stories,
+  browseReducer: reduxState.browse,
+  user: reduxState.user,
+  createReducer: reduxState.create,
+})
 
 class HomePage extends Component {
 
   componentDidMount() {
-    this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS })
-    this.props.dispatch({ type: STORY_ACTIONS.GET_STORIES })
+    this.props.dispatch({ type: HOME_ACTIONS.RUN_HOME_OPTIONS })
   }
 
   setCreateTypeStory = () => {
-    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_STORY })
+    this.props.dispatch({
+      type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE,
+      payload: 'story',
+    })
   }
 
   setCreateTypeWorld = () => {
-    this.props.dispatch({ type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE_WORLD })
+    this.props.dispatch({
+      type: CREATE_PAGE_ACTIONS.SET_FORM_TYPE,
+      payload: 'world',
+    })
   }
 
   render() {
     let storiesCreateOptions = <div></div>
+    let optionsDropdown = <div></div>
     let createOptions = <Link to="/login">Start Creating</Link>
+
+    if (this.props.createReducer.story.id) {
+      optionsDropdown = <div>
+        <CreateObjectDropdown />
+      </div>
+    }
 
     if (this.props.createReducer.world.id) {
       if (this.props.storiesReducer.storiesInWorld.length > 0) {
         storiesCreateOptions = <div>
           <CreateStoriesDropdown />
           <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create new Story</Link>
+          {optionsDropdown}
         </div>;
       } else {
-          storiesCreateOptions = <div><br /><br /><Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create a Story!</Link></div>
+        storiesCreateOptions = <div><br /><br /><Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create a Story!</Link></div>
       }
     }
 

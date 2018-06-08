@@ -25,10 +25,8 @@ const story = (state = {}, action) => {
 
 const formType = (state = '', action) => {
   switch (action.type) {
-    case CREATE_PAGE_ACTIONS.SET_FORM_TYPE_WORLD:
-      return 'world';
-    case CREATE_PAGE_ACTIONS.SET_FORM_TYPE_STORY:
-      return 'story';
+    case CREATE_PAGE_ACTIONS.SET_FORM_TYPE:
+      return action.payload;
     case CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO:
       return '';
     default:

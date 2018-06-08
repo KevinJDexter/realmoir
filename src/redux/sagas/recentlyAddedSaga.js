@@ -2,6 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { callWorlds } from '../requests/worldRequests';
 import { callStories } from '../requests/storyRequests';
+import { callLocations } from '../requests/locationRequests';
 
 function* getRecentlyAdded() {
   try {
@@ -10,7 +11,9 @@ function* getRecentlyAdded() {
     worlds = worlds.map(world => ({...world, objectType: 'world' }))
     let stories = yield callStories();
     stories = stories.map(story => ({...story, objectType: 'story' }))
-    const recentlyAdded = [...worlds, ...stories]
+    let locations = yield callLocations();
+    locations = locations.map(location => ({...location, objectType: 'location' }))
+    const recentlyAdded = [...worlds, ...stories, ...locations]
     yield put({ type: RECENTLY_ADDED_ACTIONS.SET_RECENTLY_ADDED, payload: recentlyAdded });
     yield put({ type: RECENTLY_ADDED_ACTIONS.REQUEST_DONE });
   } catch (error) {

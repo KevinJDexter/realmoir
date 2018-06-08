@@ -7,6 +7,7 @@ import stories from './storyReducer';
 import browse from './browseReducer';
 import create from './createPageReducer';
 import search from './searchReducer';
+import locations from './locationReducer';
 
 const store = combineReducers({
   user,
@@ -17,6 +18,7 @@ const store = combineReducers({
   browse,
   create,
   search,
+  locations,
 });
 
 export default store;
