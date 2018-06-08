@@ -6,6 +6,7 @@ import worldSaga from './worldSaga';
 import storySaga from './storySaga';
 import browseSaga from './browseSaga';
 import createSaga from './createSaga';
+import homeSaga from './homeSaga';
 
 
 export default function* rootSaga() {
@@ -17,6 +18,7 @@ export default function* rootSaga() {
     storySaga(),
     browseSaga(),
     createSaga(),
+    homeSaga(),
     // watchIncrementAsync()
   ]);
 }

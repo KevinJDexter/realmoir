@@ -6,9 +6,9 @@ import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* startHome(action) {
-  this.props.dispatch(STORY_ACTIONS.GET_STORIES);
-  this.props.dispatch(WORLD_ACTIONS.GET_WORLDS);
-  this.props.dispatch(RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED);
+  yield put ({ type: STORY_ACTIONS.GET_STORIES});
+  yield put ({ type: WORLD_ACTIONS.GET_WORLDS});
+  yield put ({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
 }
 
 function* createSaga() {
