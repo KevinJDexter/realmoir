@@ -22,6 +22,17 @@ export function postNewWorld(payload) {
     .catch((error) => { throw error.response || error; })
 }
 
+export function callSearchWorlds(searchQuery) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  }; 
+
+  return axios.get('/api/world/search/general', {params: {searchQuery: searchQuery}}, config)
+    .then(response => response.data)
+    .catch((error) => {throw error.response || error; });
+}
+
 export function callWorldDetails(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },

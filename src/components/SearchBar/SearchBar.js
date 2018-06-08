@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
+import { SEARCH_ACTIONS } from '../../redux/actions/searchActions';
 
 class SearchBar extends Component {
   constructor(props) {
@@ -21,6 +22,10 @@ class SearchBar extends Component {
   }
 
   submitSearch = () => {
+    this.props.dispatch({
+      type: SEARCH_ACTIONS.SUBMIT_SEARCH_QUERY,
+      payload: this.state.searchQuery,
+    })
     this.props.history.push('/results');
   }
 

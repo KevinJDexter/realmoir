@@ -20,6 +20,30 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/search/general', (req, res) => {
+  console.log('GET /api/world/search/general');
+  let query = `
+    SELECT *
+    FROM "worlds"
+    WHERE (UPPER("name") LIKE UPPER($1)
+          OR UPPER("description") LIKE UPPER($1))
+  `;
+  let params = [`%${req.query.searchQuery}%`];
+  if (req.isAuthenticated()) {
+    query = query + ` AND "user_id" = $2`;
+    params.push(req.user.id);
+  };
+  
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    })
+})
+
 router.post('/', (req, res) => {
   console.log('POST /api/world/');
   if (req.isAuthenticated()) {

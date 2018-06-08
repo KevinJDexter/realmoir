@@ -24,6 +24,31 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/search/general', (req, res) => {
+  console.log('GET /api/story/search/general');
+  let query = `
+    SELECT "stories".*
+    FROM "stories"
+    JOIN "worlds" ON "stories"."world_id" = "worlds"."id"
+    JOIN "users" ON "worlds"."user_id" = "users"."id"
+    WHERE (UPPER("title") LIKE UPPER($1) 
+          OR UPPER("synopsis") LIKE UPPER($1) )
+  `;
+  let params = [`%${req.query.searchQuery}%`];
+  if (req.isAuthenticated()) {
+    query = query + ` AND "users"."id" = $2;`;
+    params.push(req.user.id);
+  }
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/story/inWorld/id');
   // if (req.isAuthenticated()) {
