@@ -32,6 +32,10 @@ class CreateWorldsDropdown extends Component {
       this.setState({
         valueField: this.props.createReducer.world.id,
       })
+    } else if (this.state.valueField !== '' && !this.props.createReducer.world.id) {
+      this.setState({
+        valueField: '',
+      })
     }
   }
 
