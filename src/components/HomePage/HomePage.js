@@ -35,29 +35,41 @@ class HomePage extends Component {
     let storiesCreateOptions = <div></div>
     let createOptions = <Link to="/login">Start Creating</Link>
 
-    if (this.props.storiesReducer.storiesInWorld.length > 0) {
-      storiesCreateOptions = <div>
-        <CreateStoriesDropdown />
-        <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create new Story</Link>
-      </div>;
+    if (this.props.createReducer.world.id) {
+      if (this.props.storiesReducer.storiesInWorld.length > 0) {
+        storiesCreateOptions = <div>
+          <CreateStoriesDropdown />
+          <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create new Story</Link>
+        </div>;
+      } else {
+          storiesCreateOptions = <div><br /><br /><Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeStory} >Create a Story!</Link></div>
+      }
     }
 
     if (this.props.user.userName) {
-      createOptions = <div>
-        <CreateWorldsDropdown />
-        <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeWorld} >Create new World</Link>
-        <br />
-        {storiesCreateOptions}
-      </div>
+      if (this.props.worldsReducer.worlds.length > 0) {
+        createOptions = <div>
+          <CreateWorldsDropdown />
+          <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeWorld} >Create new World</Link>
+          <br />
+          {storiesCreateOptions}
+        </div>
+      } else {
+        createOptions = <Link className="homeCreateNewLink" to="/create" onClick={this.setCreateTypeWorld} >Start Creating Now!</Link>
+      }
+
     }
 
+    let worldBrowseOptions = this.props.worldsReducer.worlds.slice(0, 5);
+    let storyBrowseOptions = this.props.storiesReducer.stories.slice(0, 5);
+
     return (
-      <div style={{height: window.innerHeight, width: window.innerWidth, display: "flex", flexDirection: "column"}}>
+      <div style={{ height: window.innerHeight, width: window.innerWidth, display: "flex", flexDirection: "column" }}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView">
           <div className="homePageContent">
             <div className="homeWelcomeDiv">
-            <WelcomeMessage />
+              <WelcomeMessage />
             </div>
             <br />
             <br />
@@ -67,12 +79,12 @@ class HomePage extends Component {
                 <div className="homeBrowseInnerDiv">
                   <div className="homeBrowseChildDiv">
                     <h4>Worlds</h4>
-                    {this.props.worldsReducer.worlds.map(world => <LinkToWorld key={world.id} world={world} />)}
+                    {worldBrowseOptions.map(world => <LinkToWorld key={world.id} world={world} />)}
                     <Link to="/browse">See More...</Link>
                   </div>
                   <div className="homeBrowseChildDiv">
                     <h4>Stories</h4>
-                    {this.props.storiesReducer.stories.map(story => <LinkToStory key={story.id} story={story} />)}
+                    {storyBrowseOptions.map(story => <LinkToStory key={story.id} story={story} />)}
                     <Link to="/browse">See More...</Link>
                   </div>
                 </div>

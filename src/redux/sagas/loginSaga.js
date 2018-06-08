@@ -1,6 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { LOGIN_ACTIONS } from '../actions/loginActions';
 import { USER_ACTIONS } from '../actions/userActions';
+import { HOME_ACTIONS } from '../actions/homeActions';
 import { callLogin, callLogout } from '../requests/loginRequests';
 
 // worker Saga: will be fired on "LOGIN" actions
@@ -42,6 +43,9 @@ function* logoutUser(action) {
     });
     yield put({
       type: USER_ACTIONS.FETCH_USER,
+    });
+    yield put({
+      type: HOME_ACTIONS.RUN_HOME_OPTIONS,
     })
   } catch (error) {
     console.log('LOGOUT FAILED -- CHECK YOUR SERVER', error);
