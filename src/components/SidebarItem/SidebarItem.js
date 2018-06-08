@@ -20,7 +20,7 @@ class SidebarItem extends Component {
         break;
       case 'location':
         icon = <Location />
-        toDisplay = <Link to={`/view/story/${this.props.item.id}`}>{this.props.item.name} - {icon}</Link>
+        toDisplay = <Link to={`/view/location/${this.props.item.id}`}>{this.props.item.name} - {icon}</Link>
         break;
       default:
         break;

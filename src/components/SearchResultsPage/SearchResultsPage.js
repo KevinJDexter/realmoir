@@ -30,7 +30,6 @@ class SearchResultsPage extends Component {
             <Sidebar />
           </div>
         </div>
-        <pre>{JSON.stringify(this.props.searchReducer)}</pre>
       </div>
     )
   }

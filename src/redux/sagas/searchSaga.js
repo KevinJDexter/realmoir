@@ -2,6 +2,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { SEARCH_ACTIONS } from '../actions/searchActions';
 import { callSearchWorlds } from '../requests/worldRequests';
 import { callSearchStories } from '../requests/storyRequests';
+import { callLocations } from '../requests/locationRequests';
 
 function* getSearchResults(action) {
   try {
@@ -10,7 +11,9 @@ function* getSearchResults(action) {
     worlds = worlds.map(world => ({...world, objectType: 'world' }));
     let stories = yield callSearchStories(action.payload);
     stories = stories.map(story => ({...story, objectType: 'story'}))
-    const searchResults = [...worlds, ...stories];
+    let locations = yield callLocations(action.payload);
+    locations = locations.map(location => ({...location, objectType: 'location'}))
+    const searchResults = [...worlds, ...stories, ...locations];
     yield put({ type: SEARCH_ACTIONS.SET_SEARCH_RESULTS, payload: searchResults });
     yield put({ type: SEARCH_ACTIONS.REQUEST_DONE });
   } catch (error) {

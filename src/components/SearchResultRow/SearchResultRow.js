@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Public from '@material-ui/icons/Public';
+import World from '@material-ui/icons/Public';
 import Book from '@material-ui/icons/Book';
+import Location from '@material-ui/icons/LocationCity';
 
 class SearchResultRow extends Component {
 
   render() {
-    const item = this.props.item;
+    
+    let item = { ...this.props.item };
+    for (var key in item) {
+      if (item[key] === null) {
+        item[key] = 'N/A';
+      }
+    }
 
     let toDisplay = <div></div>
     switch (item.objectType) {
       case 'world':
         toDisplay = <div>
           <div>
-            <Public />
+            <World />
             <h3 className="searchItemType" >
               <Link to={`/view/world/${item.id}`} >{item.name}</Link>
             </h3>
-            <Public />
+            <World />
           </div>
           <p className="searchItemContent" >
-            {item.description}
+            <strong>Description: </strong>{item.description}
           </p>
         </div>;
         break;
@@ -36,10 +43,34 @@ class SearchResultRow extends Component {
             <Book />
           </div>
           <p className="searchItemContent" >
-            {item.synopsis}
+            <strong>Genre: </strong>{item.genre}
+          </p>
+          <p className="searchItemContent" >
+            <strong>Synopsis: </strong>{item.synopsis}
           </p>
         </div>;
         break;
+      case 'location':
+        toDisplay = <div>
+          <div>
+            <Location />
+            <h3 className="searchItemType" >
+              <Link to={`/view/location/${item.id}`} >
+                {item.name}
+              </Link>
+            </h3>
+            <Location />
+          </div>
+          <p className="searchItemContent">
+            <strong>Climate: </strong>{item.climate}
+          </p>
+          <p className="searchItemContent">
+            <strong>Description: </strong>{item.description}
+          </p>
+          <p className="searchItemContent">
+            <strong>History: </strong>{item.history}
+          </p>
+        </div>
       default:
         break;
     }

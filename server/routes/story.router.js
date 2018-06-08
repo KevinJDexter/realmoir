@@ -27,8 +27,9 @@ router.get('/', (req, res) => {
 router.get('/search/general', (req, res) => {
   console.log('GET /api/story/search/general');
   let query = `
-    SELECT "stories".*
+    SELECT "stories".*, "genres"."name" as "genre"
     FROM "stories"
+    LEFT JOIN "genres" ON "stories"."genre_id" = "genres"."id"
     JOIN "worlds" ON "stories"."world_id" = "worlds"."id"
     JOIN "users" ON "worlds"."user_id" = "users"."id"
     WHERE (UPPER("title") LIKE UPPER($1) 
