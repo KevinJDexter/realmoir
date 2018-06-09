@@ -9,7 +9,7 @@
   margin-top: 20px;
 }
 
-.createSidebarDropdown {
+.createSidebarOptions{
   margin-top: 50px;
 }
 
@@ -18,28 +18,34 @@
   text-align: center;
 }
 
+.createNewLink {
+  display: block;
+  margin: 10px 0px;
+}
+
 .createNewLink:hover {
   cursor: pointer;
   text-decoration: underline;
   color: #eee;
 }
 
-.createFormName {
+.createFormWide{
+  width: 80%;
+  background-color: rgba(255,255,255,.1);
+  margin: 10px 0px !important;
+}
+
+.createFormStandard{
   width: 70%;
   background-color: rgba(255,255,255,.1);
+  margin: 10px 0px !important;
 }
 
-.createFormDescription {
+.createFormSelect {
   width: 80%;
-  background-color: rgba(255,255,255,.1)
+  margin: 20px auto;
 }
 
-.createFormUrl {
-  width: 70%;
-  background-color: rgba(255,255,255,.1)
-}
-
-.createFormNotes {
-  width: 80%;
-  background-color: rgba(255,255,255,.1)
+.createFormButton {
+  margin-bottom: 30px !important;
 }

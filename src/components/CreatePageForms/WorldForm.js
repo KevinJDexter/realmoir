@@ -45,16 +45,16 @@ class WorldForm extends Component {
       <div>
         <h3>New World</h3>
         <form>
-          <TextField className="createFormName" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField className="createFormStandard" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
           <br />
           <br />
-          <TextField className="createFormDescription" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
+          <TextField className="createFormWide" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
           <br />
           <br />
-          <TextField className="createFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
           <br />
           <br />
-          <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
           <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitWorld}>Create World</Button>

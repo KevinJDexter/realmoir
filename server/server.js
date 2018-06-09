@@ -14,6 +14,7 @@ const storyRouter = require('./routes/story.router');
 const worldRouter = require('./routes/world.router');
 const genreRouter = require('./routes/genre.router');
 const locationRouter = require('./routes/location.router');
+const junctionRouter = require('./routes/junction.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -32,6 +33,7 @@ app.use('/api/story', storyRouter);
 app.use('/api/world', worldRouter);
 app.use('/api/genre', genreRouter);
 app.use('/api/location', locationRouter);
+app.use('/api/junction', junctionRouter);
 
 // Serve static files
 app.use(express.static('build'));

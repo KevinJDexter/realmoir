@@ -51,3 +51,16 @@ export function callLocationsInStory(id) {
       throw error.response || error;
     });
 }
+
+export function callPostLocation(payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.post('/api/location', payload, config)
+    .then(response => response.data[0].id)
+    .catch((error) => {
+      throw error.response || error;
+    })
+}

@@ -18,6 +18,8 @@ const story = (state = {}, action) => {
       return action.payload; 
     case CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO:
       return {};
+    case CREATE_PAGE_ACTIONS.CLEAR_CREATE_STORY:
+      return {};
     default:
       return state;
   }

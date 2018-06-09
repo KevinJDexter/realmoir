@@ -51,7 +51,7 @@ class StoryForm extends Component {
       <div>
         <h3>New Story in {this.props.createReducer.world.name}</h3>
         <form>
-          <TextField className="createFormName" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
+          <TextField className="createFormStandard" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
           <br />
           <br />
           <FormControl>
@@ -66,13 +66,13 @@ class StoryForm extends Component {
           </FormControl>
           <br />
           <br />
-          <TextField className="createFormDescription" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
+          <TextField className="createFormWide" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
           <br />
           <br />
-          <TextField className="createFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
           <br />
           <br />
-          <TextField className="createFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
           <br />
           <br />
           <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitStory}>Create Story</Button>

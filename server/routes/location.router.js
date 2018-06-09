@@ -88,6 +88,30 @@ router.get('/inStory/:id', (req, res) => {
       res.sendStatus(500);
       console.log(error);
     })
+});
+
+router.post('/', (req, res) => {
+  console.log('POST /api/location');
+  if (req.isAuthenticated()) {
+    const location = req.body;
+    let query = `
+      INSERT INTO "locations" ("name", "description", "history", "climate", "img_url", "private_notes", "world_id")
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING "id";
+    `;
+    let params = [location.name, location.description, location.history, location.climate, location.img_url, location.private_notes, location.world_id];
+    pool.query(query, params)
+      .then((results) => {
+        console.log(results);
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
 })
 
 module.exports = router;
