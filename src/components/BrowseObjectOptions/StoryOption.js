@@ -12,7 +12,7 @@ class StoryOption extends Component {
 
   setBrowseStory = () => {
     this.props.dispatch({
-      type: BROWSE_ACTIONS.SET_BROWSE_STORY,
+      type: BROWSE_ACTIONS.CHANGE_BROWSE_STORY,
       payload: this.props.story,
     })
   }

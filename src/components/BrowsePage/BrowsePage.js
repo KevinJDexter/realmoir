@@ -52,11 +52,15 @@ class BrowsePage extends Component {
     }
 
     let locationDiv = <div></div>
-    if (this.props.browse.afterWorldOption === 'location') {
+    if (this.props.browse.afterWorldOption === 'location' || this.props.browse.afterStoryOption === 'location') {
+      let locationList = this.props.locationReducer.locationsInWorld.map(location => <LocationOption key={location.id} location={location} />)
+      if (this.props.browse.afterStoryOption === 'location') {
+        locationList = this.props.locationReducer.locationsInStory.map(location => <LocationOption key={location.id} location={location} />)
+      }
       locationDiv = <div>
         <h3>Select a Location</h3>
         <div className="objectContent">
-          {this.props.locationReducer.locationsInWorld.map(location => <LocationOption key={location.id} location={location} />)}
+          {locationList}
         </div>
         <hr className="browseLineBreak" />
       </div>
@@ -98,8 +102,8 @@ class BrowsePage extends Component {
             <hr className="browseLineBreak" />
             {worldSelectedDiv}
             {storyDiv}
-            {locationDiv}
             {storySelectedDiv}
+            {locationDiv}
           </div>
           <div className="sidebarDiv">
             <Sidebar />

@@ -25,8 +25,8 @@ function* changeAfterWorldOption(action) {
         payload: locations,
       })
     }
-    yield put ({ type:  BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION });
     yield put ({ type: BROWSE_ACTIONS.CLEAR_BROWSE_STORY });
+    yield put ({ type: BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION })
     yield put({ type: BROWSE_ACTIONS.REQUEST_DONE });
   }
   catch (error) {
@@ -54,9 +54,41 @@ function* changeAfterStoryOption(action) {
   }
 }
 
+function* changeBrowseWorld(action) {
+  try {
+    yield put ({ type:BROWSE_ACTIONS.REQUEST_START});
+    yield put ({ 
+      type: BROWSE_ACTIONS.SET_BROWSE_WORLD,
+      payload: action.payload,
+    });
+    yield put ({ type: BROWSE_ACTIONS.CLEAR_AFTER_WORLD_OPTION })
+    yield put ({ type: BROWSE_ACTIONS.CLEAR_BROWSE_STORY })
+    yield put ({ type: BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION })
+    yield put ({ type: BROWSE_ACTIONS.REQUEST_DONE});
+  } catch (error) {
+    yield put ({ type: BROWSE_ACTIONS.REQUEST_DONE});
+  }
+}
+
+function* changeBrowseStory(action) {
+  try {
+    yield put ({ type:BROWSE_ACTIONS.REQUEST_START});
+    yield put ({
+      type: BROWSE_ACTIONS.SET_BROWSE_STORY,
+      payload: action.payload,
+    })
+    yield put ({type: BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION});
+    yield put ({ type: BROWSE_ACTIONS.REQUEST_DONE});
+  } catch (error) {
+    yield put ({ type: BROWSE_ACTIONS.REQUEST_DONE});
+  }
+}
+
 function* browseSaga() {
   yield takeEvery(BROWSE_ACTIONS.CHANGE_AFTER_WORLD_OPTION, changeAfterWorldOption);
   yield takeEvery(BROWSE_ACTIONS.CHANGE_AFTER_STORY_OPTION, changeAfterStoryOption);
+  yield takeEvery(BROWSE_ACTIONS.CHANGE_BROWSE_WORLD, changeBrowseWorld);
+  yield takeEvery(BROWSE_ACTIONS.CHANGE_BROWSE_STORY, changeBrowseStory);
 }
 
 export default browseSaga;

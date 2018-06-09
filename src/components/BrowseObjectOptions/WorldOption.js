@@ -12,7 +12,7 @@ class WorldOption extends Component {
 
   setBrowseWorld = () => {
     this.props.dispatch({ 
-      type: BROWSE_ACTIONS.SET_BROWSE_WORLD,
+      type: BROWSE_ACTIONS.CHANGE_BROWSE_WORLD,
       payload: this.props.world,
     })
   }
