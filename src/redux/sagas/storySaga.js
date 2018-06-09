@@ -3,6 +3,7 @@ import { STORY_ACTIONS } from '../actions/storyActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory } from '../requests/storyRequests';
+import { callLocationsInStory } from '../requests/locationRequests';
 import { callLocationStoryJunction } from '../requests/junctionRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -59,6 +60,7 @@ function* fetchStoryDetails (action) {
   try {
     yield put ({type: STORY_ACTIONS.REQUEST_START});
     const storyDetails = yield callStoryDetails(action.payload);
+    storyDetails.locations = yield callLocationsInStory(action.payload);
     yield put ({
       type: STORY_ACTIONS.SET_STORY_DETAILS,
       payload: storyDetails,

@@ -4,7 +4,9 @@ import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-const mapStateToRedux = (reduxState) => ({ storyReducer: reduxState.stories })
+const mapStateToRedux = (reduxState) => ({ 
+  storyReducer: reduxState.stories,
+})
 
 class StoryLayout extends Component {
 
@@ -46,6 +48,12 @@ class StoryLayout extends Component {
       privateNotes = <div></div>
     }
 
+    let locationsContent = details.locations.map(location => <li key={location.id}><Link className="linkedElements" to={`/view/location/${location.id}`}>{location.name}</Link></li>)
+    if (details.locations.length === 0) {
+      locationsContent = <li className="linkedElements">None</li>
+    }
+
+
     return (
       <div className="formContainer" >
         <h2>{details.title}</h2>
@@ -56,6 +64,10 @@ class StoryLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        <ul className="connectionList">
+          <li><strong>Locations:</strong></li>
+          {locationsContent}
+        </ul>
         {editButton}
       </div>
     )
