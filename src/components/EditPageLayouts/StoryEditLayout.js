@@ -1,9 +1,15 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
+import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
 import { TextField, FormControl, InputLabel, Select, Button, MenuItem } from '@material-ui/core';
+import ReactSelect from 'react-select';
+import 'react-select/dist/react-select.css';
 
-const mapStateToRedux = (reduxState) => ({storyReducer: reduxState.stories});
+const mapStateToRedux = (reduxState) => ({ 
+  storyReducer: reduxState.stories,
+  locationReducer: reduxState.locations,
+});
 
 class StoryEditLayout extends Component {
   constructor(props) {
@@ -17,6 +23,7 @@ class StoryEditLayout extends Component {
       genre_id: '',
       private_notes: '',
       world_id: '',
+      related_locations: [],
     }
   }
 
@@ -41,6 +48,7 @@ class StoryEditLayout extends Component {
           details[key] = '';
         }
       }
+      let related_locations = details.locations.map(location => ({value: location.id, label: location.name}))
       console.log(details);
       this.setState({
         startingTitle: details.title,
@@ -50,6 +58,7 @@ class StoryEditLayout extends Component {
         private_notes: details.private_notes,
         genre_id: details.genre_id,
         world_id: details.world_id,
+        related_locations: related_locations,
       })
     }
   }
@@ -57,6 +66,12 @@ class StoryEditLayout extends Component {
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,
+    })
+  }
+
+  handleSelectChange = (property) => (event) => {
+    this.setState({
+      [property]: event,
     })
   }
 
@@ -82,35 +97,39 @@ class StoryEditLayout extends Component {
 
   render() {
     const details = { ...this.props.storyReducer.storyDetails };
+    const locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
 
     return (
-     <div>
+      <div>
         <h3>Modifying Story: {details.title}</h3>
         <form>
-          <TextField className="editFormName" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
-          <br />
+          <TextField className="editFormStandard" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
           <br />
           <div className="editFormGenre" >
-          <FormControl>
-            <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
-            <Select
-              style={{ minWidth: "160px" }}
-              value={this.state.genre_id}
-              onChange={this.handleChange('genre_id')}
-              inputProps={{ name: 'genre', id: 'genre-select' }}>
-              {this.props.storyReducer.genres.map(genre => <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>)}
-            </Select>
-          </FormControl>
+            <FormControl>
+              <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
+              <Select
+                style={{ minWidth: "160px" }}
+                value={this.state.genre_id}
+                onChange={this.handleChange('genre_id')}
+                inputProps={{ name: 'genre', id: 'genre-select' }}>
+                {this.props.storyReducer.genres.map(genre => <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>)}
+              </Select>
+            </FormControl>
           </div>
-          <br />
-          <TextField className="editFormDescription" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
-          <br />
-          <br />
-          <TextField className="editFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
-          <br />
-          <br />
-          <TextField className="editFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
-          <br />
+          <TextField className="editFormWide" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
+          <TextField className="editFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          <TextField className="editFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <h5>Contains Locations</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_locations}
+            multi={true}
+            onChange={this.handleSelectChange('related_locations')}
+            options={locationSelectOptions}
+            placeholder="Locations contained in this story..."
+          />
           <br />
           <Button variant="contained" id="confirmStoryEditsButton" color="primary" onClick={this.submitEdits}>Save Edits</Button>
           <Button variant="contained" id="deleteStoryButton" color="secondary" onClick={this.deleteStory}>Delete Story</Button>

@@ -5,8 +5,8 @@ import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 import ReactSelect from 'react-select';
 import 'react-select/dist/react-select.css';
 
-const mapStateToProps = (reduxState) => ({ 
-  storyReducer: reduxState.stories, 
+const mapStateToProps = (reduxState) => ({
+  storyReducer: reduxState.stories,
   createReducer: reduxState.create,
   locationReducer: reduxState.locations,
 })
@@ -61,7 +61,7 @@ class StoryForm extends Component {
 
   render() {
 
-    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
+    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
 
     return (
       <div>
@@ -69,16 +69,18 @@ class StoryForm extends Component {
         <form>
           <TextField className="createFormStandard" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
           <br />
-          <FormControl>
-            <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
-            <Select
-              style={{ minWidth: "160px" }}
-              value={this.state.genre_id}
-              onChange={this.handleChange('genre_id')}
-              inputProps={{ name: 'genre', id: 'genre-select' }}>
-              {this.props.storyReducer.genres.map(genre => <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>)}
-            </Select>
-          </FormControl>
+          <div className="createFormGenre">
+            <FormControl>
+              <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
+              <Select
+                style={{ minWidth: "160px" }}
+                value={this.state.genre_id}
+                onChange={this.handleChange('genre_id')}
+                inputProps={{ name: 'genre', id: 'genre-select' }}>
+                {this.props.storyReducer.genres.map(genre => <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </div>
           <br />
           <TextField className="createFormWide" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
           <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
