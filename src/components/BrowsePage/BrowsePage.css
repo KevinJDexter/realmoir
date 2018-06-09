@@ -38,3 +38,7 @@
   flex-wrap: wrap;
   margin: 5px 0px;
 }
+
+.browseLineHead {
+  margin: 5px;
+}
