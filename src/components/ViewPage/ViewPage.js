@@ -16,6 +16,8 @@ class ViewPage extends Component {
       componentToMount = <WorldLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'story') {
       componentToMount = <StoryLayout match={this.props.match} history={this.props.history} />
+    } else if (this.props.match.params.type === 'location') {
+      
     }
 
     return (

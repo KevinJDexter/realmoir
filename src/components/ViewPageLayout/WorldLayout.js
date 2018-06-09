@@ -39,10 +39,15 @@ class WorldLayout extends Component {
       descriptionContent = "None"
     }
 
-    let storiesContent = details.stories.map(story => <li key={story.id}><Link className="linkedStories" to={`/view/story/${story.id}`}>{story.title}</Link></li>)
+    let storiesContent = details.stories.map(story => <li key={story.id}><Link className="linkedElements" to={`/view/story/${story.id}`}>{story.title}</Link></li>)
     if (details.stories.length === 0) {
-      storiesContent = <li className="linkedStories">None</li>
+      storiesContent = <li className="linkedElements">None</li>
     } 
+
+    let locationsContent = details.locations.map(location => <li key={location.id}><Link className="linkedElements" to={`/view/location/${location.id}`}>{location.name}</Link></li>)
+    if (details.locations.length === 0) {
+      locationsContent = <li className="linkedElements">None</li>
+    }
 
     let editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
@@ -57,9 +62,13 @@ class WorldLayout extends Component {
         <h2>{details.name}</h2>
         <h4>Description</h4>
         <p>{descriptionContent}</p>
-        <ul className="worldStoriesList" >
+        <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}
+        </ul>
+        <ul className="connectionList" >
+          <li><strong>Locations:</strong></li>
+          {locationsContent}
         </ul>
         {privateNotes}
         {editButton}
