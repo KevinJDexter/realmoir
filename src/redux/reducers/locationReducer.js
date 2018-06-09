@@ -28,8 +28,18 @@ const locationsInStory = (state = [], action) => {
   }
 }
 
+const locationDetails = (state = {stories: []}, action) => {
+  switch (action.type) {
+    case LOCATION_ACTIONS.SET_LOCATION_DETAILS:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers ({
   locations,
   locationsInWorld,
   locationsInStory,
+  locationDetails,
 })

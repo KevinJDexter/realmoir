@@ -6,6 +6,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import './ViewPage.css';
 import WorldLayout from '../ViewPageLayout/WorldLayout';
 import StoryLayout from '../ViewPageLayout/StoryLayout';
+import LocationLayout from '../ViewPageLayout/LocationLayout';
 
 class ViewPage extends Component {
 
@@ -17,7 +18,7 @@ class ViewPage extends Component {
     } else if (this.props.match.params.type === 'story') {
       componentToMount = <StoryLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'location') {
-      
+      componentToMount = <LocationLayout match={this.props.match} history={this.props.history} />
     }
 
     return (

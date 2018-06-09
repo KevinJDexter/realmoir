@@ -15,7 +15,7 @@ const recentlyAdded = (state = [], action) => {
   switch (action.type) {
     case RECENTLY_ADDED_ACTIONS.SET_RECENTLY_ADDED:
       const sortedArray = action.payload.sort(sortByDate);
-      return sortedArray;
+      return sortedArray.slice(0, 20);
     default: 
       return state;
   }

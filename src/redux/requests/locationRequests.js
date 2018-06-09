@@ -13,6 +13,19 @@ export function callLocations() {
     });
 }
 
+export function callLocationDetails(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/location/${id}`, config)
+    .then(response => response.data[0])
+    .catch((error) => {
+      throw error.response || error;
+    });
+}
+
 export function callSearchLocations(searchQuery) {
   const config = {
     headers: { 'Content-Type': 'application/json' },

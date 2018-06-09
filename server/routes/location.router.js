@@ -114,4 +114,38 @@ router.post('/', (req, res) => {
   }
 })
 
+router.get('/:id', (req, res) => {
+  console.log('GET /api/location/id');
+  let query = `
+    SELECT "l"."name", "l"."description", "l"."history", "l"."climate", "l"."img_url", "w"."name" as "world",
+    CASE WHEN "u"."id" = $1
+         THEN "l"."private_notes"
+         ELSE NULL
+         END AS "private_notes",
+    CASE WHEN "u"."id" = $1
+         THEN true
+         ELSE false
+         END AS "is_owner"
+    FROM "locations" AS "l"
+    JOIN "worlds" AS "w"
+    ON "l"."world_id" = "w"."id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "l"."id" = $2
+  `;
+  let userId = null;
+  if (req.isAuthenticated()) {
+    userId = req.user.id;
+  }
+  const params = [userId, req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 module.exports = router;
