@@ -3,6 +3,7 @@ import { STORY_ACTIONS } from '../actions/storyActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory } from '../requests/storyRequests';
+import { callLocationStoryJunction } from '../requests/junctionRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchStories() {
@@ -40,7 +41,11 @@ function* fetchGenres() {
 function* submitStory(action) {
   try {
     yield put({ type: STORY_ACTIONS.REQUEST_START });
-    yield postNewStory(action.payload);
+    const story_id = yield postNewStory(action.payload);
+    action.payload.related_locations.forEach(location => {
+      let location_id = location.value;
+      callLocationStoryJunction({location_id: location_id, story_id: story_id})
+    })
     yield put({ type: STORY_ACTIONS.GET_STORIES });
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put ({ type: CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO });

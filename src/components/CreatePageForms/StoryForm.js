@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextField, Button, Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
+import ReactSelect from 'react-select';
+import 'react-select/dist/react-select.css';
 
-const mapStateToProps = (reduxState) => ({ storyReducer: reduxState.stories, createReducer: reduxState.create })
+const mapStateToProps = (reduxState) => ({ 
+  storyReducer: reduxState.stories, 
+  createReducer: reduxState.create,
+  locationReducer: reduxState.locations,
+})
 
 class StoryForm extends Component {
 
@@ -16,6 +22,7 @@ class StoryForm extends Component {
       genre_id: '',
       img_url: '',
       private_notes: '',
+      related_locations: '',
     }
   }
 
@@ -26,6 +33,12 @@ class StoryForm extends Component {
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,
+    })
+  }
+
+  handleSelectChange = (property) => (event) => {
+    this.setState({
+      [property]: event,
     })
   }
 
@@ -47,12 +60,14 @@ class StoryForm extends Component {
   }
 
   render() {
+
+    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
+
     return (
       <div>
         <h3>New Story in {this.props.createReducer.world.name}</h3>
         <form>
           <TextField className="createFormStandard" label="Title" value={this.state.title} onChange={this.handleChange('title')} />
-          <br />
           <br />
           <FormControl>
             <InputLabel htmlFor='genre-select'>Select Genre</InputLabel>
@@ -65,16 +80,19 @@ class StoryForm extends Component {
             </Select>
           </FormControl>
           <br />
-          <br />
           <TextField className="createFormWide" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
-          <br />
-          <br />
           <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
-          <br />
-          <br />
           <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
-          <br />
-          <br />
+          <h5>Contains Locations</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_locations}
+            multi={true}
+            onChange={this.handleSelectChange('related_locations')}
+            options={locationSelectOptions}
+            placeholder="Locations contained in this story..."
+          />
           <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitStory}>Create Story</Button>
         </form>
       </div>

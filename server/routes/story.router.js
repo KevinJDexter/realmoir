@@ -114,12 +114,13 @@ router.post('/', (req, res) => {
     let story = req.body;
     const query = `
       INSERT INTO "stories" ("title", "synopsis", "genre_id", "img_url", "private_notes", "world_id")
-      VALUES ($1, $2, $3, $4, $5, $6);
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING "id";
     `;
     const params = [story.title, story.synopsis, story.genre_id, story.img_url, story.private_notes, story.world_id];
     pool.query(query, params)
-      .then(() => {
-        res.sendStatus(201);
+      .then((results) => {
+        res.send(results.rows);
       })
       .catch((error) => {
         res.sendStatus(500);

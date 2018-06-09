@@ -61,7 +61,7 @@ class LocationForm extends Component {
   render() {
 
     let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({value: story.id, label: story.title}));
-    console.log(this.state.related_stories);
+
     return (
       <div>
         <h3>New Location in {this.props.createReducer.world.name}</h3>

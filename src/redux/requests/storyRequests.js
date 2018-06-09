@@ -40,7 +40,7 @@ export function postNewStory(payload) {
   };
 
   return axios.post('/api/story', payload, config)
-    .then(response => response.data)
+    .then(response => response.data[0].id)
     .catch((error) => { throw error.response || error })
 }
 
