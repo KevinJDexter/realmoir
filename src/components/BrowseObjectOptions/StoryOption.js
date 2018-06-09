@@ -1,17 +1,26 @@
 import React, {Component } from 'react';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BROWSE_ACTIONS } from '../../redux/actions/browseActions';
+
+const mapStateToRedux = (reduxState) => ({
+  browse: reduxState.browse,
+})
 
 class StoryOption extends Component {
 
   setBrowseStory = () => {
-    this.props.changeStory(this.props.story.id);
+    this.props.dispatch({
+      type: BROWSE_ACTIONS.SET_BROWSE_STORY,
+      payload: this.props.story,
+    })
   }
 
   render () {
 
     let divClass = 'browseInnerContent';
-    if (this.props.story.id === this.props.selectedStory) {
+    if (this.props.story.id === this.props.browse.story.id) {
       divClass += 'Selected';
     }
 
@@ -29,4 +38,4 @@ class StoryOption extends Component {
   }
 }
 
-export default StoryOption;
+export default connect(mapStateToRedux)(StoryOption);

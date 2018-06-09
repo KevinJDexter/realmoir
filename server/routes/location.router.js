@@ -70,4 +70,24 @@ router.get('/inWorld/:id', (req, res) => {
     })
 })
 
+router.get('/inStory/:id', (req, res) => {
+  console.log('GET /api/location/inStory/id');
+  let query = `
+    SELECT "l".*
+    FROM "locations" AS "l"
+    JOIN "locations_stories_junction" AS "ls"
+    ON "ls"."location_id" = "l"."id"
+    WHERE "ls"."story_id" = $1
+  `;
+  const params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 module.exports = router;

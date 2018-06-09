@@ -7,12 +7,13 @@ const mapStateToRedux = (reduxState) => ({
   browse: reduxState.browse,
 })
 
-class ObjectOption extends Component {
+class AfterWorldObjectOption extends Component {
 
   setAfterWorldOption = () => {
     this.props.dispatch({
-      type: BROWSE_ACTIONS.SET_AFTER_WORLD_OPTION,
-      payload: this.props.option.toLowerCase()
+      type: BROWSE_ACTIONS.CHANGE_AFTER_WORLD_OPTION,
+      payload: this.props.option.toLowerCase(),
+      id: this.props.browse.world.id,
   })
 }
 
@@ -35,4 +36,4 @@ render() {
 }
 }
 
-export default connect(mapStateToRedux)(ObjectOption);
+export default connect(mapStateToRedux)(AfterWorldObjectOption);

@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { BROWSE_ACTIONS } from '../../redux/actions/browseActions';
 import { Link } from 'react-router-dom';
 
+const mapStateToProps = (reduxState) => ({
+  browse: reduxState.browse,
+})
+
 class WorldOption extends Component {
 
   setBrowseWorld = () => {
-    this.props.changeWorld(this.props.world.id);
     this.props.dispatch({ 
-      type: BROWSE_ACTIONS.CHANGE_BROWSE_WORLD,
+      type: BROWSE_ACTIONS.SET_BROWSE_WORLD,
       payload: this.props.world,
     })
   }
@@ -17,8 +20,8 @@ class WorldOption extends Component {
   render() {
 
     let divClass = 'browseInnerContent';
-    if (this.props.world.id === this.props.selectedWorld) {
-      divClass = 'browseInnerContentSelected';
+    if (this.props.world.id === this.props.browse.world.id) {
+      divClass += 'Selected';
     }
 
     return (
@@ -35,4 +38,4 @@ class WorldOption extends Component {
   }
 }
 
-export default connect()(WorldOption);
+export default connect(mapStateToProps)(WorldOption);

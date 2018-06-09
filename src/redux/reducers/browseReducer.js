@@ -18,6 +18,8 @@ const story = (state = {}, action) => {
       return action.payload;
     case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
       return {};
+    case BROWSE_ACTIONS.CLEAR_BROWSE_STORY:
+      return {};
     default:
       return state;
   }
@@ -38,9 +40,20 @@ const afterWorldOption = (state = '', action) => {
   switch (action.type) {
     case BROWSE_ACTIONS.SET_AFTER_WORLD_OPTION:
       return action.payload;
-    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
+    case BROWSE_ACTIONS.CLEAR_AFTER_WORLD_OPTION:
       return '';
     default: 
+      return state;
+  }
+}
+
+const afterStoryOption = (state = '', action) => {
+  switch (action.type) {
+    case BROWSE_ACTIONS.SET_AFTER_STORY_OPTION:
+      return action.payload;
+    case BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION:
+      return '';
+    default:
       return state;
   }
 }
@@ -50,4 +63,5 @@ export default combineReducers({
   story,
   isLoading,
   afterWorldOption,
+  afterStoryOption,
 }) 

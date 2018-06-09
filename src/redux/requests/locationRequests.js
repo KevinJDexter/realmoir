@@ -38,3 +38,16 @@ export function callLocationsInWorld(id) {
       throw error.response || error;
     });
 }
+
+export function callLocationsInStory(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/location/inStory/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    });
+}
