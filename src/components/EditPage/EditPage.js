@@ -5,6 +5,7 @@ import StoryEditLayout from '../EditPageLayouts/StoryEditLayout';
 import Sidebar from '../Sidebar/Sidebar';
 
 import './EditPage.css';
+import LocationEditLayout from '../EditPageLayouts/LocationEditLayout';
 
 class EditPage extends Component {
   render () {
@@ -14,6 +15,8 @@ class EditPage extends Component {
       componentToMount = <WorldEditLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'story') {
       componentToMount = <StoryEditLayout match={this.props.match} history={this.props.history} />
+    } else if (this.props.match.params.type === 'location') {
+      componentToMount = <LocationEditLayout match={this.props.match} history={this.props.history} />
     }
 
     return (

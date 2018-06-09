@@ -10,6 +10,17 @@ const locations = (state = [], action) => {
   }
 }
 
+const isLoading = (state = false, action) => {
+  switch (action.type) {
+    case LOCATION_ACTIONS.REQUEST_START:
+      return true;
+    case LOCATION_ACTIONS.REQUEST_DONE:
+      return false
+    default: 
+      return state;
+  }
+}
+
 const locationsInWorld = (state = [], action) => {
   switch (action.type) {
     case LOCATION_ACTIONS.SET_LOCATIONS_IN_WORLD:
@@ -39,6 +50,7 @@ const locationDetails = (state = {stories: []}, action) => {
 
 export default combineReducers ({
   locations,
+  isLoading,
   locationsInWorld,
   locationsInStory,
   locationDetails,

@@ -10,11 +10,15 @@ const mapStateToProps = (reduxState) => ({
 
 class LocationLayout extends Component {
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.props.dispatch({ 
       type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
       payload: this.props.match.params.id,
      });
+  }
+
+  editLocation = () => {
+    this.props.history.push(`/edit/location/${this.props.match.params.id}`);
   }
 
   render() {
