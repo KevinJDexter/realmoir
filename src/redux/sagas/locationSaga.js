@@ -95,6 +95,16 @@ function* modifyLocationDetails(action) {
     yield all (action.payload.related_stories.map(story => {
       callLocationStoryJunction({location_id: action.id, story_id: story.value})
     }))
+    yield callDeleteNeighboringLocations(action.id);
+    yield all (action.payload.neighboring_locations.map(location => {
+      callPostNeighboringLocations({first_location: action.id, second_location: location.value, contained_in: false});
+    }))
+    yield all (action.payload.contained_locations.map(location => {
+      callPostNeighboringLocations({first_location: action.id, second_location: location.value, contained_in: true});
+    }))
+    yield all (action.payload.contained_by_locations.map(location => {
+      callPostNeighboringLocations({first_location: location.value, second_location: action.id, contained_in: true});
+    })) 
     yield put ({ 
       type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
       payload: action.id,
