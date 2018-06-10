@@ -8,6 +8,7 @@ import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
 const mapStateToProps = (reduxState) => ({
   createReducer: reduxState.create,
   storyReducer: reduxState.stories,
+  locationReducer: reduxState.locations,
 })
 
 class LocationForm extends Component {
@@ -23,6 +24,9 @@ class LocationForm extends Component {
       img_url: '',
       private_notes: '',
       related_stories: [],
+      neighboring_locations: [],
+      contained_locations: [],
+      contained_by_locations: [],
       world_id: 0,
     }
   }
@@ -61,6 +65,9 @@ class LocationForm extends Component {
   render() {
 
     let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({value: story.id, label: story.title}));
+    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
+    let containsLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
+    let containedByLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
 
     return (
       <div>
@@ -80,6 +87,36 @@ class LocationForm extends Component {
             multi={true}
             onChange={this.handleSelectChange('related_stories')}
             options={storySelectOptions}
+            placeholder="Stories this location appears in..."
+          />
+          <h5>Neighboring Locations</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.neighboring_locations}
+            multi={true}
+            onChange={this.handleSelectChange('neighboring_locations')}
+            options={locationSelectOptions}
+            placeholder="Stories this location appears in..."
+          />
+          <h5>Contains Locations</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.contained_locations}
+            multi={true}
+            onChange={this.handleSelectChange('contained_locations')}
+            options={containsLocationsOptions}
+            placeholder="Stories this location appears in..."
+          />
+          <h5>Contained Within Locations</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.contained_by_locations}
+            multi={true}
+            onChange={this.handleSelectChange('contained_by_locations')}
+            options={containedByLocationsOptions}
             placeholder="Stories this location appears in..."
           />
           <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitLocation}>Create Location</Button>

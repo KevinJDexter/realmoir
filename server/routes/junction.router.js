@@ -17,9 +17,9 @@ router.post('/locationStory', (req, res) => {
         res.sendStatus(500);
         console.log(error);
       })
-    } else {
-      res.sendStatus(403);
-    }
+  } else {
+    res.sendStatus(403);
+  }
 })
 
 router.delete('/locationStory/location/:id', (req, res) => {
@@ -67,6 +67,55 @@ router.delete('/locationStory/story/:id', (req, res) => {
                   AND "w"."user_id" = $2)
     `;
     let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+router.post('/neighboringLocations/', (req, res) => {
+  console.log('POST /api/junction/neighboringLocations');
+  if (req.isAuthenticated()) {
+    const query = `
+      INSERT INTO "neighboring_locations" ("first_location", "second_location", "is_contained_in")
+      VALUES ($1, $2, $3)
+    `;
+    const params = [req.body.first_location, req.body.second_location, req.body.contained_in];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+router.delete('/neighboringLocations/:id', (req, res) => {
+  console.log('DELETE /api/junction/neighboringLocations');
+  if (req.isAuthenticated()) {
+    const query = `
+    DELETE FROM "neighboring_locations"
+    WHERE ("first_location" = $1
+    OR "second_location" = $1)
+    AND EXISTS (SELECT 1
+                FROM "locations" AS "l"
+                JOIN "worlds" AS "w"
+                ON "w"."id" = "l"."world_id"
+                WHERE "l"."id" = $1
+                AND "w"."user_id" = $2);
+  `;
+    const params = [req.params.id, req.user.id];
     pool.query(query, params)
       .then(() => {
         res.sendStatus(202);

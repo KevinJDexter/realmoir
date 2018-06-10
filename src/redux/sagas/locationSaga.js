@@ -1,9 +1,9 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, all } from 'redux-saga/effects';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
-import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation, callEditLocationDetails } from '../requests/locationRequests';
-import { callLocationStoryJunction, callDeleteLSJunctionByLocation } from '../requests/junctionRequests';
+import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation, callEditLocationDetails, callNeighboringLocations } from '../requests/locationRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations } from '../requests/junctionRequests';
 import { callStoriesWithLocation } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -25,11 +25,18 @@ function* createLocation(action) {
   try {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     const locationId = yield callPostLocation(action.payload);
-    action.payload.related_stories.forEach(story => {
-      let junctionIds = { location_id: locationId, story_id: story.value };
-      console.log(junctionIds);
-      callLocationStoryJunction(junctionIds);
-    })
+    yield all (action.payload.related_stories.map(story => {
+      callLocationStoryJunction({location_id: locationId, story_id: story.value});
+    }))
+    yield all (action.payload.neighboring_locations.map(location => {
+      callPostNeighboringLocations({first_location: locationId, second_location: location.value, contained_in: false});
+    }))
+    yield all (action.payload.contained_locations.map(location => {
+      callPostNeighboringLocations({first_location: locationId, second_location: location.value, contained_in: true});
+    }))
+    yield all (action.payload.contained_by_locations.map(location => {
+      callPostNeighboringLocations({first_location: location.value, second_location: locationId, contained_in: true});
+    }))
     yield put({ type: CREATE_PAGE_ACTIONS.CLEAR_CREATE_STORY })
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put({ type: LOCATION_ACTIONS.REQUEST_DONE, });
@@ -43,6 +50,7 @@ function* fetchLocationDetails(action) {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     let location = yield callLocationDetails(action.payload);
     location.stories = yield callStoriesWithLocation(action.payload);
+    location.neighbors = yield callNeighboringLocations(action.payload);
     yield put ({ 
       type: LOCATION_ACTIONS.SET_LOCATION_DETAILS,
       payload: location,
@@ -84,9 +92,9 @@ function* modifyLocationDetails(action) {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     yield callEditLocationDetails(action);
     yield callDeleteLSJunctionByLocation(action.id);
-    action.payload.related_stories.forEach(story => {
-      callLocationStoryJunction({location_id: action.id, story_id: story.value});
-    });
+    yield all (action.payload.related_stories.map(story => {
+      callLocationStoryJunction({location_id: action.id, story_id: story.value})
+    }))
     yield put ({ 
       type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
       payload: action.id,

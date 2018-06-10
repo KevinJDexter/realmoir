@@ -90,6 +90,37 @@ router.get('/inStory/:id', (req, res) => {
     })
 });
 
+router.get('/neighbors/:id', (req, res) => {
+  console.log('GET api/location/neighbors/id')
+  let query = `
+    SELECT "l"."name", "l"."id", 
+    CASE WHEN "nl"."first_location" = $1
+         THEN "nl"."is_contained_in"
+         ELSE false
+         END AS "contained",
+    CASE WHEN "nl"."second_location" = $1
+         THEN "nl"."is_contained_in"
+         ELSE false
+         END AS "parent"
+    FROM "locations" AS "l"
+    JOIN "neighboring_locations" AS "nl"
+    ON "nl"."first_location" = "l"."id"
+    OR "nl"."second_location" = "l"."id"
+    WHERE ("nl"."first_location" = $1
+    OR "nl"."second_location" = $1)
+    AND "l"."id" != $1;
+  `;
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 router.post('/', (req, res) => {
   console.log('POST /api/location');
   if (req.isAuthenticated()) {

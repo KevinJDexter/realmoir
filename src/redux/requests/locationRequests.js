@@ -103,3 +103,16 @@ export function callEditLocationDetails(action) {
       throw error.response || error;
     }) 
 }
+
+export function callNeighboringLocations(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/location/neighbors/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    })  
+}

@@ -39,3 +39,28 @@ export function callDeleteLSJunctionByStory (id) {
     })
 }
 
+export function callPostNeighboringLocations (payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.post('/api/junction/neighboringLocations', payload, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    }) 
+}
+
+export function callDeleteNeighboringLocations (id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/junction/neighboringLocations/${id}`, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    })
+}

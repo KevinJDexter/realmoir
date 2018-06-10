@@ -1,4 +1,4 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, all } from 'redux-saga/effects';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
@@ -44,10 +44,9 @@ function* submitStory(action) {
   try {
     yield put({ type: STORY_ACTIONS.REQUEST_START });
     const story_id = yield postNewStory(action.payload);
-    action.payload.related_locations.forEach(location => {
-      let location_id = location.value;
-      callLocationStoryJunction({location_id: location_id, story_id: story_id})
-    })
+    yield all (action.payload.related_locations.forEach(location => {
+      callLocationStoryJunction({location_id: location.value, story_id: story_id});
+    }))
     yield put({ type: STORY_ACTIONS.GET_STORIES });
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put ({ type: CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO });
@@ -81,10 +80,9 @@ function* modifyStoryDetails (action) {
     yield put ({type: STORY_ACTIONS.REQUEST_START});
     yield editStoryDetails(action);
     yield callDeleteLSJunctionByStory(action.id);
-    action.payload.related_locations.forEach(location => {
-      let location_id = location.value;
-      callLocationStoryJunction({location_id: location_id, story_id: action.id})
-    })
+    yield all (action.payload.related_locations.map(location => {
+      callLocationStoryJunction({location_id: location.value, story_id: action.id});
+    }))
     yield put ({
       type: STORY_ACTIONS.GET_STORY_DETAILS,
       payload: action.id,
