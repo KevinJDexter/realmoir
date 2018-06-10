@@ -39,7 +39,7 @@ const locationsInStory = (state = [], action) => {
   }
 }
 
-const locationDetails = (state = {stories: []}, action) => {
+const locationDetails = (state = {stories: [], neighbors: []}, action) => {
   switch (action.type) {
     case LOCATION_ACTIONS.SET_LOCATION_DETAILS:
       return action.payload;

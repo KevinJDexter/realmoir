@@ -35,6 +35,9 @@ class LocationLayout extends Component {
 
   render() {
     let details = { ...this.props.locationReducer.locationDetails };
+    let neighbors = details.neighbors.filter(location => location.contained === false && location.parent === false);
+    let contained_locations = details.neighbors.filter(location => location.contained === true);
+    let parent_locations = details.neighbors.filter(location => location.parent === true);
 
     if (details.description === null) {
       details.description = "None";
@@ -53,6 +56,27 @@ class LocationLayout extends Component {
       storiesContent = details.stories.map(story => <Link className="linkedElements" key={story.id} to={`/view/story/${story.id}`} >{story.title}</Link>)
     }
 
+    let neighboringLocationsContent = <li className="linkedElements">None</li>
+    if (neighbors.length > 0) {
+      neighboringLocationsContent = neighbors.map(location => <Link className="linkedElements" key={location.id} to={`/view/location/${location.id}`} >{location.name}</Link>)
+    }
+
+    let containedLocationsContent;
+    if (contained_locations.length > 0) {
+      containedLocationsContent = <ul className="connectionList">
+        <li><strong>Contains Locations:</strong></li>
+        {contained_locations.map(location => <Link className="linkedElements" key={location.id} to={`/view/location/${location.id}`} >{location.name}</Link>)}
+      </ul>
+    }
+
+    let containedByLocationsContent;
+    if (parent_locations.length > 0) {
+      containedByLocationsContent = <ul className="connectionList">
+        <li><strong>Contained By Locations:</strong></li>
+        {parent_locations.map(location => <Link className="linkedElements" key={location.id} to={`/view/location/${location.id}`} >{location.name}</Link>)}
+      </ul>
+    }
+
     let editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
@@ -60,6 +84,7 @@ class LocationLayout extends Component {
       editButton = <div></div>;
       privateNotes = <div></div>;
     }
+
 
     return (
       <div className="formContainer" >
@@ -77,6 +102,12 @@ class LocationLayout extends Component {
           <li><strong>Stories:</strong></li>
           {storiesContent}
         </ul>
+        <ul className="connectionList" >
+          <li><strong>Neighboring Locations:</strong></li>
+          {neighboringLocationsContent}
+        </ul>
+        {containedLocationsContent}
+        {containedByLocationsContent}
         {editButton}
       </div>
     )
