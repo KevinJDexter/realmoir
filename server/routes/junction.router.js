@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+// Posts a new entry into the location-story-junction table
 router.post('/locationStory', (req, res) => {
   console.log('POST /api/junction/locationStory');
   if (req.isAuthenticated()) {
@@ -22,6 +23,7 @@ router.post('/locationStory', (req, res) => {
   }
 })
 
+// Deletes all entries in the location-story-junction table associated with the given location
 router.delete('/locationStory/location/:id', (req, res) => {
   console.log('DELETE /api/junction/locationStory/location/:id');
   if (req.isAuthenticated) {
@@ -51,6 +53,7 @@ router.delete('/locationStory/location/:id', (req, res) => {
   }
 })
 
+// Deletes all entries in the location-story-junction table associated with the given location
 router.delete('/locationStory/story/:id', (req, res) => {
   console.log('DELETE /api/junction/locationStory/story/:id');
   if (req.isAuthenticated) {
@@ -80,6 +83,7 @@ router.delete('/locationStory/story/:id', (req, res) => {
   }
 })
 
+// Posts a new entry into the neighboring-locations table
 router.post('/neighboringLocations/', (req, res) => {
   console.log('POST /api/junction/neighboringLocations');
   if (req.isAuthenticated()) {
@@ -101,6 +105,7 @@ router.post('/neighboringLocations/', (req, res) => {
   }
 })
 
+// Deletes all entries in the neighboring-locations table associated with the given location
 router.delete('/neighboringLocations/:id', (req, res) => {
   console.log('DELETE /api/junction/neighboringLocations');
   if (req.isAuthenticated()) {

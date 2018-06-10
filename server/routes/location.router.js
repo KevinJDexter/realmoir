@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+// Gets all locations currently stored in the database
+// Only gets your own locations if you are logged in
 router.get('/', (req, res) => {
   console.log('GET /api/location');
   let query = `
@@ -24,6 +26,7 @@ router.get('/', (req, res) => {
     })
 })
 
+// Gets all locations that match given search criteria in a general search
 router.get('/search/general', (req, res) => {
   console.log('GET /api/location/search/general');
   let query = `
@@ -52,6 +55,7 @@ router.get('/search/general', (req, res) => {
     })
 })
 
+// Gets all locations that are in a given world
 router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/location/inWorld/id');
   let query = `
@@ -70,6 +74,7 @@ router.get('/inWorld/:id', (req, res) => {
     })
 })
 
+// Gets all locations that are in a given story
 router.get('/inStory/:id', (req, res) => {
   console.log('GET /api/location/inStory/id');
   let query = `
@@ -90,6 +95,7 @@ router.get('/inStory/:id', (req, res) => {
     })
 });
 
+// Gets all neighboring locations to a given location
 router.get('/neighbors/:id', (req, res) => {
   console.log('GET api/location/neighbors/id')
   let query = `
@@ -121,6 +127,7 @@ router.get('/neighbors/:id', (req, res) => {
     })
 })
 
+// Posts a new location to the database
 router.post('/', (req, res) => {
   console.log('POST /api/location');
   if (req.isAuthenticated()) {
@@ -145,6 +152,8 @@ router.post('/', (req, res) => {
   }
 })
 
+// Gets detailed information about given location
+// Conceals private notes if not the logged in user
 router.get('/:id', (req, res) => {
   console.log('GET /api/location/id');
   let query = `
@@ -179,6 +188,8 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// Deletes the given location from the database
+// Only owning user can delete
 router.delete('/:id', (req, res) => {
   console.log('DELETE /api/location/id');
   if (req.isAuthenticated()) {
@@ -205,6 +216,8 @@ router.delete('/:id', (req, res) => {
   }
 })
 
+// Updates the locations data
+// Only owning user can put 
 router.put('/:id', (req, res) => {
   console.log('PUT /api/location/id');
   if (req.isAuthenticated()) {

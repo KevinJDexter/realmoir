@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+// Gets all stories on the database
 router.get('/', (req, res) => {
   console.log('GET /api/story');
   let query = `
@@ -24,6 +25,7 @@ router.get('/', (req, res) => {
     })
 })
 
+// Get all stories that match the given search parameters 
 router.get('/search/general', (req, res) => {
   console.log('GET /api/story/search/general');
   let query = `
@@ -50,6 +52,7 @@ router.get('/search/general', (req, res) => {
     })
 })
 
+// Get all stories contained in a given world
 router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/story/inWorld/id');
   // if (req.isAuthenticated()) {
@@ -72,6 +75,8 @@ router.get('/inWorld/:id', (req, res) => {
   // }
 })
 
+// Get details about a given story
+// Private notes are only given to the owning user
 router.get('/:id', (req, res) => {
   console.log('GET /api/story/id');
   const query = `
@@ -108,6 +113,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// Get all stories with the given location inside
 router.get('/withLocation/:id', (req, res) => {
   console.log('GET /api/story/withLocation/:id');
   let query = `
@@ -128,6 +134,7 @@ router.get('/withLocation/:id', (req, res) => {
     })
 })
 
+// Posts a new story to the database
 router.post('/', (req, res) => {
   console.log('POST /api/story/');
   if (req.isAuthenticated()) {
@@ -151,6 +158,8 @@ router.post('/', (req, res) => {
   }
 })
 
+// Updates a given story in the database
+// Only owning user can edit
 router.put('/:id', (req, res) => {
   console.log('PUT /api/story/id');
   if (req.isAuthenticated()) {
@@ -185,6 +194,8 @@ router.put('/:id', (req, res) => {
   }
 })
 
+// Deletes the given story from the database
+// Only owning user can delete
 router.delete('/:id', (req, res) => {
   console.log('DELETE /api/story/:id');
   if (req.isAuthenticated()) {

@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+// Gets all worlds in the database
+// If logged in, only gets your own worlds
 router.get('/', (req, res) => {
   console.log('GET /api/world/');
   let query = `SELECT * FROM "worlds"`;
@@ -20,6 +22,7 @@ router.get('/', (req, res) => {
     })
 })
 
+// Gets all worlds matching the given search criteria
 router.get('/search/general', (req, res) => {
   console.log('GET /api/world/search/general');
   let query = `
@@ -44,6 +47,7 @@ router.get('/search/general', (req, res) => {
     })
 })
 
+// adds a new world to the database
 router.post('/', (req, res) => {
   console.log('POST /api/world/');
   if (req.isAuthenticated()) {
@@ -66,6 +70,8 @@ router.post('/', (req, res) => {
   }
 })
 
+// Gets details for a given world
+// Only shares private notes if belongs to logged in user
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
   const query = `
@@ -98,6 +104,8 @@ router.get('/:id', (req, res) => {
     })
 })
 
+// Edits the given world
+// Only owning user can edit
 router.put('/:id', (req, res) => {
   console.log('PUT /api/world/id');
   if (req.isAuthenticated()) {
@@ -126,6 +134,8 @@ router.put('/:id', (req, res) => {
   }
 })
 
+// Deletes the given world from the database
+// Only owning user can delete
 router.delete('/:id', (req, res) => {
   console.log('DELETE /api/world/:id');
   if (req.isAuthenticated()) {

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+// Gets a list of all Genres
 router.get('/', (req, res) => {
   console.log('GET /api/genre');
   const query = `SELECT * FROM "genres"`;
