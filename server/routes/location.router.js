@@ -174,5 +174,38 @@ router.delete('/:id', (req, res) => {
   }
 })
 
+router.put('/:id', (req, res) => {
+  console.log('PUT /api/location/id');
+  if (req.isAuthenticated()) {
+    const update = req.body;
+    const query = `
+      UPDATE "locations"
+      SET "name" = $1, 
+          "description" = $2, 
+          "history" = $3, 
+          "climate" = $4, 
+          "img_url" = $5, 
+          "private_notes" = $6, 
+          "world_id" = $7
+      WHERE "id" = $8
+      AND EXISTS (SELECT 1
+                  FROM "locations" AS "l"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "l"."world_id"
+                  WHERE "l"."id" = $8 AND "w"."user_id" = $9);
+    `;
+    const params = [update.name, update.description, update.history, update.climate, update.img_url, update.private_notes, update.world_id, req.params.id, req.user.id];
+    pool.query(query, params)
+        .then(() => {
+          res.sendStatus(202);
+        })
+        .catch((error) => {
+          res.sendStatus(500);
+          console.log(error);
+        })
+  } else {
+    res.sendStatus(403);
+  }
+})
 
 module.exports = router;

@@ -90,3 +90,16 @@ export function callDeleteLocation(id) {
       throw error.response || error;
     }) 
 }
+
+export function callEditLocationDetails(action) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/location/${action.id}`, action.payload, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    }) 
+}

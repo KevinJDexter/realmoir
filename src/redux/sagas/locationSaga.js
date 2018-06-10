@@ -2,8 +2,8 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
-import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation } from '../requests/locationRequests';
-import { callLocationStoryJunction } from '../requests/junctionRequests';
+import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation, callEditLocationDetails } from '../requests/locationRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByLocation } from '../requests/junctionRequests';
 import { callStoriesWithLocation } from '../requests/storyRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -79,12 +79,31 @@ function* removeLocation(action) {
   }
 }
 
+function* modifyLocationDetails(action) {
+  try {
+    yield put({ type: LOCATION_ACTIONS.REQUEST_START });
+    yield callEditLocationDetails(action);
+    yield callDeleteLSJunctionByLocation(action.id);
+    action.payload.related_stories.forEach(story => {
+      callLocationStoryJunction({location_id: action.id, story_id: story.value});
+    });
+    yield put ({ 
+      type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
+      payload: action.id,
+    })
+    yield put({ type: LOCATION_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: LOCATION_ACTIONS.REQUEST_DONE });
+  } 
+}
+
 function* locationSaga() {
   yield takeEvery(LOCATION_ACTIONS.GET_LOCATIONS, fetchLocations);
   yield takeEvery(LOCATION_ACTIONS.CREATE_NEW_LOCATION, createLocation);
   yield takeEvery(LOCATION_ACTIONS.GET_LOCATION_DETAILS, fetchLocationDetails);
   yield takeEvery(LOCATION_ACTIONS.GET_LOCATIONS_IN_WORLD, fetchLocationsInWorld);
   yield takeEvery(LOCATION_ACTIONS.DELETE_LOCATION, removeLocation);
+  yield takeEvery(LOCATION_ACTIONS.SUBMIT_EDIT_LOCATION, modifyLocationDetails);
 }
 
 export default locationSaga;
