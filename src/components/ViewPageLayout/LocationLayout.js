@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {Button} from '@material-ui/core';
-import { LOCATION_ACTIONS} from '../../redux/actions/locationActions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
 
 const mapStateToProps = (reduxState) => ({
   locationReducer: reduxState.locations,
@@ -11,10 +11,22 @@ const mapStateToProps = (reduxState) => ({
 class LocationLayout extends Component {
 
   componentWillMount = () => {
-    this.props.dispatch({ 
+    this.props.dispatch({
       type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
       payload: this.props.match.params.id,
-     });
+    });
+  }
+
+  componentDidUpdate = () => {
+    if (!this.props.locationReducer.isLoading && !this.props.locationReducer.locationDetails.id) {
+      this.props.history.push('/home');
+    }
+    if (this.props.match.params.id !== String(this.props.locationReducer.locationDetails.id)) {
+      this.props.dispatch({
+        type: LOCATION_ACTIONS.GET_LOCATION_DETAILS,
+        payload: this.props.match.params.id,
+      })
+    }
   }
 
   editLocation = () => {
@@ -22,12 +34,12 @@ class LocationLayout extends Component {
   }
 
   render() {
-    let details = {...this.props.locationReducer.locationDetails};
+    let details = { ...this.props.locationReducer.locationDetails };
 
     if (details.description === null) {
       details.description = "None";
     }
-    
+
     if (details.history === null) {
       details.history = "None";
     }
@@ -38,7 +50,7 @@ class LocationLayout extends Component {
 
     let storiesContent = <li className="linkedElements">None</li>
     if (details.stories.length > 0) {
-      storiesContent = details.stories.map(story => <Link className="linkedElements" key={story.id} to={`/view/story/${story.id}`} >{story.title}</Link> )
+      storiesContent = details.stories.map(story => <Link className="linkedElements" key={story.id} to={`/view/story/${story.id}`} >{story.title}</Link>)
     }
 
     let editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;

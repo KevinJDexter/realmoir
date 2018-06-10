@@ -48,8 +48,9 @@ class StoryEditLayout extends Component {
           details[key] = '';
         }
       }
+
       let related_locations = details.locations.map(location => ({value: location.id, label: location.name}))
-      console.log(details);
+      
       this.setState({
         startingTitle: details.title,
         title: details.title,

@@ -1,8 +1,8 @@
-#confirmWorldEditsButton, #confirmStoryEditsButton {
+#confirmWorldEditsButton, #confirmStoryEditsButton, #confirmLocationEditsButton {
   margin: 0px 20px;
 }
 
-#deleteWorldButton, #deleteStoryButton {
+#deleteWorldButton, #deleteStoryButton, #deleteLocationButton {
   margin: 0px 20px;
 }
 

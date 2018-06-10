@@ -148,4 +148,31 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+  console.log('DELETE /api/location/id');
+  if (req.isAuthenticated()) {
+    const query = `
+      DELETE FROM "locations"
+      WHERE "id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "locations" AS "l"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "l"."world_id"
+                  WHERE "l"."id" = $1 AND "w"."user_id" = $2)
+    `;
+    const params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+
 module.exports = router;

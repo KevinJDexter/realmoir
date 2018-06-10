@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ReactSelect from 'react-select';
 import 'react-select/dist/react-select.css';
 import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
+import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 
 const mapStateToProps = (reduxState) => ({
   createReducer: reduxState.create,
@@ -48,19 +49,8 @@ class LocationEditLayout extends Component {
         }
       }
 
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log('hit');
-      console.log(details);
+      let related_stories = details.stories.map(story => ({value: story.id, label: story.title}))
+
       this.setState({
         startingName: details.name,
         name: details.name,
@@ -70,14 +60,68 @@ class LocationEditLayout extends Component {
         img_url: details.img_url,
         private_notes: details.private_notes,
         world_id: details.world_id,
+        related_stories: related_stories,
+      })
+
+      this.props.dispatch({
+        type: STORY_ACTIONS.GET_STORIES_IN_WORLD,
+        payload: details.world_id,
       })
     }
   }
 
+  handleChange = (property) => (event) => {
+    this.setState({
+      [property]: event.target.value,
+    })
+  }
+
+  handleSelectChange = (property) => (event) => {
+    this.setState({
+      [property]: event,
+    })
+  }
+
+  deleteLocation = () => {
+    const toDelete = window.confirm('Are you sure you want to delete this Location? You can\'t undo this.')
+    if (toDelete) {
+      this.props.dispatch({
+        type: LOCATION_ACTIONS.DELETE_LOCATION,
+        payload: this.props.match.params.id,
+      })
+      this.props.history.push('/home');
+    }
+  }
 
   render () {
+   
+    let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({value: story.id, label: story.title}));
+
     return (
-      <div></div>
+      <div>
+        <h3>New Location in {this.props.createReducer.world.name}</h3>
+        <form>
+          <TextField className="createFormStandard" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField className="createFormWide" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
+          <TextField className="createFormWide" rows="6" multiline label="History" value={this.state.history} onChange={this.handleChange('history')} />
+          <TextField className="createFormStandard" label="climate" value={this.state.climate} onChange={this.handleChange('climate')} />
+          <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <h5>Related Stories</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_stories}
+            multi={true}
+            onChange={this.handleSelectChange('related_stories')}
+            options={storySelectOptions}
+            placeholder="Stories this location appears in..."
+          />
+          <Button variant="contained" id="confirmLocationEditsButton" color="primary" onClick={this.editLocation}>Save Edits</Button>
+          <Button variant="contained" id="deleteLocationButton" color="secondary" onClick={this.deleteLocation}>Delete Location</Button>
+
+        </form>
+      </div>
     )
   }
 }

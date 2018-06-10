@@ -2,8 +2,8 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
-import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory } from '../requests/storyRequests';
-import { callLocationsInStory, callLocationsInWorld } from '../requests/locationRequests';
+import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory, callStoriesInWorld } from '../requests/storyRequests';
+import { callLocationsInStory } from '../requests/locationRequests';
 import { callLocationStoryJunction, callDeleteLSJunctionByStory } from '../requests/junctionRequests';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 
@@ -107,6 +107,20 @@ function* removeStory (action) {
   }
 }
 
+function* fetchStoriesInWorld (action) {
+  try {
+    yield put ({type: STORY_ACTIONS.REQUEST_START});
+    const stories = yield callStoriesInWorld(action.payload);
+    yield put ({
+      type: STORY_ACTIONS.SET_STORIES_IN_WORLD,
+      payload: stories,
+    })
+    yield put({type: STORY_ACTIONS.REQUEST_DONE});
+  } catch (error) {
+    yield put({type: STORY_ACTIONS.REQUEST_DONE});
+  }
+}
+
 function* storySaga() {
   yield takeEvery(STORY_ACTIONS.GET_STORIES, fetchStories);
   yield takeEvery(STORY_ACTIONS.GET_STORY_GENRES, fetchGenres);
@@ -114,6 +128,7 @@ function* storySaga() {
   yield takeEvery(STORY_ACTIONS.GET_STORY_DETAILS, fetchStoryDetails);
   yield takeEvery(STORY_ACTIONS.SUBMIT_EDIT_STORY, modifyStoryDetails);
   yield takeEvery(STORY_ACTIONS.DELETE_STORY, removeStory);
+  yield takeEvery(STORY_ACTIONS.GET_STORIES_IN_WORLD, fetchStoriesInWorld);
 }
 
 export default storySaga;

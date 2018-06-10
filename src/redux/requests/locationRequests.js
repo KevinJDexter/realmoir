@@ -77,3 +77,16 @@ export function callPostLocation(payload) {
       throw error.response || error;
     })
 }
+
+export function callDeleteLocation(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/location/${id}`, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    }) 
+}
