@@ -82,6 +82,15 @@ class LocationEditLayout extends Component {
     })
   }
 
+  editLocation = () => {
+    this.props.dispatch ({
+      type: LOCATION_ACTIONS.SUBMIT_EDIT_LOCATION,
+      payload: this.state,
+      id: this.props.match.params.id,
+    })
+    this.props.history.push(`/view/location/${this.props.match.params.id}`);
+  }
+
   deleteLocation = () => {
     const toDelete = window.confirm('Are you sure you want to delete this Location? You can\'t undo this.')
     if (toDelete) {

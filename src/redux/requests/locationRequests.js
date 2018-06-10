@@ -97,7 +97,7 @@ export function callEditLocationDetails(action) {
     withCredentials: true,
   };
 
-  return axios.delete(`/api/location/${action.id}`, action.payload, config)
+  return axios.put(`/api/location/${action.id}`, action.payload, config)
     .then(response => response)
     .catch((error) => {
       throw error.response || error;
