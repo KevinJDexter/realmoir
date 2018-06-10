@@ -5,7 +5,10 @@ const pool = require('../modules/pool');
 // If logged in, only gets your own worlds
 router.get('/', (req, res) => {
   console.log('GET /api/world/');
-  let query = `SELECT * FROM "worlds"`;
+  let query = `
+    SELECT "id", "name", "description", "date_created"
+    FROM "worlds"
+   `;
   let params = [];
   if (req.isAuthenticated()) {
     query = query + ` WHERE "user_id" = $1;`;
@@ -26,7 +29,7 @@ router.get('/', (req, res) => {
 router.get('/search/general', (req, res) => {
   console.log('GET /api/world/search/general');
   let query = `
-    SELECT *
+    SELECT "id", "name", "description"
     FROM "worlds"
     WHERE (UPPER("name") LIKE UPPER($1)
           OR UPPER("description") LIKE UPPER($1))
@@ -75,7 +78,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
   const query = `
-    SELECT "w"."id", "w"."name", "w"."description", "w"."img_url",
+    SELECT "w"."id", "w"."name", "w"."description", "w"."img_url", "w"."date_created",
     CASE WHEN "u"."id" = $1
          THEN "w"."private_notes"
          ELSE NULL

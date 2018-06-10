@@ -5,14 +5,14 @@ const pool = require('../modules/pool');
 router.get('/', (req, res) => {
   console.log('GET /api/story');
   let query = `
-    SELECT "stories".* 
-    FROM "stories" 
-    JOIN "worlds" 
-    ON "stories"."world_id" = "worlds"."id"
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id", "s"."date_created"
+    FROM "stories" AS "s"
+    JOIN "worlds" AS "w"
+    ON "s"."world_id" = "w"."id"
   `;
   let params = [];
   if (req.isAuthenticated()) {
-    query = query + ` WHERE "worlds"."user_id" = $1`;
+    query = query + ` WHERE "w"."user_id" = $1`;
     params.push(req.user.id);
   }
   pool.query(query, params)
@@ -29,17 +29,18 @@ router.get('/', (req, res) => {
 router.get('/search/general', (req, res) => {
   console.log('GET /api/story/search/general');
   let query = `
-    SELECT "stories".*, "genres"."name" as "genre"
-    FROM "stories"
-    LEFT JOIN "genres" ON "stories"."genre_id" = "genres"."id"
-    JOIN "worlds" ON "stories"."world_id" = "worlds"."id"
-    JOIN "users" ON "worlds"."user_id" = "users"."id"
-    WHERE (UPPER("title") LIKE UPPER($1) 
-          OR UPPER("synopsis") LIKE UPPER($1) )
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id", "g"."name" as "genre", "s"."date_created"
+    FROM "stories" AS "s"
+    LEFT JOIN "genres" AS "g"
+    ON "s"."genre_id" = "g"."id"
+    JOIN "worlds" AS "w"
+    ON "s"."world_id" = "w"."id"
+    WHERE (UPPER("s"."title") LIKE UPPER($1) 
+          OR UPPER("s"."synopsis") LIKE UPPER($1) )
   `;
   let params = [`%${req.query.searchQuery}%`];
   if (req.isAuthenticated()) {
-    query = query + ` AND "users"."id" = $2;`;
+    query = query + ` AND "w"."user_id" = $2;`;
     params.push(req.user.id);
   }
   pool.query(query, params)
@@ -57,7 +58,7 @@ router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/story/inWorld/id');
   // if (req.isAuthenticated()) {
   const query = `
-      SELECT *
+      SELECT "id", "title", "synopsis", "genre_id", "world_id"
       FROM "stories"
       WHERE "world_id" = $1
     `;
@@ -80,7 +81,7 @@ router.get('/inWorld/:id', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/story/id');
   const query = `
-    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."img_url", "s"."genre_id", "w"."name" as "world", "s"."world_id", "g"."name" as "genre",
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."img_url", "s"."genre_id", "w"."name" as "world", "s"."world_id", "g"."name" as "genre", "s"."date_created",
     CASE WHEN "u"."id" = $1
          THEN "s"."private_notes"
          ELSE NULL
@@ -117,7 +118,7 @@ router.get('/:id', (req, res) => {
 router.get('/withLocation/:id', (req, res) => {
   console.log('GET /api/story/withLocation/:id');
   let query = `
-    SELECT "s".*
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id"
     FROM "stories" AS "s"
     JOIN "locations_stories_junction" AS "ls"
     ON "s"."id" = "ls"."story_id"
