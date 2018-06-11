@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
-import { callCharacterDetails, callCharactersInWorld, callCharacterRelationships, callAddCharacter } from '../requests/characterRequests';
+import { callCharacterDetails, callCharactersInWorld, callCharacterRelationships, callAddCharacter, callDeleteCharacter, callEditCharacter } from '../requests/characterRequests';
 import { callStoriesWithCharacter } from '../requests/storyRequests';
 import { callLocationCharacterVisits } from '../requests/locationRequests';
 import { callPostCLJunction, callPostCSJunction, callDeleteCSJunctionByCharacter, callDeleteCLJunctionByCharacter, callPostCharacterRelationships, callDeleteCharacterRelationships } from '../requests/junctionRequests';
@@ -73,11 +73,49 @@ function* fetchCreateCharacter(action) {
   }
 }
 
+function fetchDeleteCharacter(action) {
+  try {
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_START });
+    yield callDeleteCharacter(action.payload);
+    yield put ({type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE });
+  }
+}
+
+function* fetchEditCharacter(action) {
+  try {
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_START });
+    yield callEditCharacter(action);
+    yield callDeleteCSJunctionByCharacter(action.id);
+    yield all (action.payload.related_stories.forEach(story => {
+      callLocationStoryJunction({location_id: action.id, story_id: story.value})
+    }))
+    yield callDeleteCLJunctionByCharacter(action.id);
+    yield all(action.payload.related_locations.forEach(location => {
+      callPostCLJunction({character_id: action.id, location_id: location.value})
+    }))
+    yield callDeleteCharacterRelationships(action.id);
+    yield all (action.payload.related_characters.forEach(location => {
+      callPostNeighboringLocations({first_character: action.id, second_character: character.value, relationship: character.relationship});
+    }))
+    yield put ({ 
+      type: CHARACTER_ACTIONS.GET_CHARACTER_DETAILS,
+      payload: action.id,
+    })
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE });
+  } 
+}
 
 function* characterSaga() {
   yield takeEvery(CHARACTER_ACTIONS.GET_CHARACTER_DETAILS, fetchCharacterDetails);
   yield takeEvery(CHARACTER_ACTIONS.GET_CHARACTERS_IN_WORLD, fetchCharactersInWorld);
   yield takeEvery(CHARACTER_ACTIONS.CREATE_NEW_CHARACTER, fetchCreateCharacter);
+  yield takeEvery(CHARACTER_ACTIONS.DELETE_CHARACTER, fetchDeleteCharacter);
+  yield takeEvery(CHARACTER_ACTIONS.SUBMIT_EDIT_CHARACTER, fetchEditCharacter);
 }
 
 export default characterSaga;
