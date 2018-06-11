@@ -3,7 +3,7 @@ import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation, callEditLocationDetails, callNeighboringLocations } from '../requests/locationRequests';
-import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations, callPostCLJunction } from '../requests/junctionRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations, callPostCLJunction, callDeleteCLJunctionByLocation } from '../requests/junctionRequests';
 import { callStoriesWithLocation } from '../requests/storyRequests';
 import { callCharactersVisitedLocation, callCharacterHomeIs } from '../requests/characterRequests';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
@@ -109,6 +109,10 @@ function* modifyLocationDetails(action) {
     yield callDeleteLSJunctionByLocation(action.id);
     yield all (action.payload.related_stories.forEach(story => {
       callLocationStoryJunction({location_id: action.id, story_id: story.value})
+    }))
+    yield callDeleteCLJunctionByLocation(action.id);
+    yield all(action.payload.related_characters.forEach(character => {
+      callPostCLJunction({location_id: action.id, character_id: character.value})
     }))
     yield callDeleteNeighboringLocations(action.id);
     yield all (action.payload.neighboring_locations.forEach(location => {

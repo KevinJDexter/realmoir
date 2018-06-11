@@ -185,7 +185,7 @@ router.delete('/characterLocation/character/:id', (req, res) => {
 }) 
 
 // Deletes all entries in the character-location-junction table associated with the given location
-router.delete('/characterLocation/character/:id', (req, res) => {
+router.delete('/characterLocation/location/:id', (req, res) => {
   console.log('DELETE /api/junction/characterLocation/location/id');
   if (req.isAuthenticated()) {
     let query = `
