@@ -26,6 +26,33 @@ router.get('/', (req, res) => {
     })
 })
 
+// Gets all characters that match given search criteria in a general search
+router.get('/search/general', (req, res) => {
+  console.log('GET /api/location/search/general');
+  let query = `
+    SELECT "c"."id", "c"."name", "c"."description", "c"."bio", "c"."date_created"
+    FROM "characters" AS "c"
+    JOIN "worlds" AS "w" 
+    ON "c"."world_id" = "w"."id"
+    WHERE (UPPER("c"."name") LIKE UPPER($1)
+          OR UPPER("c"."description") LIKE UPPER($1)
+          OR UPPER("c"."bio") LIKE UPPER($1))
+  `;
+  let params = [`%${req.query.searchQuery}%`];
+  if (req.isAuthenticated()) {
+    query = query + ` AND "w"."user_id" = $2`;
+    params.push(req.user.id);
+  };
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 // Get detailed info on character
 // Only sends private notes if owner is logged in
 router.get('/:id', (req, res) => {

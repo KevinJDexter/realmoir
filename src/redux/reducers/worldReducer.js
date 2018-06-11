@@ -21,12 +21,12 @@ const isLoading = (state = false, action) => {
   }
 }
 
-const worldDetails = (state = {stories: [], locations: []}, action) => {
+const worldDetails = (state = {stories: [], locations: [], characters: []}, action) => {
   switch (action.type) {
     case WORLD_ACTIONS.SET_WORLD_DETAILS:
       return action.payload;
     case WORLD_ACTIONS.CLEAR_WORLD_DETAILS:
-      return {stories: [], locations: []};
+      return {stories: [], locations: [], characters: []};
     default:
       return state;
   }

@@ -55,6 +55,17 @@ export function callStoriesWithLocation(id) {
     .catch((error) => { throw error.response || error; });
 }
 
+export function callStoriesWithCharacter(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json'},
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/story/withCharacter/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; });
+}
+
 export function callSearchStories(searchQuery) {
   const config = {
     headers: { 'Content-Type': 'application/json' },

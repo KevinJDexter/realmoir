@@ -1,132 +1,131 @@
 import axios from 'axios';
 
-export function callLocationStoryJunction(payload) {
+export function callCharacters() {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.post('/api/junction/locationStory', payload, config)
-    .then(response => response)
+  return axios.get('/api/character', config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
+    });
 }
 
-export function callDeleteLSJunctionByLocation(id) {
+export function callCharacterDetails(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/locationStory/location/${id}`, config)
-    .then(response => response)
+  return axios.get(`/api/character/details/${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
+    });
 }
 
-export function callDeleteLSJunctionByStory(id) {
+export function callSearchCharacters(payload) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/locationStory/story/${id}`, config)
-    .then(response => response)
+  return axios.get(`/api/character/search/general`, {params: {searchQuery: payload}}, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
+    });
 }
 
-export function callPostNeighboringLocations(payload) {
+export function callCharactersInWorld(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.post('/api/junction/neighboringLocations', payload, config)
-    .then(response => response)
+  return axios.get(`/api/character/inWorld/${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
+    });
 }
 
-export function callDeleteNeighboringLocations(id) {
+export function callCharactersInStory(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/neighboringLocations/${id}`, config)
-    .then(response => response)
+  return axios.get(`/api/character/inStory/${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
+    });
 }
 
-export function callPostCLJunction(payload) {
+export function callCharactersVisitedLocation(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.post('/api/junction/characterLocation', payload, config)
-    .then(response => response)
+  return axios.get(`/api/character/location/${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
-};
+    }); 
+}
 
-export function callDeleteCLJunctionByCharacter(id) {
+export function callCharacterRelationships(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/characterLocation/character/${id}`, config)
-    .then(response => response)
+  return axios.get(`/api/character/relationships/${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    })
-};
+    });  
+}
 
-export function callDeleteCLJunctionByLocation(id) {
+export function callAddCharacter(payload) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/characterLocation/location/${id}`, config)
-    .then(response => response)
+  return axios.post(`/api/character`, payload, config)
+    .then(response => response.data[0].id)
     .catch((error) => {
       throw error.response || error;
-    })
-};
+    });  
+}
 
-export function callPostCharacterRelationships(payload) {
+export function callEditCharacter(action) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.post('/api/junction/characterRelationships', payload, config)
+  return axios.put(`/api/character/${action.id}`, action.payload, config)
     .then(response => response)
     .catch((error) => {
       throw error.response || error;
-    })
-};
+    });  
+}
 
-export function callDeleteCharacterRelationships(id) {
+export function callDeleteCharacter(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.delete(`/api/junction/characterRelationships/${id}`, config)
+  return axios.delete(`/api/character/${id}`, config)
     .then(response => response)
     .catch((error) => {
       throw error.response || error;
-    })
-};
-
+    });  
+}

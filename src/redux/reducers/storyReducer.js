@@ -41,12 +41,12 @@ const genres = (state = [], action) => {
   }
 }
 
-const storyDetails = (state = {locations: []}, action) => {
+const storyDetails = (state = {locations: [], characters: []}, action) => {
   switch (action.type) {
     case STORY_ACTIONS.SET_STORY_DETAILS:
       return action.payload;
     case STORY_ACTIONS.CLEAR_STORY_DETAILS:
-      return {locations: []};
+      return {locations: [], characters: []};
     default:
       return state;
   }

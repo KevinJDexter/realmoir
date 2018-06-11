@@ -65,6 +65,19 @@ export function callLocationsInStory(id) {
     });
 }
 
+export function callLocationCharacterVisits(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/location/character/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    }); 
+}
+
 export function callPostLocation(payload) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
