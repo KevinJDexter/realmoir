@@ -136,36 +136,6 @@ export function callPostCSJunction(payload) {
     withCredentials: true,
   };
 
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log(payload);
-
   return axios.post('/api/junction/characterStory', payload, config)
     .then(response => response)
     .catch((error) => {

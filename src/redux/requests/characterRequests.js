@@ -19,8 +19,8 @@ export function callCharacterDetails(id) {
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/details/${id}`, config)
-    .then(response => response.data)
+  return axios.get(`/api/character/${id}`, config)
+    .then(response => response.data[0])
     .catch((error) => {
       throw error.response || error;
     });

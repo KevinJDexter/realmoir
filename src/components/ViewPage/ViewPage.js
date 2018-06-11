@@ -7,6 +7,7 @@ import './ViewPage.css';
 import WorldLayout from '../ViewPageLayout/WorldLayout';
 import StoryLayout from '../ViewPageLayout/StoryLayout';
 import LocationLayout from '../ViewPageLayout/LocationLayout';
+import CharacterLayout from '../ViewPageLayout/CharacterLayout';
 
 class ViewPage extends Component {
 
@@ -19,12 +20,14 @@ class ViewPage extends Component {
       componentToMount = <StoryLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'location') {
       componentToMount = <LocationLayout match={this.props.match} history={this.props.history} />
+    } else if (this.props.match.params.type === 'character') {
+      componentToMount = <CharacterLayout match={this.props.match} history={this.props.history} />
     }
 
     return (
-      <div style={{width: window.innerWidth, height: window.innerHeight }}>
+      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
         <Header title="Realmoir" history={this.props.history} />
-        <div className="mainView">
+        <div className="mainView" >
           <div className="viewPageContent">
             {componentToMount}
           </div>
