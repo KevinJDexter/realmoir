@@ -10,6 +10,7 @@ const mapStateToProps = (reduxState) => ({
   createReducer: reduxState.create,
   storyReducer: reduxState.stories,
   locationReducer: reduxState.locations,
+  characterReducer: reduxState.characters,
 })
 
 class LocationEditLayout extends Component {
@@ -26,6 +27,7 @@ class LocationEditLayout extends Component {
       img_url: '',
       private_notes: '',
       related_stories: [],
+      related_characters: [],
       neighboring_locations: [],
       contained_locations: [],
       contained_by_locations: [],
@@ -53,6 +55,7 @@ class LocationEditLayout extends Component {
       }
 
       let related_stories = details.stories.map(story => ({value: story.id, label: story.title}))
+      let related_characters = details.characters.map(character => ({value: character.id, label: character.name}))
       let neighboring_locations = details.neighbors.filter(location => location.contained === false && location.parent === false).map(location => ({value: location.id, label: location.name}))
       let contained_locations = details.neighbors.filter(location => location.contained === true ).map(location => ({value: location.id, label: location.name}))
       let contained_by_locations = details.neighbors.filter(location => location.parent === true ).map(location => ({value: location.id, label: location.name}))
@@ -67,6 +70,7 @@ class LocationEditLayout extends Component {
         private_notes: details.private_notes,
         world_id: details.world_id,
         related_stories: related_stories,
+        related_characters: related_characters,
         neighboring_locations: neighboring_locations,
         contained_locations: contained_locations,
         contained_by_locations, contained_by_locations,
@@ -120,6 +124,7 @@ class LocationEditLayout extends Component {
   render () {
    
     let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({value: story.id, label: story.title}));
+    let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({value: character.id, label: character.name}));
     let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
     let containsLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
     let containedByLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
@@ -144,6 +149,16 @@ class LocationEditLayout extends Component {
             options={storySelectOptions}
             placeholder="Stories this location appears in..."
           />
+          <h5>Related Characters</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_characters}
+            multi={true}
+            onChange={this.handleSelectChange('related_characters')}
+            options={characterSelectOptions}
+            placeholder="Characters that have interacted with this location..."
+          />
           <h5>Neighboring Locations</h5>
           <ReactSelect
             className="createFormSelect"
@@ -152,7 +167,7 @@ class LocationEditLayout extends Component {
             multi={true}
             onChange={this.handleSelectChange('neighboring_locations')}
             options={locationSelectOptions}
-            placeholder="Stories this location appears in..."
+            placeholder="Other locations neighboring this one..."
           />
           <h5>Contains Locations</h5>
           <ReactSelect
@@ -162,7 +177,7 @@ class LocationEditLayout extends Component {
             multi={true}
             onChange={this.handleSelectChange('contained_locations')}
             options={containsLocationsOptions}
-            placeholder="Stories this location appears in..."
+            placeholder="Locations located withing this one..."
           />
           <h5>Contained Within Locations</h5>
           <ReactSelect
@@ -172,7 +187,7 @@ class LocationEditLayout extends Component {
             multi={true}
             onChange={this.handleSelectChange('contained_by_locations')}
             options={containedByLocationsOptions}
-            placeholder="Stories this location appears in..."
+            placeholder="Locations this area is located within..."
           />
           <Button variant="contained" id="confirmLocationEditsButton" color="primary" onClick={this.editLocation}>Save Edits</Button>
           <Button variant="contained" id="deleteLocationButton" color="secondary" onClick={this.deleteLocation}>Delete Location</Button>
