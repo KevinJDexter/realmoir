@@ -8,6 +8,7 @@ import browse from './browseReducer';
 import create from './createPageReducer';
 import search from './searchReducer';
 import locations from './locationReducer';
+import characters from './characterReducer';
 
 const store = combineReducers({
   user,
@@ -19,6 +20,7 @@ const store = combineReducers({
   create,
   search,
   locations,
+  characters,
 });
 
 export default store;
