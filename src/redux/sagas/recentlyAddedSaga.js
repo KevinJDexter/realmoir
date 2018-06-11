@@ -3,6 +3,7 @@ import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { callWorlds } from '../requests/worldRequests';
 import { callStories } from '../requests/storyRequests';
 import { callLocations } from '../requests/locationRequests';
+import { callCharacters } from '../requests/characterRequests';
 
 function* getRecentlyAdded() {
   try {
@@ -13,7 +14,9 @@ function* getRecentlyAdded() {
     stories = stories.map(story => ({...story, objectType: 'story' }))
     let locations = yield callLocations();
     locations = locations.map(location => ({...location, objectType: 'location' }))
-    const recentlyAdded = [...worlds, ...stories, ...locations]
+    let characters = yield callCharacters();
+    characters = characters.map(character => ({...character, objectType: 'character' }))
+    const recentlyAdded = [...worlds, ...stories, ...locations, ...characters]
     yield put({ type: RECENTLY_ADDED_ACTIONS.SET_RECENTLY_ADDED, payload: recentlyAdded });
     yield put({ type: RECENTLY_ADDED_ACTIONS.REQUEST_DONE });
   } catch (error) {

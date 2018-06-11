@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Public from '@material-ui/icons/Public';
+import World from '@material-ui/icons/Public';
 import Book from '@material-ui/icons/Book';
 import Location from '@material-ui/icons/LocationCity';
+import Character from '@material-ui/icons/Person'
 
 class SidebarItem extends Component {
   render() {
@@ -11,7 +12,7 @@ class SidebarItem extends Component {
     let icon = <span></span>
     switch (this.props.item.objectType) {
       case 'world':
-        icon = <Public />
+        icon = <World />
         toDisplay = <Link to={`/view/world/${this.props.item.id}`}>{this.props.item.name} - {icon}</Link>
         break;
       case 'story':
@@ -21,6 +22,10 @@ class SidebarItem extends Component {
       case 'location':
         icon = <Location />
         toDisplay = <Link to={`/view/location/${this.props.item.id}`}>{this.props.item.name} - {icon}</Link>
+        break;
+      case 'character':
+        icon = <Character />
+        toDisplay = <Link to={`/view/character/${this.props.item.id}`}>{this.props.item.name} - {icon}</Link>
         break;
       default:
         break;

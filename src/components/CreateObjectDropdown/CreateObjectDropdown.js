@@ -10,7 +10,7 @@ class CreateObjectDropdown extends Component {
     super(props);
 
     this.state = {
-      valueField: 'Location',
+      valueField: 'Character',
     }
   }
 
@@ -37,6 +37,7 @@ class CreateObjectDropdown extends Component {
           value={this.state.valueField}
           onChange={this.handleChange}
           inputProps={{ name: 'story', id: 'story-select' }}>
+          <MenuItem value='Character'>Character</MenuItem>
           <MenuItem value='Location'>Location</MenuItem>
         </Select>
       </FormControl>
