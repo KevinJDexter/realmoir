@@ -212,6 +212,84 @@ router.delete('/characterLocation/character/:id', (req, res) => {
   }
 })
 
+// Adds a new entry into the character-story-junction table
+router.post('/characterStory', (req, res) => {
+  console.log('POST /api/junction/characterStory');
+  if (req.isAuthenticated()) {
+    const query = `
+      INSERT INTO "characters_stories_junction" ("character_id", "story_id")
+      VALUES ($1, $2)
+    `;
+    let params = [req.body.character_id, req.body.story_id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Deletes all entries in the character-story-junction table associated with the given character
+router.delete('/characterStory/character/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterStory/character/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "characters_stories_junction"
+      WHERE "character_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "characters" AS "c"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "c"."world_id"
+                  WHERE "c"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Deletes all entries in the character-story-junction table associated with the given character
+router.delete('/characterStory/story/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterStory/story/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "characters_stories_junction"
+      WHERE "story_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "stories" AS "s"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "s"."world_id"
+                  WHERE "s"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
 // Adds a new entry to the character relationships table
 router.post('/characterRelationships', (req, res) => {
   console.log('POST /api/junction/characterRelationships')

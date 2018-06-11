@@ -130,3 +130,72 @@ export function callDeleteCharacterRelationships(id) {
     })
 };
 
+export function callPostCSJunction(payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log(payload);
+
+  return axios.post('/api/junction/characterStory', payload, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    })
+}
+
+export function callDeleteCSJunctionByCharacter(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/junction/characterStory/character/${id}`, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    })
+}
+
+export function callDeleteCSJunctionByStory(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.delete(`/api/junction/characterStory/story/${id}`, config)
+    .then(response => response)
+    .catch((error) => {
+      throw error.response || error;
+    })
+}
+

@@ -53,6 +53,10 @@ class StoryLayout extends Component {
       locationsContent = <li className="linkedElements">None</li>
     }
 
+    let charactersContent = details.characters.map(character => <li key={character.id}><Link className="linkedElements" to={`/view/character/${character.id}`}>{character.name}</Link></li>)
+    if (details.characters.length === 0) {
+      charactersContent = <li className="linkedElements">None</li>
+    }
 
     return (
       <div className="formContainer" >
@@ -64,6 +68,10 @@ class StoryLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        <ul className="connectionList">
+          <li><strong>Characters:</strong></li>
+          {charactersContent}
+        </ul>
         <ul className="connectionList">
           <li><strong>Locations:</strong></li>
           {locationsContent}

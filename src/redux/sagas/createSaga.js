@@ -2,8 +2,10 @@ import { put, takeEvery } from 'redux-saga/effects';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
+import { CHARACTER_ACTIONS } from '../actions/characterActions';
 import { callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInWorld } from '../requests/locationRequests';
+import { callCharactersInWorld } from '../requests/characterRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* changeWorld(action) {
@@ -22,6 +24,11 @@ function* changeWorld(action) {
     yield put ({
       type: LOCATION_ACTIONS.SET_LOCATIONS_IN_WORLD,
       payload: locations,
+    })
+    const characters = yield callCharactersInWorld(action.payload.id);
+    yield put ({
+      type: CHARACTER_ACTIONS.SET_CHARACTERS_IN_WORLD,
+      payload: characters,
     })
     yield put({
       type: CREATE_PAGE_ACTIONS.REQUEST_DONE,
