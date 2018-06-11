@@ -10,12 +10,14 @@ import StoryOption from '../BrowseObjectOptions/StoryOption';
 import LocationOption from '../BrowseObjectOptions/LocationOption';
 import AfterWorldObjectOption from '../BrowseObjectOptions/AfterWorldObjectOption';
 import AfterStoryObjectOption from '../BrowseObjectOptions/AfterStoryObjectOption';
+import CharacterOption from '../BrowseObjectOptions/CharacterOption';
 
 const mapStateToProps = (reduxState) => ({
   worldReducer: reduxState.worlds,
   storyReducer: reduxState.stories,
   browse: reduxState.browse,
   locationReducer: reduxState.locations,
+  characterReducer: reduxState.characters,
 })
 
 class BrowsePage extends Component {
@@ -27,9 +29,11 @@ class BrowsePage extends Component {
       afterWorldObjectOptions: [
         'Location',
         'Story',
+        'Character',
       ],
       afterStoryObjectOptions: [
         'Location',
+        'Character',
       ],
     }
   }
@@ -40,7 +44,7 @@ class BrowsePage extends Component {
 
   render() {
 
-    let storyDiv = <div></div>
+    let storyDiv;
     if (this.props.browse.afterWorldOption === 'story') {
       if (this.props.storyReducer.storiesInWorld.length === 0) {
         storyDiv = <div>
@@ -57,7 +61,7 @@ class BrowsePage extends Component {
       }
     }
 
-    let locationDiv = <div></div>
+    let locationDiv;
     if (this.props.browse.afterWorldOption === 'location' || this.props.browse.afterStoryOption === 'location') {
       let locationList = this.props.locationReducer.locationsInWorld.map(location => <LocationOption key={location.id} location={location} />)
       if (this.props.browse.afterStoryOption === 'location') {
@@ -78,7 +82,28 @@ class BrowsePage extends Component {
       }
     }
 
-    let worldSelectedDiv = <div></div>
+    let characterDiv;
+    if (this.props.browse.afterWorldOption === 'character' || this.props.browse.afterStoryOption === 'character') {
+      let characterList = this.props.characterReducer.charactersInWorld.map(character => <CharacterOption key={character.id} character={character} />)
+      if (this.props.browse.afterStoryOption === 'character') {
+        characterList = this.props.characterReducer.charactersInStory.map(character => <CharacterOption key={character.id} character={character} />)
+      }
+      if (characterList.length === 0) {
+        characterDiv = <div>
+          <h3 className="browseLineHead" >There Are No Characters Here Yet</h3>
+        </div>
+      } else {
+        characterDiv = <div>
+          <h3 className="browseLineHead" >Select a Character</h3>
+          <div className="objectContent">
+            {characterList}
+          </div>
+          <hr className="browseLineBreak" />
+        </div>
+      }
+    }
+
+    let worldSelectedDiv;
     if (this.props.browse.world.id) {
       worldSelectedDiv = <div>
         <h3 className="browseLineHead" >Select an Object</h3>
@@ -89,7 +114,7 @@ class BrowsePage extends Component {
       </div>
     }
 
-    let storySelectedDiv = <div></div>;
+    let storySelectedDiv;
     if (this.props.browse.story.id) {
       storySelectedDiv = <div>
         <h3 className="browseLineHead" >Select an Object</h3>
@@ -116,6 +141,7 @@ class BrowsePage extends Component {
             {storyDiv}
             {storySelectedDiv}
             {locationDiv}
+            {characterDiv}
           </div>
           <div className="sidebarDiv">
             <Sidebar />
