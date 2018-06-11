@@ -53,7 +53,7 @@ router.delete('/locationStory/location/:id', (req, res) => {
   }
 })
 
-// Deletes all entries in the location-story-junction table associated with the given location
+// Deletes all entries in the location-story-junction table associated with the given story
 router.delete('/locationStory/story/:id', (req, res) => {
   console.log('DELETE /api/junction/locationStory/story/:id');
   if (req.isAuthenticated) {
@@ -129,6 +129,135 @@ router.delete('/neighboringLocations/:id', (req, res) => {
         res.sendStatus(500);
         console.log(error);
       })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Adds a new entry into the character-location-junction table
+router.post('/characterLocation', (req, res) => {
+  console.log('POST /api/junction/characterLocation');
+  if (req.isAuthenticated()) {
+    let query = `
+      INSERT INTO "characters_locations_junction" ("character_id", "location_id")
+      VALUES ($1, $2);
+    `;
+    let params = [req.body.character_id, req.body.location_id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Deletes all entries in the character-location-junction table associated with the given character
+router.delete('/characterLocation/character/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterLocation/character/id');
+  if (req.isAuthenticated()) {
+    let query = `
+      DELETE FROM "characters_locations_junction"
+      WHERE "character_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "characters" AS "c"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "c"."world_id"
+                  WHERE "c"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+        .then(() => {
+          res.sendStatus(202);
+        })
+        .catch((error) => {
+          res.sendStatus(500);
+          console.log(error);
+        })
+  } else {
+    res.sentStatus(403);
+  }
+}) 
+
+// Deletes all entries in the character-location-junction table associated with the given location
+router.delete('/characterLocation/character/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterLocation/location/id');
+  if (req.isAuthenticated()) {
+    let query = `
+      DELETE FROM "characters_locations_junction"
+      WHERE "location_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "locations" AS "l"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "l"."world_id"
+                  WHERE "l"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+        .then(() => {
+          res.sendStatus(202);
+        })
+        .catch((error) => {
+          res.sendStatus(500);
+          console.log(error);
+        })
+  } else {
+    res.sentStatus(403);
+  }
+})
+
+// Adds a new entry to the character relationships table
+router.post('/characterRelationships', (req, res) => {
+  console.log('POST /api/junction/characterRelationships')
+  if (req.isAuthenticated()) {
+    let query = `
+      INSERT INTO "relationships" ("first_character_id", "second_character_id", "relationship")
+      VALUES ($1, $2, $3)
+    `;
+    let params = [req.body.first_character, req.body.second_character, req.body.relationship];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Deletes all entries in the character relationships table associated with the given character
+router.delete('/characterRelationships/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterRelationships/id');
+  if (req.isAuthenticated()) {
+    let query = `
+      DELETE FROM "relationships"
+      WHERE ("first_character_id" = $1
+      OR "second_character_id" = $1)
+      AND EXISTS (SELECT 1
+                  FROM "characters" AS "c"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "c"."world_id"
+                  WHERE "c"."id" = $1
+                  AND "w"."user_id" = $2);
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params) 
+        .then(() => {
+          res.sendStatus(202);
+        })
+        .catch((error) => {
+          res.sendStatus(500);
+          console.log(error);
+        })
   } else {
     res.sendStatus(403);
   }

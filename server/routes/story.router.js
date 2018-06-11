@@ -135,6 +135,27 @@ router.get('/withLocation/:id', (req, res) => {
     })
 })
 
+// Get all stories with the given character
+router.get('/withCharacter/:id', (req, res) => {
+  console.log('GET /api/story/withCharacter/:id');
+  let query = `
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id"
+    FROM "stories" AS "s"
+    JOIN "characters_stories_junction" AS "cs"
+    ON "s"."id" = "cs"."story_id"
+    WHERE "cs"."character_id" = $1;
+  `;
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.send(500);
+      console.log(error);
+    }) 
+})
+
 // Posts a new story to the database
 router.post('/', (req, res) => {
   console.log('POST /api/story/');

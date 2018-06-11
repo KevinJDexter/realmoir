@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     ON "l"."world_id" = "w"."id"
   `;
   let params = [];
-  if ( req.isAuthenticated() ) {
+  if (req.isAuthenticated()) {
     query = query + ` WHERE "w"."user_id" = $1;`
     params.push(req.user.id);
   }
@@ -41,7 +41,7 @@ router.get('/search/general', (req, res) => {
           OR UPPER("l"."history") LIKE UPPER($1))
   `;
   let params = [`%${req.query.searchQuery}%`];
-  if (req.isAuthenticated() ) {
+  if (req.isAuthenticated()) {
     query = query + ` AND "u"."id" = $2`;
     params.push(req.user.id);
   };
@@ -115,6 +115,27 @@ router.get('/neighbors/:id', (req, res) => {
     WHERE ("nl"."first_location" = $1
     OR "nl"."second_location" = $1)
     AND "l"."id" != $1;
+  `;
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
+// Gets all locations relating to a given character
+router.get('/character/:id', (req, res) => {
+  console.log('GET /api/location/character/id');
+  let query = `
+    SELECT "l"."id", "l"."name", "l"."description", "l"."history", "l"."climate", "l"."date_created"
+    FROM "locations" AS "l"
+    JOIN "characters_locations_junction" AS "cl"
+    ON "cl"."location_id" = "l"."id"
+    WHERE "cl"."character_id" = $1;
   `;
   let params = [req.params.id];
   pool.query(query, params)
@@ -240,13 +261,13 @@ router.put('/:id', (req, res) => {
     `;
     const params = [update.name, update.description, update.history, update.climate, update.img_url, update.private_notes, update.world_id, req.params.id, req.user.id];
     pool.query(query, params)
-        .then(() => {
-          res.sendStatus(202);
-        })
-        .catch((error) => {
-          res.sendStatus(500);
-          console.log(error);
-        })
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
   } else {
     res.sendStatus(403);
   }
