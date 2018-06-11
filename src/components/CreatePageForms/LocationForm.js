@@ -9,6 +9,7 @@ const mapStateToProps = (reduxState) => ({
   createReducer: reduxState.create,
   storyReducer: reduxState.stories,
   locationReducer: reduxState.locations,
+  characterReducer: reduxState.characters,
 })
 
 class LocationForm extends Component {
@@ -24,6 +25,7 @@ class LocationForm extends Component {
       img_url: '',
       private_notes: '',
       related_stories: [],
+      related_characters: [],
       neighboring_locations: [],
       contained_locations: [],
       contained_by_locations: [],
@@ -74,6 +76,7 @@ class LocationForm extends Component {
     let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
     let containsLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
     let containedByLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
+    let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({value: character.id, label: character.name})); 
 
     return (
       <div>
@@ -93,6 +96,16 @@ class LocationForm extends Component {
             multi={true}
             onChange={this.handleSelectChange('related_stories')}
             options={storySelectOptions}
+            placeholder="Stories this location appears in..."
+          />
+          <h5>Related Characters</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_characters}
+            multi={true}
+            onChange={this.handleSelectChange('related_characters')}
+            options={characterSelectOptions}
             placeholder="Stories this location appears in..."
           />
           <h5>Neighboring Locations</h5>

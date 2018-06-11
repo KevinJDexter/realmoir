@@ -3,7 +3,7 @@ import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callLocations, callPostLocation, callLocationDetails, callLocationsInWorld, callDeleteLocation, callEditLocationDetails, callNeighboringLocations } from '../requests/locationRequests';
-import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations } from '../requests/junctionRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations, callPostCLJunction } from '../requests/junctionRequests';
 import { callStoriesWithLocation } from '../requests/storyRequests';
 import { callCharactersVisitedLocation, callCharacterHomeIs } from '../requests/characterRequests';
 
@@ -28,6 +28,9 @@ function* createLocation(action) {
     const locationId = yield callPostLocation(action.payload);
     yield all (action.payload.related_stories.forEach(story => {
       callLocationStoryJunction({location_id: locationId, story_id: story.value});
+    }))
+    yield all (action.payload.related_characters.forEach(character => {
+      callPostCLJunction({location_id: locationId, character_id: character.value})
     }))
     yield all (action.payload.neighboring_locations.forEach(location => {
       callPostNeighboringLocations({first_location: locationId, second_location: location.value, contained_in: false});
