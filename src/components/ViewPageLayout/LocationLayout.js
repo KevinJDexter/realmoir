@@ -56,6 +56,19 @@ class LocationLayout extends Component {
       storiesContent = details.stories.map(story => <Link className="linkedElements" key={story.id} to={`/view/story/${story.id}`} >{story.title}</Link>)
     }
 
+    let charactersContent = <li className="linkedElements">None</li>
+    if (details.characters.length > 0) {
+      charactersContent = details.characters.map(character => <Link className="linkedElements" key={character.id} to={`/view/character/${character.id}`} >{character.name}</Link>)
+    }
+
+    let homeToContent;
+    if (details.homeTo.length > 0) {
+      homeToContent = <ul className="connectionList">
+        <li><strong>Home To:</strong></li>
+        {details.homeTo.map(character => <Link className="linkedElements" key={character.id} to={`/view/character/${character.id}`} >{character.name}</Link>)}
+      </ul>
+    }
+
     let neighboringLocationsContent = <li className="linkedElements">None</li>
     if (neighbors.length > 0) {
       neighboringLocationsContent = neighbors.map(location => <Link className="linkedElements" key={location.id} to={`/view/location/${location.id}`} >{location.name}</Link>)
@@ -102,6 +115,11 @@ class LocationLayout extends Component {
           <li><strong>Stories:</strong></li>
           {storiesContent}
         </ul>
+        <ul className="connectionList" >
+          <li><strong>Related Characters:</strong></li>
+          {charactersContent}
+        </ul>
+        {homeToContent}
         <ul className="connectionList" >
           <li><strong>Neighboring Locations:</strong></li>
           {neighboringLocationsContent}

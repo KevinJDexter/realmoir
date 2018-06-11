@@ -150,6 +150,24 @@ router.get('/location/:id', (req, res) => {
     })
 })
 
+router.get('/homeIs/:id', (req, res) => {
+  console.log('GET /api/character/homeIs/id')
+  let query = `
+    SELECT "id", "name", "alias", "description", "bio", "date_created"
+    FROM "characters"
+    WHERE "home" = $1;
+  `; 
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
 // Gets all characters related to the given character
 router.get('/relationships/:id', (req, res) => {
   console.log('GET /api/character/relationships/id')

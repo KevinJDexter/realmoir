@@ -78,6 +78,19 @@ export function callCharactersVisitedLocation(id) {
     }); 
 }
 
+export function callCharacterHomeIs(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/character/homeIs/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    }); 
+}
+
 export function callCharacterRelationships(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
