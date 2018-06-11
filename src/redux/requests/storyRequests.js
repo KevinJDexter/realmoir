@@ -93,7 +93,23 @@ export function editStoryDetails(action) {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
-
+     
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log('hit');
+  console.log(action);
   return axios.put(`/api/story/${action.id}`, action.payload, config)
     .then(response => response)
     .catch((error) => { throw error.response || error });

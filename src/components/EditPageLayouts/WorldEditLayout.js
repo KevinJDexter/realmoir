@@ -54,9 +54,15 @@ class WorldEditLayout extends Component {
   }
 
   confirmEdits = () => {
+    let toSend = {...this.state};
+    for (var key in toSend) {
+      if (toSend[key] === '') {
+        toSend[key] = null;
+      }
+    }
     const action = {
       type: WORLD_ACTIONS.SUBMIT_WORLD_EDITS,
-      payload: this.state,
+      payload: toSend,
       id: this.props.match.params.id,
     }
     this.props.dispatch(action);

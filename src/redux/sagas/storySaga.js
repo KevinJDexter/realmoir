@@ -5,8 +5,9 @@ import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory, callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInStory } from '../requests/locationRequests';
 import { callCharactersInStory } from '../requests/characterRequests';
-import { callLocationStoryJunction, callDeleteLSJunctionByStory, callPostCSJunction } from '../requests/junctionRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByStory, callPostCSJunction, callDeleteCSJunctionByStory } from '../requests/junctionRequests';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
+import { CHARACTER_ACTIONS } from '../actions/characterActions';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchStories() {
@@ -43,31 +44,8 @@ function* fetchGenres() {
 
 function* submitStory(action) {
   try {
-
     yield put({ type: STORY_ACTIONS.REQUEST_START });
     const story_id = yield postNewStory(action.payload);
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log('hit');
-    console.log(action.payload);
     yield all(action.payload.related_locations.forEach(location => {
       callLocationStoryJunction({ location_id: location.value, story_id: story_id });
     }));
@@ -98,6 +76,10 @@ function* fetchStoryDetails(action) {
       type: LOCATION_ACTIONS.GET_LOCATIONS_IN_WORLD,
       payload: storyDetails.world_id,
     })
+    yield put({
+      type: CHARACTER_ACTIONS.GET_CHARACTERS_IN_WORLD,
+      payload: storyDetails.world_id,
+    })
     yield put({ type: STORY_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put({ type: STORY_ACTIONS.REQUEST_DONE });
@@ -105,12 +87,16 @@ function* fetchStoryDetails(action) {
 }
 
 function* modifyStoryDetails(action) {
-  try {
+  try { 
     yield put({ type: STORY_ACTIONS.REQUEST_START });
     yield editStoryDetails(action);
     yield callDeleteLSJunctionByStory(action.id);
-    yield all(action.payload.related_locations.map(location => {
+    yield all(action.payload.related_locations.forEach(location => {
       callLocationStoryJunction({ location_id: location.value, story_id: action.id });
+    }))
+    yield callDeleteCSJunctionByStory(action.id);
+    yield all(action.payload.related_characters.forEach(character => {
+      callPostCSJunction({ character_id: character.value, story_id: action.id});
     }))
     yield put({
       type: STORY_ACTIONS.GET_STORY_DETAILS,

@@ -25,16 +25,16 @@ function* createLocation(action) {
   try {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     const locationId = yield callPostLocation(action.payload);
-    yield all (action.payload.related_stories.map(story => {
+    yield all (action.payload.related_stories.forEach(story => {
       callLocationStoryJunction({location_id: locationId, story_id: story.value});
     }))
-    yield all (action.payload.neighboring_locations.map(location => {
+    yield all (action.payload.neighboring_locations.forEach(location => {
       callPostNeighboringLocations({first_location: locationId, second_location: location.value, contained_in: false});
     }))
-    yield all (action.payload.contained_locations.map(location => {
+    yield all (action.payload.contained_locations.forEach(location => {
       callPostNeighboringLocations({first_location: locationId, second_location: location.value, contained_in: true});
     }))
-    yield all (action.payload.contained_by_locations.map(location => {
+    yield all (action.payload.contained_by_locations.forEach(location => {
       callPostNeighboringLocations({first_location: location.value, second_location: locationId, contained_in: true});
     }))
     yield put({ type: CREATE_PAGE_ACTIONS.CLEAR_CREATE_STORY })
@@ -92,17 +92,17 @@ function* modifyLocationDetails(action) {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     yield callEditLocationDetails(action);
     yield callDeleteLSJunctionByLocation(action.id);
-    yield all (action.payload.related_stories.map(story => {
+    yield all (action.payload.related_stories.forEach(story => {
       callLocationStoryJunction({location_id: action.id, story_id: story.value})
     }))
     yield callDeleteNeighboringLocations(action.id);
-    yield all (action.payload.neighboring_locations.map(location => {
+    yield all (action.payload.neighboring_locations.forEach(location => {
       callPostNeighboringLocations({first_location: action.id, second_location: location.value, contained_in: false});
     }))
-    yield all (action.payload.contained_locations.map(location => {
+    yield all (action.payload.contained_locations.forEach(location => {
       callPostNeighboringLocations({first_location: action.id, second_location: location.value, contained_in: true});
     }))
-    yield all (action.payload.contained_by_locations.map(location => {
+    yield all (action.payload.contained_by_locations.forEach(location => {
       callPostNeighboringLocations({first_location: location.value, second_location: action.id, contained_in: true});
     })) 
     yield put ({ 

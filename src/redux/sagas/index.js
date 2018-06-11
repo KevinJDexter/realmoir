@@ -9,6 +9,7 @@ import createSaga from './createSaga';
 import homeSaga from './homeSaga';
 import searchSaga from './searchSaga';
 import locationSaga from './locationSaga';
+import characterSaga from './characterSaga';
 
 
 export default function* rootSaga() {
@@ -23,6 +24,7 @@ export default function* rootSaga() {
     homeSaga(),
     searchSaga(),
     locationSaga(),
+    characterSaga(),
     // watchIncrementAsync()
   ]);
 }

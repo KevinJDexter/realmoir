@@ -55,9 +55,15 @@ class LocationForm extends Component {
   }
 
   submitLocation = () => {
+    let toSend = { ...this.state };
+    for (var key in toSend) {
+      if (toSend[key] === '') {
+        toSend[key] = null;
+      }
+    }
     this.props.dispatch({
       type: LOCATION_ACTIONS.CREATE_NEW_LOCATION,
-      payload: this.state,
+      payload: toSend,
     });
     this.props.history.push('/home');
   }

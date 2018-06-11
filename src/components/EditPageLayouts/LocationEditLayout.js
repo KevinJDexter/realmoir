@@ -92,9 +92,15 @@ class LocationEditLayout extends Component {
   }
 
   editLocation = () => {
+    let toSend = {...this.state};
+    for (var key in toSend) {
+      if (toSend[key] === '') {
+        toSend[key] = null;
+      }
+    }
     this.props.dispatch ({
       type: LOCATION_ACTIONS.SUBMIT_EDIT_LOCATION,
-      payload: this.state,
+      payload: toSend,
       id: this.props.match.params.id,
     })
     this.props.history.push(`/view/location/${this.props.match.params.id}`);

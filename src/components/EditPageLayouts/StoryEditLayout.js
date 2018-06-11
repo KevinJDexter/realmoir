@@ -9,6 +9,7 @@ import 'react-select/dist/react-select.css';
 const mapStateToRedux = (reduxState) => ({ 
   storyReducer: reduxState.stories,
   locationReducer: reduxState.locations,
+  characterReducer: reduxState.characters,
 });
 
 class StoryEditLayout extends Component {
@@ -24,6 +25,7 @@ class StoryEditLayout extends Component {
       private_notes: '',
       world_id: '',
       related_locations: [],
+      related_characters: [],
     }
   }
 
@@ -50,6 +52,7 @@ class StoryEditLayout extends Component {
       }
 
       let related_locations = details.locations.map(location => ({value: location.id, label: location.name}))
+      let related_characters = details.characters.map(character => ({value: character.id, label: character.name}))
       
       this.setState({
         startingTitle: details.title,
@@ -60,6 +63,7 @@ class StoryEditLayout extends Component {
         genre_id: details.genre_id,
         world_id: details.world_id,
         related_locations: related_locations,
+        related_characters: related_characters,
       })
     }
   }
@@ -77,9 +81,15 @@ class StoryEditLayout extends Component {
   }
 
   submitEdits = () => {
+    let toSend = { ...this.state };
+    for (var key in toSend) {
+      if (toSend[key] === '') {
+        toSend[key] = null;
+      }
+    }
     this.props.dispatch({
       type: STORY_ACTIONS.SUBMIT_EDIT_STORY,
-      payload: this.state,
+      payload: toSend,
       id: this.props.match.params.id,
     });
     this.props.history.push(`/view/story/${this.props.match.params.id}`);
@@ -99,6 +109,7 @@ class StoryEditLayout extends Component {
   render() {
     const details = { ...this.props.storyReducer.storyDetails };
     const locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
+    const characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({value: character.id, label: character.name}));
 
     return (
       <div>
@@ -121,6 +132,16 @@ class StoryEditLayout extends Component {
           <TextField className="editFormWide" rows="6" multiline label="Synopsis" value={this.state.synopsis} onChange={this.handleChange('synopsis')} />
           <TextField className="editFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
           <TextField className="editFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          <h5>Contains Characters</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_characters}
+            multi={true}
+            onChange={this.handleSelectChange('related_characters')}
+            options={characterSelectOptions}
+            placeholder="Characters contained in this story..."
+          />
           <h5>Contains Locations</h5>
           <ReactSelect
             className="createFormSelect"
