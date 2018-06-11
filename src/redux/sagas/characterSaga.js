@@ -73,7 +73,7 @@ function* fetchCreateCharacter(action) {
   }
 }
 
-function fetchDeleteCharacter(action) {
+function* fetchDeleteCharacter(action) {
   try {
     yield put({ type: CHARACTER_ACTIONS.REQUEST_START });
     yield callDeleteCharacter(action.payload);
@@ -90,15 +90,15 @@ function* fetchEditCharacter(action) {
     yield callEditCharacter(action);
     yield callDeleteCSJunctionByCharacter(action.id);
     yield all (action.payload.related_stories.forEach(story => {
-      callLocationStoryJunction({location_id: action.id, story_id: story.value})
+      callPostCSJunction({character_id: action.id, story_id: story.value})
     }))
     yield callDeleteCLJunctionByCharacter(action.id);
     yield all(action.payload.related_locations.forEach(location => {
       callPostCLJunction({character_id: action.id, location_id: location.value})
     }))
     yield callDeleteCharacterRelationships(action.id);
-    yield all (action.payload.related_characters.forEach(location => {
-      callPostNeighboringLocations({first_character: action.id, second_character: character.value, relationship: character.relationship});
+    yield all (action.payload.related_characters.forEach(character => {
+      callPostCharacterRelationships({first_character: action.id, second_character: character.value, relationship: character.relationship});
     }))
     yield put ({ 
       type: CHARACTER_ACTIONS.GET_CHARACTER_DETAILS,

@@ -131,7 +131,7 @@ class LocationEditLayout extends Component {
 
     return (
       <div>
-        <h3>New Location in {this.props.createReducer.world.name}</h3>
+        <h3>Modifying {this.state.startingName}</h3>
         <form>
           <TextField className="createFormStandard" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
           <TextField className="createFormWide" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />

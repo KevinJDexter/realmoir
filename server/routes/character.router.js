@@ -175,8 +175,8 @@ router.get('/relationships/:id', (req, res) => {
     SELECT "c"."id", "c"."name", "r"."relationship"
     FROM "relationships" AS "r"
     JOIN "characters" AS "c"
-    ON "r"."first_character_id" = $1
-    OR "r"."second_character_id" = $1
+    ON "r"."first_character_id" = "c"."id"
+    OR "r"."second_character_id" = "c"."id"
     WHERE ("r"."first_character_id" = $1
     OR "r"."second_character_id" = $1)
     AND "c"."id" != $1
@@ -197,6 +197,7 @@ router.post('/', (req, res) => {
   console.log('POST /api/character')
   if (req.isAuthenticated()) {
     const character = req.body;
+    console.log(character);
     let query = `
     INSERT INTO "characters" (
       "name",
@@ -230,7 +231,7 @@ router.post('/', (req, res) => {
       character.age,
       character.height,
       character.gender,
-      character.home,
+      character.home_id,
       character.description,
       character.bio,
       character.img_url,
@@ -275,7 +276,7 @@ router.put('/:id', (req, res) => {
         "private_notes" = $15
     WHERE "id" = $16
     AND EXISTS (SELECT 1
-                FROM "characters AS "c"
+                FROM "characters" AS "c"
                 JOIN "worlds" AS "w"
                 ON "w"."id" = "c"."world_id"
                 WHERE "c"."id" = $16
@@ -292,10 +293,11 @@ router.put('/:id', (req, res) => {
       update.age,
       update.height,
       update.gender,
-      update.home,
+      update.home_id,
       update.description,
       update.bio,
       update.img_url,
+      update.private_notes,
       req.params.id,
       req.user.id
     ];
