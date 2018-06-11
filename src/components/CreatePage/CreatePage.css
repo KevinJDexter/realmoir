@@ -41,6 +41,12 @@
   margin: 10px 0px !important;
 }
 
+.createFormSmall {
+  width: 20%;
+  margin: 10px !important;
+  background-color: rgba(255,255,255,.1);
+}
+
 .createFormSelect {
   width: 80%;
   margin: 20px auto;
@@ -51,6 +57,12 @@
 }
 
 .createFormGenre {
+  background-color: rgba(255,255,255,.1);
+  width: fit-content;
+  margin: auto;
+}
+
+.createFormHome {
   background-color: rgba(255,255,255,.1);
   width: fit-content;
   margin: auto;

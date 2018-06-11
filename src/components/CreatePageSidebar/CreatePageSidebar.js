@@ -29,6 +29,7 @@ class CreatePageSidebar extends Component {
     if (this.props.createPageReducer.world.id) {
       worldSelectedDiv = <div>
         <a className="createNewLink color-secondary-1-0" onClick={this.getForm('story')} >Create new Story in World</a>
+        <a className="createNewLink color-secondary-1-0" onClick={this.getFormFromWorld('character')} >Create new Character in World</a>
         <a className="createNewLink color-secondary-1-0" onClick={this.getFormFromWorld('location')} >Create new Location in World</a>
       </div>
     }
@@ -44,6 +45,7 @@ class CreatePageSidebar extends Component {
     let storySelectedDiv = <div></div>
     if (this.props.createPageReducer.story.id) {
       storySelectedDiv = <div>
+        <a className="createNewLink color-secondary-1-0" onClick={this.getForm('character')} >Create new Character in Story</a>
         <a className="createNewLink color-secondary-1-0" onClick={this.getForm('location')} >Create new Location in Story</a>
       </div>
     }
