@@ -5,6 +5,7 @@ import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callWorlds, postNewWorld, callWorldDetails, editWorldDetails, deleteWorld } from '../requests/worldRequests';
 import { callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInWorld } from '../requests/locationRequests';
+import { callCharactersInWorld } from '../requests/characterRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchWorlds() {
@@ -52,7 +53,7 @@ function* fetchWorldDetails(action) {
     const worldDetails = yield callWorldDetails(action.payload);
     worldDetails.stories = yield callStoriesInWorld(action.payload);
     worldDetails.locations = yield callLocationsInWorld(action.payload);
-    // const isOwner = yield callIsOwnerOfWorld(action.payload);
+    worldDetails.characters = yield callCharactersInWorld(action.payload);
     yield put ({ 
       type: WORLD_ACTIONS.SET_WORLD_DETAILS,
       payload: worldDetails,

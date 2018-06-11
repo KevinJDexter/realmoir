@@ -49,6 +49,11 @@ class WorldLayout extends Component {
       locationsContent = <li className="linkedElements">None</li>
     }
 
+    let charactersContent = details.characters.map(character => <li key={character.id}><Link className="linkedElements" to={`/view/character/${character.id}`}>{character.name}</Link></li>)
+    if (details.characters.length === 0) {
+      charactersContent = <li className="linkedElements">None</li>
+    }
+
     let editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
@@ -66,6 +71,10 @@ class WorldLayout extends Component {
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}
+        </ul>
+        <ul className="connectionList" >
+          <li><strong>Characters:</strong></li>
+          {charactersContent}
         </ul>
         <ul className="connectionList" >
           <li><strong>Locations:</strong></li>
