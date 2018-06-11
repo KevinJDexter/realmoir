@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import World from '@material-ui/icons/Public';
 import Book from '@material-ui/icons/Book';
 import Location from '@material-ui/icons/LocationCity';
+import Character from '@material-ui/icons/Person'
 
 class SearchResultRow extends Component {
 
   render() {
-    
+
     let item = { ...this.props.item };
     for (var key in item) {
       if (item[key] === null) {
@@ -69,6 +70,24 @@ class SearchResultRow extends Component {
           </p>
           <p className="searchItemContent">
             <strong>History: </strong>{item.history}
+          </p>
+        </div>
+      case 'character':
+        toDisplay = <div>
+          <div>
+            <Character />
+            <h3 className="searchItemType" >
+              <Link to={`view/character/${item.id}`} >
+                {item.name}
+              </Link>
+            </h3>
+            <Character />
+          </div>
+          <p className="searchItemContent">
+            <strong>Description: </strong>{item.description}
+          </p>
+          <p className="searchItemContent">
+            <strong>Bio: </strong>{item.bio}
           </p>
         </div>
       default:
