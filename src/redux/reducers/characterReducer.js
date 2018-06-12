@@ -39,7 +39,7 @@ const charactersInStory = (state = [], action) => {
   }
 }
 
-const characterDetails = (state = {stories: [], relationships: [], locations: []}, action) => {
+const characterDetails = (state = {stories: [], relationships: [], locations: [], events: []}, action) => {
   switch (action.type) {
     case CHARACTER_ACTIONS.SET_CHARACTER_DETAILS:
       return action.payload;

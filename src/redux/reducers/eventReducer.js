@@ -39,7 +39,7 @@ const eventsInStory = (state = [], action) => {
   }
 }
 
-const eventDetails = (state = {stories: [], relationships: [], locations: []}, action) => {
+const eventDetails = (state = {stories: [], characters: []}, action) => {
   switch (action.type) {
     case EVENT_ACTIONS.SET_EVENT_DETAILS:
       return action.payload;
