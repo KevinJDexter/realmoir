@@ -37,7 +37,7 @@ router.get('/search/general', (req, res) => {
     WHERE (UPPER("e"."name") LIKE UPPER($1)
            ON UPPER("e"."description") LIKE UPPER($1))
   `;
-  let params = [req.body.searchQuery];
+  let params = [req.query.searchQuery];
   if (req.isAuthenticated()) {
     query = query + ` AND "w"."user_id" = $2`;
     params.push(req.user.id);
