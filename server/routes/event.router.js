@@ -113,7 +113,7 @@ router.get('/inStory/:id', (req, res) => {
   let query = `
     SELECT "e"."id", "e"."name", "e"."description", "e"."date_created"
     FROM "events" AS "e"
-    JOIN "event_stories_junction" AS "es"
+    JOIN "events_stories_junction" AS "es"
     ON "e"."id" = "es"."event_id"
     WHERE "es"."story_id" = $1
   `;
