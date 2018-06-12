@@ -16,6 +16,7 @@ const genreRouter = require('./routes/genre.router');
 const locationRouter = require('./routes/location.router');
 const junctionRouter = require('./routes/junction.router');
 const characterRouter = require('./routes/character.router');
+const eventRouter = require('./routes/event.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -36,6 +37,7 @@ app.use('/api/genre', genreRouter);
 app.use('/api/location', locationRouter);
 app.use('/api/junction', junctionRouter);
 app.use('/api/character', characterRouter);
+app.use('/api/event', eventRouter);
 
 // Serve static files
 app.use(express.static('build'));
