@@ -1,25 +1,78 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
-import { CHARACTER_ACTIONS } from '../actions/characterActions';
 import { EVENT_ACTIONS } from '../actions/eventActions';
+import { callEventDetails } from '../requests/eventRequests';
+import { callCharacterAtEvent } from '../requests/characterRequests';
+import { callStoriesWithEvent } from '../requests/storyRequests';
+import { CHARACTER_ACTIONS } from '../actions/characterActions';
+import { STORY_ACTIONS } from '../actions/storyActions';
+import { LOCATION_ACTIONS } from '../actions/locationActions';
 
-function* fetchEventDetails (action) {
-
+function* fetchEventDetails(action) {
+  try {
+    yield put({ type: EVENT_ACTIONS.REQUEST_START });
+    let event = callEventDetails(action.payload);
+    event.characters = callCharacterAtEvent(action.payload);
+    event.stories = callStoriesWithEvent(action.payload);
+    yield put ({
+      type: EVENT_ACTIONS.SET_EVENT_DETAILS,
+      payload: event,
+    })
+    yield put ({
+      type: CHARACTER_ACTIONS.GET_CHARACTERS_IN_WORLD,
+      payload: event.world_id,
+    })
+    yield put ({
+      type: STORY_ACTIONS.GET_STORIES_IN_WORLD,
+      payload: event.world_id,
+    })
+    yield put ({ 
+      type: LOCATION_ACTIONS.GET_LOCATIONS_IN_WORLD,
+      payload: event.world_id,
+    })
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  }
 }
 
-function* fetchEventsInWorld (action) {
+function* fetchEventsInWorld(action) {
+  try {
+    yield put({ type: EVENT_ACTIONS.REQUEST_START });
 
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  }
 }
 
-function* fetchCreateEvent (action) {
+function* fetchCreateEvent(action) {
+  try {
+    yield put({ type: EVENT_ACTIONS.REQUEST_START });
 
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  }
 }
 
-function* fetchDeleteEvent (action) {
+function* fetchDeleteEvent(action) {
+  try {
+    yield put({ type: EVENT_ACTIONS.REQUEST_START });
 
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  }
 }
 
-function fetchEditEvent (action) {
+function* fetchEditEvent(action) {
+  try {
+    yield put({ type: EVENT_ACTIONS.REQUEST_START });
 
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  } catch (error) {
+    yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
+  }
 }
 
 function* eventSaga() {
