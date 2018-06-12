@@ -35,7 +35,7 @@ function* changeAfterWorldOption(action) {
         payload: characters,
       })
     } else if (action.payload === 'event') {
-      const events = yield callCharactersInWorld(action.id);
+      const events = yield callEventsInWorld(action.id);
       yield put ({
         type: EVENT_ACTIONS.SET_EVENTS_IN_WORLD,
         payload: events,
