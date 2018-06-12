@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 import { EVENT_ACTIONS } from '../actions/eventActions';
-import { callEventDetails, callEventsInWorld, callPostNewEvent } from '../requests/eventRequests';
+import { callEventDetails, callEventsInWorld, callPostNewEvent, callDeleteEvent } from '../requests/eventRequests';
 import { callCharacterAtEvent } from '../requests/characterRequests';
 import { callStoriesWithEvent } from '../requests/storyRequests';
 import { callPostCEJunction, callPostESJunction, callDeleteCEJunctionByEvent, callDeleteESJunctionByEvent } from '../requests/junctionRequests';
@@ -73,7 +73,8 @@ function* fetchCreateEvent(action) {
 function* fetchDeleteEvent(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
-
+    yield callDeleteEvent(action.payload);
+    yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
