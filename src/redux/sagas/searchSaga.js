@@ -19,7 +19,7 @@ function* getSearchResults(action) {
     characters = characters.map(character => ({...character, objectType: 'character'}));
     let events = yield callSearchEvents(action.payload);
     events = events.map(event => ({...event, objectType: 'event'}))
-    const searchResults = [...worlds, ...stories, ...locations, ...characters, ...event];
+    const searchResults = [...worlds, ...stories, ...locations, ...characters, ...events];
     yield put({ type: SEARCH_ACTIONS.SET_SEARCH_RESULTS, payload: searchResults });
     yield put({ type: SEARCH_ACTIONS.REQUEST_DONE });
   } catch (error) {
