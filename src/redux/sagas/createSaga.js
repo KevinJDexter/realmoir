@@ -6,6 +6,8 @@ import { CHARACTER_ACTIONS } from '../actions/characterActions';
 import { callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInWorld } from '../requests/locationRequests';
 import { callCharactersInWorld } from '../requests/characterRequests';
+import { callEventsInWorld } from '../requests/eventRequests';
+import { EVENT_ACTIONS } from '../actions/eventActions';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* changeWorld(action) {
@@ -29,6 +31,11 @@ function* changeWorld(action) {
     yield put ({
       type: CHARACTER_ACTIONS.SET_CHARACTERS_IN_WORLD,
       payload: characters,
+    })
+    const events = yield callEventsInWorld(action.payload.id);
+    yield put ({
+      type: EVENT_ACTIONS.SET_EVENTS_IN_WORLD,
+      payload: events,
     })
     yield put({
       type: CREATE_PAGE_ACTIONS.REQUEST_DONE,
