@@ -35,9 +35,9 @@ router.get('/search/general', (req, res) => {
     JOIN "worlds" AS "w"
     ON "e"."world_id" = "w"."id"
     WHERE (UPPER("e"."name") LIKE UPPER($1)
-           ON UPPER("e"."description") LIKE UPPER($1))
+           OR UPPER("e"."description") LIKE UPPER($1))
   `;
-  let params = [req.query.searchQuery];
+  let params = [`%${req.query.searchQuery}%`];
   if (req.isAuthenticated()) {
     query = query + ` AND "w"."user_id" = $2`;
     params.push(req.user.id);
