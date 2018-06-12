@@ -57,6 +57,11 @@ class CharacterLayout extends Component {
       relationshipsContent = details.relationships.map(character => <Link key={character.id} className="linkedElements" to={`/view/character/${character.id}`}>{character.name}</Link> )
     }
 
+    let eventsContent = <li className="linkedElements" >None</li>
+    if (details.events.length > 0) {
+      eventsContent = details.events.map(event => <Link key={event.id} className="linkedElements" to={`/view/event/${event.id}`}>{event.name}</Link> )
+    }
+
     let editButton, privateNotes;
 
     if (details.is_owner !== false) {
@@ -97,6 +102,10 @@ class CharacterLayout extends Component {
         <ul className="connectionList" >
           <li><strong>Locations Visited:</strong></li>
           {locationsContent}
+        </ul>
+        <ul className="connectionList" >
+          <li><strong>Events Visited:</strong></li>
+          {eventsContent}
         </ul>
         {editButton}
       </div>
