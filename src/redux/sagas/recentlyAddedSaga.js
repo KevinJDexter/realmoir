@@ -18,6 +18,7 @@ function* getRecentlyAdded() {
     let characters = yield callCharacters();
     characters = characters.map(character => ({...character, objectType: 'character' }))
     let events = yield callEvents();
+    events = events.map(event => ({...event, objectType: 'event' }))
     const recentlyAdded = [...worlds, ...stories, ...locations, ...characters, ...events]
     yield put({ type: RECENTLY_ADDED_ACTIONS.SET_RECENTLY_ADDED, payload: recentlyAdded });
     yield put({ type: RECENTLY_ADDED_ACTIONS.REQUEST_DONE });
