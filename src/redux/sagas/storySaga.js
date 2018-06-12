@@ -9,6 +9,7 @@ import { callEventsInStory } from '../requests/eventRequests';
 import { callLocationStoryJunction, callDeleteLSJunctionByStory, callPostCSJunction, callDeleteCSJunctionByStory, callPostESJunction, callDeleteESJunctionByStory } from '../requests/junctionRequests';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
+import { EVENT_ACTIONS } from '../actions/eventActions';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchStories() {
@@ -82,6 +83,10 @@ function* fetchStoryDetails(action) {
     })
     yield put({
       type: CHARACTER_ACTIONS.GET_CHARACTERS_IN_WORLD,
+      payload: storyDetails.world_id,
+    })
+    yield put({
+      type: EVENT_ACTIONS.GET_EVENTS_IN_WORLD,
       payload: storyDetails.world_id,
     })
     yield put({ type: STORY_ACTIONS.REQUEST_DONE });
