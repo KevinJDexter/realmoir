@@ -1,11 +1,14 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 import { EVENT_ACTIONS } from '../actions/eventActions';
-import { callEventDetails, callEventsInWorld } from '../requests/eventRequests';
+import { callEventDetails, callEventsInWorld, callPostNewEvent } from '../requests/eventRequests';
 import { callCharacterAtEvent } from '../requests/characterRequests';
 import { callStoriesWithEvent } from '../requests/storyRequests';
+import { callPostCEJunction, callPostESJunction, callDeleteCEJunctionByEvent, callDeleteESJunctionByEvent } from '../requests/junctionRequests';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
+import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
+import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
 
 function* fetchEventDetails(action) {
   try {
@@ -52,7 +55,15 @@ function* fetchEventsInWorld(action) {
 function* fetchCreateEvent(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
-
+    const event_id = yield callPostNewEvent(action.payload);
+    yield all(action.payload.related_stories.forEach(story => {
+      callPostESJunction({event_id: event_id, story_id: story.value})
+    }))
+    yield all(action.payload.related_characters.forEach(character => {
+      callPostCEJunction({event_id: event_id, character_id: character.value})
+    }))
+    yield put({ type: CREATE_PAGE_ACTIONS.CLEAR_FORM_INFO })
+    yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED })
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
