@@ -91,6 +91,19 @@ export function callCharacterHomeIs(id) {
     }); 
 }
 
+export function callCharacterAtEvent(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/character/event/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => {
+      throw error.response || error;
+    });  
+}
+
 export function callCharacterRelationships(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
