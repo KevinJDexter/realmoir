@@ -39,6 +39,7 @@ class CreateObjectDropdown extends Component {
           inputProps={{ name: 'story', id: 'story-select' }}>
           <MenuItem value='Character'>Character</MenuItem>
           <MenuItem value='Location'>Location</MenuItem>
+          <MenuItem value='Event'>Event</MenuItem>
         </Select>
       </FormControl>
       <Link to='/create' onClick={this.setCreateType} >Create a new {this.state.valueField}</Link>
