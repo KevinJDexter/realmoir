@@ -61,7 +61,7 @@ router.get('/:id', (req, res) => {
     CASE WHEN "w"."user_id" = $1
          THEN "e"."private_notes"
          ELSE NULL
-         END AS "private_notes"
+         END AS "private_notes",
     CASE WHEN "w"."user_id" = $1
          THEN true
          ELSE false

@@ -20,7 +20,7 @@ export function callEventDetails(id) {
   };
 
   return axios.get(`/api/event/${id}`, config)
-    .then(response => response.data)
+    .then(response => response.data[0])
     .catch((error) => {
       throw error.response || error;
     });
