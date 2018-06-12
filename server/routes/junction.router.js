@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const pool = require('../modules/pool');
 
+
+// LOCATOINS_STORIES_JUNCTION
+
 // Posts a new entry into the location-story-junction table
 router.post('/locationStory', (req, res) => {
   console.log('POST /api/junction/locationStory');
@@ -83,6 +86,9 @@ router.delete('/locationStory/story/:id', (req, res) => {
   }
 })
 
+
+// NEIGHBORING_LOCATIONS_JUNCTION
+
 // Posts a new entry into the neighboring-locations table
 router.post('/neighboringLocations/', (req, res) => {
   console.log('POST /api/junction/neighboringLocations');
@@ -134,6 +140,9 @@ router.delete('/neighboringLocations/:id', (req, res) => {
   }
 })
 
+
+// CHARACTERS_LOCATIONS_JUNCTION
+
 // Adds a new entry into the character-location-junction table
 router.post('/characterLocation', (req, res) => {
   console.log('POST /api/junction/characterLocation');
@@ -172,17 +181,17 @@ router.delete('/characterLocation/character/:id', (req, res) => {
     `;
     let params = [req.params.id, req.user.id];
     pool.query(query, params)
-        .then(() => {
-          res.sendStatus(202);
-        })
-        .catch((error) => {
-          res.sendStatus(500);
-          console.log(error);
-        })
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
   } else {
     res.sentStatus(403);
   }
-}) 
+})
 
 // Deletes all entries in the character-location-junction table associated with the given location
 router.delete('/characterLocation/location/:id', (req, res) => {
@@ -200,17 +209,20 @@ router.delete('/characterLocation/location/:id', (req, res) => {
     `;
     let params = [req.params.id, req.user.id];
     pool.query(query, params)
-        .then(() => {
-          res.sendStatus(202);
-        })
-        .catch((error) => {
-          res.sendStatus(500);
-          console.log(error);
-        })
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
   } else {
     res.sentStatus(403);
   }
 })
+
+
+// CHARACTERS_STORIES_JUNCTION
 
 // Adds a new entry into the character-story-junction table
 router.post('/characterStory', (req, res) => {
@@ -290,6 +302,9 @@ router.delete('/characterStory/story/:id', (req, res) => {
   }
 })
 
+
+// RELATIONSHIPS_JUNCTION
+
 // Adds a new entry to the character relationships table
 router.post('/characterRelationships', (req, res) => {
   console.log('POST /api/junction/characterRelationships')
@@ -328,14 +343,176 @@ router.delete('/characterRelationships/:id', (req, res) => {
                   AND "w"."user_id" = $2);
     `;
     let params = [req.params.id, req.user.id];
-    pool.query(query, params) 
-        .then(() => {
-          res.sendStatus(202);
-        })
-        .catch((error) => {
-          res.sendStatus(500);
-          console.log(error);
-        })
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+
+// CHARACTERS_EVENTS_JUNCTION
+
+// Adds a new entry to the character-events-junction table
+router.post('/characterEvent', (req, res) => {
+  console.log('POST /api/junction/characterEvent');
+  if (req.isAuthenticated()) {
+    let query = `
+      INSERT INTO "characters_events_junction" ("character_id", "event_id")
+      VALUES ($1, $2);
+    `;
+    let params = [req.body.character_id, req.body.event_id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Removes all entries from the character-event-junction table with the given character
+router.delete('/characterEvent/character/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterEvent/character/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "characters_events_junction"
+      WHERE "character_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "characters" AS "c"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "c"."world_id"
+                  WHERE "c"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Removes all entries from the character-event-junction table with the given event
+router.delete('/characterEvent/event/:id', (req, res) => {
+  console.log('DELETE /api/junction/characterEvent/event/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "characters_events_junction"
+      WHERE "event_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "events" AS "e"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "e"."world_id"
+                  WHERE "e"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+
+// EVENTS_STORIES_JUNCTION
+
+// Adds a new entry to the events-story-junction table
+router.post('/eventStory', (req, res) => {
+  console.log('POST /api/junction/eventStory');
+  if (req.isAuthenticated()) {
+    let query = `
+      INSERT INTO "events_stories_junction" ("event_id", "story_id")
+      VALUES ($1, $2);
+    `;
+    let params = [req.body.event_id, req.body.story_id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Removes all entries from the event-story-junction table with the given event
+router.delete('/eventStory/event/:id', (req, res) => {
+  console.log('DELETE /api/junction/eventStory/event/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "events_stories_junction"
+      WHERE "event_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "events" AS "e"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "e"."world_id"
+                  WHERE "e"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
+  } else {
+    res.sendStatus(403);
+  }
+})
+
+// Removes all entries from the event-story-junction table with the given story
+router.delete('/eventStory/story/:id', (req, res) => {
+  console.log('DELETE /api/junction/eventStory/story/:id');
+  if (req.isAuthenticated) {
+    let query = `
+      DELETE FROM "events_stories_junction"
+      WHERE "story_id" = $1
+      AND EXISTS (SELECT 1
+                  FROM "stories" AS "s"
+                  JOIN "worlds" AS "w"
+                  ON "w"."id" = "s"."world_id"
+                  WHERE "s"."id" = $1
+                  AND "w"."user_id" = $2)
+    `;
+    let params = [req.params.id, req.user.id];
+    pool.query(query, params)
+      .then(() => {
+        res.sendStatus(202);
+      })
+      .catch((error) => {
+        res.sendStatus(500);
+        console.log(error);
+      })
   } else {
     res.sendStatus(403);
   }
