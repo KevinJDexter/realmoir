@@ -10,6 +10,7 @@ const mapStateToProps = (reduxState) => ({
   storyReducer: reduxState.stories,
   locationReducer: reduxState.locations,
   characterReducer: reduxState.characters,
+  eventReducer: reduxState.events,
 })
 
 class CharacterForm extends Component {
@@ -82,6 +83,7 @@ class CharacterForm extends Component {
     let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({ value: story.id, label: story.title }));
     let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
     let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({ value: character.id, label: character.name }));
+    let eventSelectOptions = this.props.eventReducer.eventsInWorld.map(event => ({ value: event.id, label: event.name }));
 
 
     return (
@@ -151,6 +153,16 @@ class CharacterForm extends Component {
             onChange={this.handleSelectChange('related_locations')}
             options={locationSelectOptions}
             placeholder="Locations contained in this story..."
+          />
+          <h5>Contains Events</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_events}
+            multi={true}
+            onChange={this.handleSelectChange('related_events')}
+            options={eventSelectOptions}
+            placeholder="Events contained in this story..."
           /> 
 
           <Button variant="contained" className="createFormButton" color="primary" onClick={this.submitCharacter}>Create Character</Button>
