@@ -5,7 +5,8 @@ import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { callStories, callGenreList, postNewStory, callStoryDetails, editStoryDetails, deleteStory, callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInStory } from '../requests/locationRequests';
 import { callCharactersInStory } from '../requests/characterRequests';
-import { callLocationStoryJunction, callDeleteLSJunctionByStory, callPostCSJunction, callDeleteCSJunctionByStory } from '../requests/junctionRequests';
+import { callEventsInStory } from '../requests/eventRequests';
+import { callLocationStoryJunction, callDeleteLSJunctionByStory, callPostCSJunction, callDeleteCSJunctionByStory, callPostESJunction, callDeleteESJunctionByStory } from '../requests/junctionRequests';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
 
@@ -50,8 +51,10 @@ function* submitStory(action) {
       callLocationStoryJunction({ location_id: location.value, story_id: story_id });
     }));
     yield all(action.payload.related_characters.forEach(character => {
-      console.log(character);
       callPostCSJunction({ character_id: character.value, story_id: story_id });
+    }));
+    yield all(action.payload.related_events.forEach(event => {
+      callPostESJunction({ event_id: event.value, story_id: story_id });
     }));
     yield put({ type: STORY_ACTIONS.GET_STORIES });
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
@@ -68,6 +71,7 @@ function* fetchStoryDetails(action) {
     const storyDetails = yield callStoryDetails(action.payload);
     storyDetails.locations = yield callLocationsInStory(action.payload);
     storyDetails.characters = yield callCharactersInStory(action.payload);
+    storyDetails.events = yield callEventsInStory(action.payload);
     yield put({
       type: STORY_ACTIONS.SET_STORY_DETAILS,
       payload: storyDetails,
@@ -97,6 +101,10 @@ function* modifyStoryDetails(action) {
     yield callDeleteCSJunctionByStory(action.id);
     yield all(action.payload.related_characters.forEach(character => {
       callPostCSJunction({ character_id: character.value, story_id: action.id});
+    }))
+    yield callDeleteESJunctionByStory(action.id);
+    yield all(action.payload.related_events.forEach(event => {
+      callPostESJunction({ event_id: event.value, story_id: action.id});
     }))
     yield put({
       type: STORY_ACTIONS.GET_STORY_DETAILS,
