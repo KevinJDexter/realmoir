@@ -90,6 +90,11 @@ class LocationLayout extends Component {
       </ul>
     }
 
+    let eventsContent = <li className="linkedElements">None</li>
+    if (details.events.length > 0) {
+      eventsContent = details.events.map(event => <Link className="linkedElements" key={event.id} to={`/view/event/${event.id}`} >{event.name}</Link>)
+    }
+
     let editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;
     let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
@@ -126,6 +131,10 @@ class LocationLayout extends Component {
         </ul>
         {containedLocationsContent}
         {containedByLocationsContent}
+        <ul className="connectionList" >
+          <li><strong>Events:</strong></li>
+          {eventsContent}
+        </ul>
         {editButton}
       </div>
     )

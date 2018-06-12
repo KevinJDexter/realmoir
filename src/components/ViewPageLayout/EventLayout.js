@@ -69,7 +69,7 @@ class LocationLayout extends Component {
         <h4>Date of Event</h4>
         <p>{details.date_of_event}</p>
         <h4>Location</h4>
-        <p><Link to={`/view/location/${details.location_id}`}>{details.locatoin}</Link></p>
+        <p><Link to={`/view/location/${details.location_id}`}>{details.location}</Link></p>
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
