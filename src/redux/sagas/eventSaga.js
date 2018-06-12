@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 import { EVENT_ACTIONS } from '../actions/eventActions';
-import { callEventDetails } from '../requests/eventRequests';
+import { callEventDetails, callEventsInWorld } from '../requests/eventRequests';
 import { callCharacterAtEvent } from '../requests/characterRequests';
 import { callStoriesWithEvent } from '../requests/storyRequests';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
@@ -10,9 +10,9 @@ import { LOCATION_ACTIONS } from '../actions/locationActions';
 function* fetchEventDetails(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
-    let event = callEventDetails(action.payload);
-    event.characters = callCharacterAtEvent(action.payload);
-    event.stories = callStoriesWithEvent(action.payload);
+    let event = yield callEventDetails(action.payload);
+    event.characters = yield callCharacterAtEvent(action.payload);
+    event.stories = yield callStoriesWithEvent(action.payload);
     yield put ({
       type: EVENT_ACTIONS.SET_EVENT_DETAILS,
       payload: event,
@@ -38,7 +38,11 @@ function* fetchEventDetails(action) {
 function* fetchEventsInWorld(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
-
+    const events = yield callEventsInWorld(action.id);
+    yield put ({
+      type: EVENT_ACTIONS.SET_EVENTS_IN_WORLD,
+      payload: events,
+    })
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
   } catch (error) {
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
