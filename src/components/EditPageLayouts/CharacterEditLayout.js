@@ -11,6 +11,7 @@ const mapStateToProps = (reduxState) => ({
   storyReducer: reduxState.stories,
   locationReducer: reduxState.locations,
   characterReducer: reduxState.characters,
+  eventReducer: reduxState.events,
 })
 
 class CharacterForm extends Component {
@@ -38,6 +39,7 @@ class CharacterForm extends Component {
       related_stories: [],
       related_characters: [],
       related_locations: [],
+      related_events: [],
       world_id: 0,
     }
   }
@@ -64,6 +66,7 @@ class CharacterForm extends Component {
       let related_stories = details.stories.map(story => ({value: story.id, label: story.title}))
       let related_characters = details.relationships.map(character => ({value: character.id, label: character.name, relationship: character.relationship}))
       let related_locations = details.locations.map(location => ({value: location.id, label: location.name}))
+      let related_events = details.events.map(event => ({value: event.id, label: event.name}))
 
       this.setState({
         startingName: details.name,
@@ -86,6 +89,7 @@ class CharacterForm extends Component {
         related_stories: related_stories,
         related_characters: related_characters,
         related_locations: related_locations,
+        related_events: related_events,
       })
 
       this.props.dispatch({
@@ -138,6 +142,7 @@ class CharacterForm extends Component {
     let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({ value: story.id, label: story.title }));
     let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
     let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({ value: character.id, label: character.name }));
+    let eventSelectOptions = this.props.eventReducer.eventsInWorld.map(event => ({ value: event.id, label: event.name }));
 
 
     return (
@@ -186,7 +191,7 @@ class CharacterForm extends Component {
             multi={true}
             onChange={this.handleSelectChange('related_stories')}
             options={storySelectOptions}
-            placeholder="Stories this location appears in..."
+            placeholder="Stories this character appears in..."
           />
           <h5>Related Characters</h5>
           <ReactSelect
@@ -196,7 +201,7 @@ class CharacterForm extends Component {
             multi={true}
             onChange={this.handleSelectChange('related_characters')}
             options={characterSelectOptions}
-            placeholder="Characters contained in this story..."
+            placeholder="Characters this character has met..."
           />
           <h5>Related Locations</h5>
           <ReactSelect
@@ -206,8 +211,18 @@ class CharacterForm extends Component {
             multi={true}
             onChange={this.handleSelectChange('related_locations')}
             options={locationSelectOptions}
-            placeholder="Locations contained in this story..."
-          /> 
+            placeholder="Locations this character has visited..."
+          />
+          <h5>Related Events</h5>
+          <ReactSelect
+            className="createFormSelect"
+            name="test"
+            value={this.state.related_events}
+            multi={true}
+            onChange={this.handleSelectChange('related_events')}
+            options={eventSelectOptions}
+            placeholder="Events related to this character..."
+          />  
 
           <Button variant="contained" id="confirmCharacterEditsButton" color="primary" onClick={this.editCharacter}>Save Edits</Button>
           <Button variant="contained" id="deleteCharacterButton" color="secondary" onClick={this.deleteCharacter}>Delete Character</Button>
