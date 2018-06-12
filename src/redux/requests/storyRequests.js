@@ -66,6 +66,17 @@ export function callStoriesWithCharacter(id) {
     .catch((error) => { throw error.response || error; });
 }
 
+export function callStoriesWithEvent(id) {
+  const config = {
+    headers: { 'Content-Type': 'application/json'},
+    withCredentials: true,
+  };
+
+  return axios.get(`/api/story/withEvent/${id}`, config)
+    .then(response => response.data)
+    .catch((error) => { throw error.response || error; });
+}
+
 export function callSearchStories(searchQuery) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
@@ -94,22 +105,6 @@ export function editStoryDetails(action) {
     withCredentials: true,
   };
      
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log('hit');
-  console.log(action);
   return axios.put(`/api/story/${action.id}`, action.payload, config)
     .then(response => response)
     .catch((error) => { throw error.response || error });
