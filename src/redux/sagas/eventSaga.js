@@ -41,7 +41,7 @@ function* fetchEventDetails(action) {
 function* fetchEventsInWorld(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
-    const events = yield callEventsInWorld(action.id);
+    const events = yield callEventsInWorld(action.payload);
     yield put ({
       type: EVENT_ACTIONS.SET_EVENTS_IN_WORLD,
       payload: events,
