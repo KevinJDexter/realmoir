@@ -153,9 +153,9 @@ router.get('/character/:id', (req, res) => {
   let query = `
     SELECT "e"."id", "e"."name", "e"."description", "e"."date_created"
     FROM "events" AS "e"
-    JOIN "characters_events_junction" AS "cs"
-    ON "e"."id" = "cs"."event_id"
-    WHERE "cs"."character_id" = $1
+    JOIN "characters_events_junction" AS "ce"
+    ON "e"."id" = "ce"."event_id"
+    WHERE "ce"."character_id" = $1
   `;
   let params = [req.params.id];
   pool.query(query, params)
