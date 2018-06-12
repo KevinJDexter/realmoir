@@ -118,7 +118,7 @@ router.get('/:id', (req, res) => {
 router.get('/withLocation/:id', (req, res) => {
   console.log('GET /api/story/withLocation/:id');
   let query = `
-    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id"
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id", "s"."date_created"
     FROM "stories" AS "s"
     JOIN "locations_stories_junction" AS "ls"
     ON "s"."id" = "ls"."story_id"
@@ -139,7 +139,7 @@ router.get('/withLocation/:id', (req, res) => {
 router.get('/withCharacter/:id', (req, res) => {
   console.log('GET /api/story/withCharacter/:id');
   let query = `
-    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id"
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id", "s"."date_created"
     FROM "stories" AS "s"
     JOIN "characters_stories_junction" AS "cs"
     ON "s"."id" = "cs"."story_id"
@@ -154,6 +154,27 @@ router.get('/withCharacter/:id', (req, res) => {
       res.send(500);
       console.log(error);
     }) 
+})
+
+// Get all stories with the given event
+router.get('/withEvent/:id', (req, res) => {
+  console.log('/api/story/withEvent/id');
+  let query = `
+    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id", "s"."date_created"
+    FROM "stories" AS "s"
+    JOIN "events_stories_junction" AS "es"
+    ON "s"."id" = "es"."story_id"
+    WHERE "es"."event_id" = $1
+  `;
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
 })
 
 // Posts a new story to the database
