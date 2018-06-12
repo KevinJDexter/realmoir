@@ -31,6 +31,7 @@ class CreatePageSidebar extends Component {
         <a className="createNewLink color-secondary-1-0" onClick={this.getForm('story')} >Create new Story in World</a>
         <a className="createNewLink color-secondary-1-0" onClick={this.getFormFromWorld('character')} >Create new Character in World</a>
         <a className="createNewLink color-secondary-1-0" onClick={this.getFormFromWorld('location')} >Create new Location in World</a>
+        <a className="createNewLink color-secondary-1-0" onClick={this.getFormFromWorld('event')} >Create new Event in World</a>
       </div>
     }
 
@@ -47,6 +48,7 @@ class CreatePageSidebar extends Component {
       storySelectedDiv = <div>
         <a className="createNewLink color-secondary-1-0" onClick={this.getForm('character')} >Create new Character in Story</a>
         <a className="createNewLink color-secondary-1-0" onClick={this.getForm('location')} >Create new Location in Story</a>
+        <a className="createNewLink color-secondary-1-0" onClick={this.getForm('event')} >Create new Event in Story</a>
       </div>
     }
 
