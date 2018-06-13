@@ -7,6 +7,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import './EditPage.css';
 import LocationEditLayout from '../EditPageLayouts/LocationEditLayout';
 import CharacterEditLayout from '../EditPageLayouts/CharacterEditLayout';
+import EventEditLayout from '../EditPageLayouts/EventEditLayout';
 
 class EditPage extends Component {
   render () {
@@ -20,6 +21,8 @@ class EditPage extends Component {
       componentToMount = <LocationEditLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'character') {
       componentToMount = <CharacterEditLayout match={this.props.match} history={this.props.history} />
+    }else if (this.props.match.params.type === 'event') {
+      componentToMount = <EventEditLayout match={this.props.match} history={this.props.history} />
     }
 
     return (

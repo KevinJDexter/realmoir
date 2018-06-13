@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { STORY_ACTIONS } from '../../redux/actions/storyActions';
-import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
 import { TextField, FormControl, InputLabel, Select, Button, MenuItem } from '@material-ui/core';
 import ReactSelect from 'react-select';
 import 'react-select/dist/react-select.css';

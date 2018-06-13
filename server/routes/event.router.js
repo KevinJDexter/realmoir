@@ -238,9 +238,10 @@ router.put('/:id', (req, res) => {
       update.date_of_event,
       update.img_url,
       update.private_notes,
-      update.id,
+      req.params.id,
       req.user.id
     ]
+    console.log(params);
     pool.query(query, params)
     .then(() => {
       res.sendStatus(201);

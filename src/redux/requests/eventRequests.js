@@ -110,7 +110,7 @@ export function callUpdateEvent(action) {
     withCredentials: true,
   };
 
-  return axios.get(`/api/event/${action.id}`, action.payload, config)
+  return axios.put(`/api/event/${action.id}`, action.payload, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
@@ -123,7 +123,7 @@ export function callDeleteEvent(id) {
     withCredentials: true,
   };
 
-  return axios.get(`/api/event${id}`, config)
+  return axios.delete(`/api/event${id}`, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
