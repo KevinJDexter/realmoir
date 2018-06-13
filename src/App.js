@@ -34,14 +34,14 @@ const App = () => (
           path="/register"
           component={RegisterPage}
         />
-        <Route
+        {/* <Route
           path="/user"
           component={UserPage}
         />
         <Route
           path="/about"
           component={AboutPage}
-        />
+        /> */}
         <Route
           className="TEST"
           path="/home"

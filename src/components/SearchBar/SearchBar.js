@@ -32,7 +32,7 @@ class SearchBar extends Component {
   render () {
     return (
       <div>
-        <Link className="advancedSearchLink color-secondary-2-2" to="/search">Advanced Search</Link>
+        {/* <Link className="advancedSearchLink color-secondary-2-2" to="/search">Advanced Search</Link> */}
         <TextField id="search" label="Search for..." value={this.state.searchQuery} onChange={this.handleChange} />
         <Button variant="outlined" onClick={this.submitSearch}><SearchIcon /></Button>
       </div>
