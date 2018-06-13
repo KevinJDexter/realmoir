@@ -11,6 +11,7 @@ import StoryForm from '../CreatePageForms/StoryForm';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import LocationForm from '../CreatePageForms/LocationForm';
 import CharacterForm from '../CreatePageForms/CharacterForm';
+import EventForm from '../CreatePageForms/EventForm';
 
 const mapStateToProps = (reduxState) => ({ createReducer: reduxState.create, user: reduxState.user })
 
@@ -37,6 +38,8 @@ class CreatePage extends Component {
       formToDisplay = <LocationForm history={this.props.history} />
     } else if (this.props.createReducer.formType === 'character') {
       formToDisplay = <CharacterForm history={this.props.history} />
+    } else if (this.props.createReducer.formType === 'event') {
+      formToDisplay = <EventForm history={this.props.history} />
     }
 
     return (

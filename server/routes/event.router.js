@@ -57,7 +57,7 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/event/id')
   let query = `
-    SELECT "e"."id", "e"."name", "e"."description", "l"."id" AS "location_id", "l"."name" as "location", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url",
+    SELECT "e"."id", "e"."name", "e"."description", "e"."date_of_event", "l"."id" AS "location_id", "l"."name" as "location", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url",
     CASE WHEN "w"."user_id" = $1
          THEN "e"."private_notes"
          ELSE NULL
@@ -187,7 +187,7 @@ router.post('/', (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING "id";
     `;
-    router.params = [
+    let params = [
       event.name,
       event.description,
       event.location,
