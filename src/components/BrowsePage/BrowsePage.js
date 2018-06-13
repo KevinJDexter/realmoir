@@ -12,6 +12,7 @@ import AfterWorldObjectOption from '../BrowseObjectOptions/AfterWorldObjectOptio
 import AfterStoryObjectOption from '../BrowseObjectOptions/AfterStoryObjectOption';
 import CharacterOption from '../BrowseObjectOptions/CharacterOption';
 import EventOption from '../BrowseObjectOptions/EventOption';
+import { BROWSE_ACTIONS } from '../../redux/actions/browseActions';
 
 const mapStateToProps = (reduxState) => ({
   worldReducer: reduxState.worlds,
@@ -44,6 +45,10 @@ class BrowsePage extends Component {
 
   componentWillMount = () => {
     this.props.dispatch({ type: WORLD_ACTIONS.GET_WORLDS });
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({ type: BROWSE_ACTIONS.CLEAR_BROWSE_INFO });
   }
 
   render() {

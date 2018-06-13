@@ -42,6 +42,8 @@ const afterWorldOption = (state = '', action) => {
       return action.payload;
     case BROWSE_ACTIONS.CLEAR_AFTER_WORLD_OPTION:
       return '';
+    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
+      return '';
     default: 
       return state;
   }
@@ -52,6 +54,8 @@ const afterStoryOption = (state = '', action) => {
     case BROWSE_ACTIONS.SET_AFTER_STORY_OPTION:
       return action.payload;
     case BROWSE_ACTIONS.CLEAR_AFTER_STORY_OPTION:
+      return '';
+    case BROWSE_ACTIONS.CLEAR_BROWSE_INFO:
       return '';
     default:
       return state;
