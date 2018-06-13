@@ -5,7 +5,9 @@ import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInWorld, callLocationsInStory } from '../requests/locationRequests';
 import { callCharactersInWorld, callCharactersInStory } from '../requests/characterRequests';
+import { callEventsInStory, callEventsInWorld } from '../requests/eventRequests';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
+import { EVENT_ACTIONS } from '../actions/eventActions';
 
 function* changeAfterWorldOption(action) {
   try {
@@ -31,6 +33,12 @@ function* changeAfterWorldOption(action) {
       yield put ({
         type: CHARACTER_ACTIONS.SET_CHARACTERS_IN_WORLD,
         payload: characters,
+      })
+    } else if (action.payload === 'event') {
+      const events = yield callEventsInWorld(action.id);
+      yield put ({
+        type: EVENT_ACTIONS.SET_EVENTS_IN_WORLD,
+        payload: events,
       })
     }
     yield put ({ type: BROWSE_ACTIONS.CLEAR_BROWSE_STORY });
@@ -60,6 +68,12 @@ function* changeAfterStoryOption(action) {
       yield put({
         type: CHARACTER_ACTIONS.SET_CHARACTERS_IN_STORY,
         payload: characters,
+      })
+    } else if (action.payload === 'event') {
+      const events = yield callEventsInStory(action.id);
+      yield put({
+        type: EVENT_ACTIONS.SET_EVENTS_IN_STORY,
+        payload: events,
       })
     }
     yield put ({ type: BROWSE_ACTIONS.REQUEST_DONE});

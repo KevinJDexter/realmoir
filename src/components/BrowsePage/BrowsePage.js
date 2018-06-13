@@ -11,6 +11,7 @@ import LocationOption from '../BrowseObjectOptions/LocationOption';
 import AfterWorldObjectOption from '../BrowseObjectOptions/AfterWorldObjectOption';
 import AfterStoryObjectOption from '../BrowseObjectOptions/AfterStoryObjectOption';
 import CharacterOption from '../BrowseObjectOptions/CharacterOption';
+import EventOption from '../BrowseObjectOptions/EventOption';
 
 const mapStateToProps = (reduxState) => ({
   worldReducer: reduxState.worlds,
@@ -18,6 +19,7 @@ const mapStateToProps = (reduxState) => ({
   browse: reduxState.browse,
   locationReducer: reduxState.locations,
   characterReducer: reduxState.characters,
+  eventReducer: reduxState.events,
 })
 
 class BrowsePage extends Component {
@@ -30,10 +32,12 @@ class BrowsePage extends Component {
         'Location',
         'Story',
         'Character',
+        'Event',
       ],
       afterStoryObjectOptions: [
         'Location',
         'Character',
+        'Event',
       ],
     }
   }
@@ -103,6 +107,27 @@ class BrowsePage extends Component {
       }
     }
 
+    let eventDiv;
+    if (this.props.browse.afterWorldOption === 'event' || this.props.browse.afterStoryOption === 'event') {
+      let eventList = this.props.eventReducer.eventsInWorld.map(event => <EventOption key={event.id} event={event} />)
+      if (this.props.browse.afterStoryOption === 'event') {
+        eventList = this.props.eventReducer.eventsInStory.map(event => <EventOption key={event.id} event={event} />)
+      }
+      if (eventList.length === 0) {
+        eventDiv = <div>
+          <h3 className="browseLineHead" >There Are No Events Here Yet</h3>
+        </div>
+      } else {
+        eventDiv = <div>
+          <h3 className="browseLineHead" >Select an Event</h3>
+          <div className="objectContent">
+            {eventList}
+          </div>
+          <hr className="browseLineBreak" />
+        </div>
+      }
+    }
+
     let worldSelectedDiv;
     if (this.props.browse.world.id) {
       worldSelectedDiv = <div>
@@ -140,8 +165,9 @@ class BrowsePage extends Component {
             {worldSelectedDiv}
             {storyDiv}
             {storySelectedDiv}
-            {locationDiv}
             {characterDiv}
+            {locationDiv}
+            {eventDiv}
           </div>
           <div className="sidebarDiv">
             <Sidebar />

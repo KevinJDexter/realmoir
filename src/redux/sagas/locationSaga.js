@@ -6,6 +6,7 @@ import { callLocations, callPostLocation, callLocationDetails, callLocationsInWo
 import { callLocationStoryJunction, callDeleteLSJunctionByLocation, callPostNeighboringLocations, callDeleteNeighboringLocations, callPostCLJunction, callDeleteCLJunctionByLocation } from '../requests/junctionRequests';
 import { callStoriesWithLocation } from '../requests/storyRequests';
 import { callCharactersVisitedLocation, callCharacterHomeIs } from '../requests/characterRequests';
+import { callEventsAtLocation } from '../requests/eventRequests';
 import { CHARACTER_ACTIONS } from '../actions/characterActions';
 
 // worker Saga: will be fired on "FETCH_USER" actions
@@ -58,6 +59,7 @@ function* fetchLocationDetails(action) {
     location.characters = yield callCharactersVisitedLocation(action.payload);
     location.homeTo = yield callCharacterHomeIs(action.payload);
     location.neighbors = yield callNeighboringLocations(action.payload);
+    location.events = yield callEventsAtLocation(action.payload);
     yield put ({ 
       type: LOCATION_ACTIONS.SET_LOCATION_DETAILS,
       payload: location,

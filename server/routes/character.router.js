@@ -150,6 +150,7 @@ router.get('/location/:id', (req, res) => {
     })
 })
 
+// Gets all characters whose home is a given location
 router.get('/homeIs/:id', (req, res) => {
   console.log('GET /api/character/homeIs/id')
   let query = `
@@ -157,6 +158,27 @@ router.get('/homeIs/:id', (req, res) => {
     FROM "characters"
     WHERE "home" = $1;
   `; 
+  let params = [req.params.id];
+  pool.query(query, params)
+    .then((results) => {
+      res.send(results.rows);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
+
+// Gets all character who were at a given event
+router.get('/event/:id', (req, res) => {
+  console.log('GET /api/character/event/id');
+  let query = `
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."description", "c"."bio", "c"."date_created" 
+    FROM "characters" AS "c"
+    JOIN "characters_events_junction" AS "ce"
+    ON "ce"."character_id" = "c"."id"
+    WHERE "ce"."event_id" = $1
+  `;
   let params = [req.params.id];
   pool.query(query, params)
     .then((results) => {

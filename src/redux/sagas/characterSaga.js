@@ -3,11 +3,13 @@ import { CHARACTER_ACTIONS } from '../actions/characterActions';
 import { callCharacterDetails, callCharactersInWorld, callCharacterRelationships, callAddCharacter, callDeleteCharacter, callEditCharacter } from '../requests/characterRequests';
 import { callStoriesWithCharacter } from '../requests/storyRequests';
 import { callLocationCharacterVisits } from '../requests/locationRequests';
-import { callPostCLJunction, callPostCSJunction, callDeleteCSJunctionByCharacter, callDeleteCLJunctionByCharacter, callPostCharacterRelationships, callDeleteCharacterRelationships } from '../requests/junctionRequests';
+import { callEventsWithCharacter } from '../requests/eventRequests';
+import { callPostCLJunction, callPostCSJunction, callDeleteCSJunctionByCharacter, callDeleteCLJunctionByCharacter, callPostCharacterRelationships, callDeleteCharacterRelationships, callPostCEJunction, callDeleteCEJunctionByCharacter } from '../requests/junctionRequests';
 import { LOCATION_ACTIONS } from '../actions/locationActions';
 import { STORY_ACTIONS } from '../actions/storyActions';
 import { CREATE_PAGE_ACTIONS } from '../actions/createPageActions';
 import { RECENTLY_ADDED_ACTIONS } from '../actions/recentlyAddedActions';
+import { EVENT_ACTIONS } from '../actions/eventActions';
 
 function* fetchCharacterDetails(action) {
   try {
@@ -16,12 +18,17 @@ function* fetchCharacterDetails(action) {
     character.stories = yield callStoriesWithCharacter(action.payload);
     character.locations = yield callLocationCharacterVisits(action.payload);
     character.relationships = yield callCharacterRelationships(action.payload);
+    character.events = yield callEventsWithCharacter(action.payload);
     yield put({
       type: CHARACTER_ACTIONS.SET_CHARACTER_DETAILS,
       payload: character,
     })
     yield put({
       type: LOCATION_ACTIONS.GET_LOCATIONS_IN_WORLD,
+      payload: character.world_id,
+    })
+    yield put({
+      type: EVENT_ACTIONS.GET_EVENTS_IN_WORLD,
       payload: character.world_id,
     })
     yield put({
@@ -65,6 +72,9 @@ function* fetchCreateCharacter(action) {
     yield all(action.payload.related_locations.forEach(location => {
       callPostCLJunction({ character_id: characterId, location_id: location.value });
     }))
+    yield all(action.payload.related_events.forEach(event => {
+      callPostCEJunction({ character_id: characterId, event_id: event.value });
+    }))
     yield put({ type: CREATE_PAGE_ACTIONS.CLEAR_CREATE_STORY })
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE, });
@@ -99,6 +109,10 @@ function* fetchEditCharacter(action) {
     yield callDeleteCharacterRelationships(action.id);
     yield all (action.payload.related_characters.forEach(character => {
       callPostCharacterRelationships({first_character: action.id, second_character: character.value, relationship: character.relationship});
+    }))
+    yield callDeleteCEJunctionByCharacter(action.id);
+    yield all (action.payload.related_events.forEach(event => {
+      callPostCEJunction({character_id: action.id, event_id: event.value });
     }))
     yield put ({ 
       type: CHARACTER_ACTIONS.GET_CHARACTER_DETAILS,

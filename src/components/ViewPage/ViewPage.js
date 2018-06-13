@@ -8,6 +8,7 @@ import WorldLayout from '../ViewPageLayout/WorldLayout';
 import StoryLayout from '../ViewPageLayout/StoryLayout';
 import LocationLayout from '../ViewPageLayout/LocationLayout';
 import CharacterLayout from '../ViewPageLayout/CharacterLayout';
+import EventLayout from '../ViewPageLayout/EventLayout';
 
 class ViewPage extends Component {
 
@@ -22,6 +23,8 @@ class ViewPage extends Component {
       componentToMount = <LocationLayout match={this.props.match} history={this.props.history} />
     } else if (this.props.match.params.type === 'character') {
       componentToMount = <CharacterLayout match={this.props.match} history={this.props.history} />
+    } else if (this.props.match.params.type === 'event') {
+      componentToMount = <EventLayout match={this.props.match} history={this.props.history} />
     }
 
     return (

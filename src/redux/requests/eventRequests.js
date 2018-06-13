@@ -1,157 +1,133 @@
 import axios from 'axios';
 
-export function callCharacters() {
+export function callEvents() {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get('/api/character', config)
+  return axios.get('/api/event', config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
     });
 }
 
-export function callCharacterDetails(id) {
+export function callEventDetails(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/${id}`, config)
+  return axios.get(`/api/event/${id}`, config)
     .then(response => response.data[0])
     .catch((error) => {
       throw error.response || error;
     });
 }
 
-export function callSearchCharacters(payload) {
+export function callSearchEvents(payload) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/search/general`, {params: {searchQuery: payload}}, config)
+  return axios.get('/api/event/search/general', {params: {searchQuery: payload}}, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
     });
 }
 
-export function callCharactersInWorld(id) {
+export function callEventsInWorld(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/inWorld/${id}`, config)
+  return axios.get(`/api/event/inWorld/${id}`, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
     });
 }
 
-export function callCharactersInStory(id) {
+export function callEventsInStory(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/inStory/${id}`, config)
+  return axios.get(`/api/event/inStory/${id}`, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
     });
 }
 
-export function callCharactersVisitedLocation(id) {
+export function callEventsAtLocation(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/location/${id}`, config)
+  return axios.get(`/api/event/location/${id}`, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    }); 
+    });
 }
 
-export function callCharacterHomeIs(id) {
+export function callEventsWithCharacter(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/homeIs/${id}`, config)
+  return axios.get(`/api/event/character/${id}`, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    }); 
+    });
 }
 
-export function callCharacterAtEvent(id) {
+export function callPostNewEvent(payload) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/event/${id}`, config)
+  return axios.post('/api/event', payload, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    });  
+    });
 }
 
-export function callCharacterRelationships(id) {
+export function callUpdateEvent(action) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.get(`/api/character/relationships/${id}`, config)
+  return axios.put(`/api/event/${action.id}`, action.payload, config)
     .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    });  
+    });
 }
 
-export function callAddCharacter(payload) {
+export function callDeleteEvent(id) {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   };
 
-  return axios.post(`/api/character`, payload, config)
-    .then(response => response.data[0].id)
+  return axios.delete(`/api/event${id}`, config)
+    .then(response => response.data)
     .catch((error) => {
       throw error.response || error;
-    });  
+    });
 }
 
-export function callEditCharacter(action) {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true,
-  };
 
-  return axios.put(`/api/character/${action.id}`, action.payload, config)
-    .then(response => response)
-    .catch((error) => {
-      throw error.response || error;
-    });  
-}
-
-export function callDeleteCharacter(id) {
-  const config = {
-    headers: { 'Content-Type': 'application/json' },
-    withCredentials: true,
-  };
-
-  return axios.delete(`/api/character/${id}`, config)
-    .then(response => response)
-    .catch((error) => {
-      throw error.response || error;
-    });  
-}

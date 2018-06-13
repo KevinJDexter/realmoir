@@ -9,6 +9,7 @@ import create from './createPageReducer';
 import search from './searchReducer';
 import locations from './locationReducer';
 import characters from './characterReducer';
+import events from './eventReducer';
 
 const store = combineReducers({
   user,
@@ -21,6 +22,7 @@ const store = combineReducers({
   search,
   locations,
   characters,
+  events,
 });
 
 export default store;

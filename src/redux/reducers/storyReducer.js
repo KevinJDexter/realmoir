@@ -41,7 +41,7 @@ const genres = (state = [], action) => {
   }
 }
 
-const storyDetails = (state = {locations: [], characters: []}, action) => {
+const storyDetails = (state = {locations: [], characters: [], events: []}, action) => {
   switch (action.type) {
     case STORY_ACTIONS.SET_STORY_DETAILS:
       return action.payload;

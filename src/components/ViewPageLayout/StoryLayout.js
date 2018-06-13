@@ -58,6 +58,11 @@ class StoryLayout extends Component {
       charactersContent = <li className="linkedElements">None</li>
     }
 
+    let eventsContent = details.events.map(event => <li key={event.id}><Link className="linkedElements" to={`/view/event/${event.id}`}>{event.name}</Link></li>)
+    if (details.events.length === 0) {
+      eventsContent = <li className="linkedElements">None</li>
+    }
+
     return (
       <div className="formContainer" >
         <h2>{details.title}</h2>
@@ -75,6 +80,10 @@ class StoryLayout extends Component {
         <ul className="connectionList">
           <li><strong>Locations:</strong></li>
           {locationsContent}
+        </ul>
+        <ul className="connectionList">
+          <li><strong>Events:</strong></li>
+          {eventsContent}
         </ul>
         {editButton}
       </div>
