@@ -41,7 +41,9 @@ app.use('/api/event', eventRouter);
 
 // Serve static files
 app.use(express.static('build'));
-
+app.get('/*', (req, res)=> {
+  res.sendFile('/app/build/index.html');
+});
 // App Set //
 const PORT = process.env.PORT || 5000;
 
