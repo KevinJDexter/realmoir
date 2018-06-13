@@ -30,6 +30,14 @@ class EventForm extends Component {
     }
   }
 
+ componentDidMount() {
+    if (this.props.createReducer.story.id) {
+      this.setState({
+        related_stories: [{value: this.props.createReducer.story.id, label: this.props.createReducer.story.title}]
+      })
+    } 
+  } 
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,
