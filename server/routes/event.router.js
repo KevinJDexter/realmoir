@@ -94,7 +94,7 @@ router.get('/inWorld/:id', (req, res) => {
   let query = `
     SELECT "id", "name", "description", "date_created"
     FROM "events"
-    WHERE "id" = $1
+    WHERE "world_id" = $1
   `;
   let params = [req.params.id];
   pool.query(query, params)
