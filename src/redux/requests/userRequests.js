@@ -14,3 +14,14 @@ export function callUser() {
 export function placeholder() {
   console.log('hi');
 }
+
+export function callEditUser(payload) {
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+
+  return axios.put('/api/user', payload, config)
+    .then(response => response)
+    .catch((error) => { throw error.response || error; });
+}
