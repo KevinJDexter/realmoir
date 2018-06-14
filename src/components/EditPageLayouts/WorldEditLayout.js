@@ -95,7 +95,7 @@ class WorldEditLayout extends Component {
         <form>
           <TextField className="editFormStandard" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
           <TextField className="editFormWide" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
-          <TextField className="editFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          {/* <TextField className="editFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} /> */}
           <TextField className="editFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
 
           <br />

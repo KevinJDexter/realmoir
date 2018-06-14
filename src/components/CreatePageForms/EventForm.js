@@ -93,7 +93,7 @@ class EventForm extends Component {
           </div>
           <br />
           <TextField className="createFormStandard" label="Date of Event" value={this.state.date_of_event} onChange={this.handleChange('date_of_event')} />
-          <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          {/* <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} /> */}
           <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
 
           <br />
