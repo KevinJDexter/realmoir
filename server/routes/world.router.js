@@ -69,7 +69,14 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
   let query = `
-    SELECT "w"."id", "w"."name", "w"."description", "w"."img_url", "w"."date_created", "w"."is_private", "u"."content_private" as "user_private",
+    SELECT "w"."id", 
+           "w"."name", 
+           "w"."description", 
+           "w"."img_url", 
+           "w"."date_created", 
+           "w"."last_updated",
+           "w"."is_private", 
+           "u"."content_private" as "user_private",
     CASE WHEN "u"."id" = $1
          THEN "w"."private_notes"
          ELSE NULL
@@ -152,7 +159,8 @@ router.put('/:id', (req, res) => {
         "description" = $2,
         "img_url" = $3,
         "private_notes" = $4,
-        "is_private" = $5
+        "is_private" = $5,
+        "last_updated" = NOW()
     WHERE "id" = $6
     AND "user_id" = $7;
   `;
