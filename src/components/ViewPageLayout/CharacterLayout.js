@@ -64,14 +64,29 @@ class CharacterLayout extends Component {
 
     let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner !== false) {
-      let visibility = "Public";
-      if (details.is_private) {
+    if (details.is_owner) {
+      let visibility = "Public", 
+          userPrivate = "Public", 
+          worldPrivate = "Public", 
+          itemPrivate = "Public";
+      if (details.is_private || details.world_private || details.user_private) {
         visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.world_private) {
+        worldPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
       }
       editButton = <Button onClick={this.editCharacter} variant="contained" color="primary" >Edit Character</Button>;
       privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
-      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World setting:</strong> {worldPrivate} - <strong>Character Setting:</strong> {itemPrivate}</p>
+        </div>
     }
 
     let homeLink = <p>N/A</p>

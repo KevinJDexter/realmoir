@@ -42,7 +42,7 @@ class LocationLayout extends Component {
     for (let key in details) {
       if (details[key] === null) {
         if (key !== 'location' && key !== 'location_id')
-        details[key] = "N/A";
+          details[key] = "N/A";
       }
     }
 
@@ -93,13 +93,28 @@ class LocationLayout extends Component {
     let editButton, privateNotes, isPrivate;
 
     if (details.is_owner) {
-      let visibility = "Public";
-      if (details.is_private) {
+      let visibility = "Public",
+        userPrivate = "Public",
+        worldPrivate = "Public",
+        itemPrivate = "Public";
+      if (details.is_private || details.world_private || details.user_private) {
         visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.world_private) {
+        worldPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
       }
       editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;
       privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
-      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World setting:</strong> {worldPrivate} - <strong>Location Setting:</strong> {itemPrivate}</p>
+      </div>
     }
 
 

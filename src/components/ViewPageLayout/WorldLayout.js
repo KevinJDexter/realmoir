@@ -39,7 +39,7 @@ class WorldLayout extends Component {
       descriptionContent = "None"
     }
 
-    let storiesContent = details.stories.map(story => <li key={story.id}><Link className="linkedElements" to={`/view/story/${story.id}`}>{story.title}</Link></li>)
+    let storiesContent = details.stories.map(story => <li key={story.id}><Link className="linkedElements" to={`/view/story/${story.id}`}>{story.title}</Link></li>);
     if (details.stories.length === 0) {
       storiesContent = <li className="linkedElements">None</li>
     }
@@ -61,14 +61,25 @@ class WorldLayout extends Component {
 
     let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner !== false) {
-      let visibility = "Public";
-      if (details.is_private) {
+    if (details.is_owner) {
+      let visibility = "Public",
+        userPrivate = "Public",
+        itemPrivate = "Public";
+      if (details.is_private || details.user_private) {
         visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
       }
       editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
       privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
-      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World Setting:</strong> {itemPrivate}</p>
+      </div>
     }
 
     return (
