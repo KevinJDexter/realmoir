@@ -73,7 +73,7 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/event/id')
   let query = `
-    SELECT "e"."id", "e"."name", "e"."description", "e"."date_of_event", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url", "e"."is_private",
+    SELECT "e"."id", "e"."name", "e"."description", "e"."date_of_event", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url", "e"."is_private", "w"."is_private" as "world_private", "u"."content_private" as "user_private",
     CASE WHEN "u"."id" = $1
          THEN "e"."private_notes"
          ELSE NULL

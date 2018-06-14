@@ -58,12 +58,17 @@ class WorldLayout extends Component {
     if (details.events.length === 0) {
       eventsContent = <li className="linkedElements">None</li>
     }
-    let editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
-    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
 
-    if (details.is_owner === false) {
-      editButton = <div></div>
-      privateNotes = <div></div>
+    let editButton, privateNotes, isPrivate;
+
+    if (details.is_owner !== false) {
+      let visibility = "Public";
+      if (details.is_private) {
+        visibility = "Private";
+      }
+      editButton = <Button onClick={this.editWorld} variant="contained" color="primary" >Edit World</Button>;
+      privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
     return (
@@ -72,6 +77,7 @@ class WorldLayout extends Component {
         <h4>Description</h4>
         <p>{descriptionContent}</p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}
