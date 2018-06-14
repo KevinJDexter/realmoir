@@ -35,6 +35,12 @@ class StoryForm extends Component {
     this.props.dispatch({ type: STORY_ACTIONS.GET_STORY_GENRES })
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: STORY_ACTIONS.CLEAR_STORY_DETAILS,
+    })
+  }
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,

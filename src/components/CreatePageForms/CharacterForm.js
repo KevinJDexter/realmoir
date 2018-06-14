@@ -53,6 +53,12 @@ class CharacterForm extends Component {
     })
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: CHARACTER_ACTIONS.CLEAR_CHARACTER_DETAILS,
+    })
+  }
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,

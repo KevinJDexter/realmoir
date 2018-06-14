@@ -3,12 +3,17 @@ import Header from '../Header/Header';
 import WorldEditLayout from '../EditPageLayouts/WorldEditLayout';
 import StoryEditLayout from '../EditPageLayouts/StoryEditLayout';
 import Sidebar from '../Sidebar/Sidebar';
+import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import './EditPage.css';
 import LocationEditLayout from '../EditPageLayouts/LocationEditLayout';
 import CharacterEditLayout from '../EditPageLayouts/CharacterEditLayout';
 import EventEditLayout from '../EditPageLayouts/EventEditLayout';
+
+const mapStateToProps = (reduxState) => ({
+  user: reduxState.user,
+})
 
 class EditPage extends Component {
 
@@ -53,4 +58,4 @@ class EditPage extends Component {
   }
 }
 
-export default EditPage;
+export default connect(mapStateToProps)(EditPage);

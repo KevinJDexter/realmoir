@@ -45,6 +45,12 @@ class LocationForm extends Component {
     })
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: LOCATION_ACTIONS.CLEAR_LOCATION_DETAILS,
+    })
+  }
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,

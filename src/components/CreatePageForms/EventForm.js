@@ -39,6 +39,12 @@ class EventForm extends Component {
     } 
   } 
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: EVENT_ACTIONS.CLEAR_EVENT_DETAILS,
+    })
+  }
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,

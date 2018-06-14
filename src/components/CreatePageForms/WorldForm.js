@@ -19,6 +19,12 @@ class WorldForm extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: WORLD_ACTIONS.CLEAR_WORLD_DETAILS,
+    })
+  }
+
   handleChange = (property) => (event) => {
     this.setState({
       [property]: event.target.value,
