@@ -72,7 +72,7 @@ router.get('/search/general', (req, res) => {
 // Get all stories contained in a given world
 router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/story/inWorld/id');
-  const query = `
+  let query = `
       SELECT "s"."id", "s"."title", "s"."synopsis", "s"."genre_id", "s"."world_id"
       FROM "stories" AS "s"
       JOIN "worlds" AS "w"
@@ -103,7 +103,7 @@ router.get('/inWorld/:id', (req, res) => {
 // Private notes are only given to the owning user
 router.get('/:id', (req, res) => {
   console.log('GET /api/story/id');
-  const query = `
+  let query = `
     SELECT "s"."id", "s"."title", "s"."synopsis", "s"."img_url", "s"."genre_id", "w"."name" as "world", "s"."world_id", "g"."name" as "genre", "s"."date_created", "s"."is_private",
     CASE WHEN "u"."id" = $1
          THEN "s"."private_notes"

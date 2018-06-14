@@ -46,7 +46,7 @@ const storyDetails = (state = {locations: [], characters: [], events: []}, actio
     case STORY_ACTIONS.SET_STORY_DETAILS:
       return action.payload;
     case STORY_ACTIONS.CLEAR_STORY_DETAILS:
-      return {locations: [], characters: []};
+      return {locations: [], characters: [], events: []};
     default:
       return state;
   }

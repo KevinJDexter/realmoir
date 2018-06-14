@@ -40,12 +40,16 @@ class StoryLayout extends Component {
       details.genre = "None";
     }
 
-    let editButton = <Button onClick={this.editStory} variant="contained" color="primary" >Edit Story</Button>;
-    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+    let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner === false) {
-      editButton = <div></div>
-      privateNotes = <div></div>
+    if (details.is_owner !== false) {
+      let visibility = "Public";
+      if (details.is_private) {
+        visibility = "Private";
+      }
+      editButton = <Button onClick={this.editStory} variant="contained" color="primary" >Edit Story</Button>;
+      privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
     let locationsContent = details.locations.map(location => <li key={location.id}><Link className="linkedElements" to={`/view/location/${location.id}`}>{location.name}</Link></li>)
@@ -73,6 +77,7 @@ class StoryLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList">
           <li><strong>Characters:</strong></li>
           {charactersContent}
