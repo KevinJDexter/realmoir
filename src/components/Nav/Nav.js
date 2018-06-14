@@ -26,9 +26,9 @@ const Nav = () => (
           </Link>
         </li>
         <li>
-          {/* <Link className="color-secondary-2-2" to="/about">
-            About
-          </Link> */}
+          <Link className="color-secondary-2-2" to="/faq">
+            FAQ
+          </Link>
         </li>
       </ul>
     </div>

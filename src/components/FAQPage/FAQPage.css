@@ -1,0 +1,10 @@
+.faqPageContent {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+}
+
+.faqQuestions {
+  text-align: center;
+  margin: 20px 40px;
+}

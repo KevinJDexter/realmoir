@@ -9,7 +9,7 @@ import {
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
-import AboutPage from './components/AboutPage/AboutPage';
+import FAQPage from './components/FAQPage/FAQPage';
 import AdvancedSearchPage from './components/AdvancedSearchPage/AdvancedSearchPage';
 import BrowsePage from './components/BrowsePage/BrowsePage';
 import CreatePage from './components/CreatePage/CreatePage';
@@ -38,19 +38,19 @@ const App = () => (
           path="/user"
           component={UserPage}
         />
-        {/* <Route
-          path="/about"
-          component={AboutPage}
-        /> */}
+        <Route
+          path="/faq"
+          component={FAQPage}
+        />
         <Route
           className="TEST"
           path="/home"
           component={HomePage}
         />
-        <Route
+        {/* <Route
           path="/search"
           component={AdvancedSearchPage}
-        />
+        /> */}
         <Route
           path="/results"
           component={SearchResultsPage}

@@ -1,9 +1,9 @@
-#confirmWorldEditsButton, #confirmStoryEditsButton, #confirmLocationEditsButton {
-  margin: 0px 20px;
+#confirmWorldEditsButton, #confirmStoryEditsButton, #confirmLocationEditsButton, #confirmCharacterEditsButton, #confirmEventEditsButton {
+  margin: 0px 20px 30px 20px;
 }
 
-#deleteWorldButton, #deleteStoryButton, #deleteLocationButton {
-  margin: 0px 20px;
+#deleteWorldButton, #deleteStoryButton, #deleteLocationButton, #deleteCharacterButton, #deleteEventButton {
+  margin: 0px 20px 30px 20px;
 }
 
 .editFormName {
