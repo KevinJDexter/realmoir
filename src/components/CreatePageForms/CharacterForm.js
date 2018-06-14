@@ -38,7 +38,7 @@ class CharacterForm extends Component {
       related_characters: [],
       related_locations: [],
       world_id: 0,
-      is_private: '',
+      is_private: 'true',
     }
   }
 

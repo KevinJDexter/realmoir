@@ -52,12 +52,16 @@ class LocationLayout extends Component {
       charactersContent = details.characters.map(character => <Link className="linkedElements" key={character.id} to={`/view/character/${character.id}`} >{character.name}</Link>)
     }
 
-    let editButton = <Button onClick={this.editEvent} variant="contained" color="primary" >Edit Event</Button>;
-    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+    let isPrivate, editButton, privateNotes;
 
-    if (details.is_owner === false) {
-      editButton = <div></div>;
-      privateNotes = <div></div>;
+    if (details.is_owner) {
+      let visibility = "Public";
+      if (details.is_private) {
+        visibility = "Private";
+      }
+      editButton = <Button onClick={this.editEvent} variant="contained" color="primary" >Edit Event</Button>;
+      privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
 
@@ -73,6 +77,7 @@ class LocationLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}
