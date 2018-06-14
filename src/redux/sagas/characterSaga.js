@@ -87,6 +87,7 @@ function* fetchDeleteCharacter(action) {
   try {
     yield put({ type: CHARACTER_ACTIONS.REQUEST_START });
     yield callDeleteCharacter(action.payload);
+    yield put ({ type: CHARACTER_ACTIONS.CLEAR_CHARACTER_DETAILS });
     yield put ({type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
     yield put({ type: CHARACTER_ACTIONS.REQUEST_DONE });
   } catch (error) {

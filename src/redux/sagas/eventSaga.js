@@ -74,6 +74,7 @@ function* fetchDeleteEvent(action) {
   try {
     yield put({ type: EVENT_ACTIONS.REQUEST_START });
     yield callDeleteEvent(action.payload);
+    yield put ({ type: EVENT_ACTIONS.CLEAR_EVENT_DETAILS });
     yield put({ type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED });
     yield put({ type: EVENT_ACTIONS.REQUEST_DONE });
   } catch (error) {

@@ -96,6 +96,7 @@ function* removeLocation(action) {
   try {
     yield put({ type: LOCATION_ACTIONS.REQUEST_START });
     yield callDeleteLocation(action.payload);
+    yield put ({ type: LOCATION_ACTIONS.CLEAR_LOCATION_DETAILS });
     yield put ({ type: LOCATION_ACTIONS.GET_LOCATIONS });
     yield put ({type: RECENTLY_ADDED_ACTIONS.GET_RECENTLY_ADDED});
     yield put({ type: LOCATION_ACTIONS.REQUEST_DONE });
