@@ -37,8 +37,8 @@ class CharacterLayout extends Component {
     let details = {...this.props.characterReducer.characterDetails};
 
     for (let key in details) {
-      if (details[key] === null) {
-        details[key] = '';
+      if (details[key] === null && key !== 'home' && key !== 'home_id') {
+        details[key] = 'N/A';
       }
     }
 
@@ -62,11 +62,36 @@ class CharacterLayout extends Component {
       eventsContent = details.events.map(event => <Link key={event.id} className="linkedElements" to={`/view/event/${event.id}`}>{event.name}</Link> )
     }
 
-    let editButton, privateNotes;
+    let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner !== false) {
+    if (details.is_owner) {
+      let visibility = "Public", 
+          userPrivate = "Public", 
+          worldPrivate = "Public", 
+          itemPrivate = "Public";
+      if (details.is_private || details.world_private || details.user_private) {
+        visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.world_private) {
+        worldPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
+      }
       editButton = <Button onClick={this.editCharacter} variant="contained" color="primary" >Edit Character</Button>;
       privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World setting:</strong> {worldPrivate} - <strong>Character Setting:</strong> {itemPrivate}</p>
+        </div>
+    }
+
+    let homeLink = <p>N/A</p>
+    if (details.home !== null) {
+      homeLink = <p><Link to={`/view/world/${details.home_id}`}>{details.home}</Link></p>
     }
 
     return (
@@ -87,10 +112,11 @@ class CharacterLayout extends Component {
         <p>Height: {details.height}</p>
         <p>Gender: {details.gender}</p>
         <h4>Home</h4>
-        <p><Link to={`/view/world/${details.home_id}`}>{details.home}</Link></p>
+        {homeLink}
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}

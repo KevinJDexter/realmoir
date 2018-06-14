@@ -39,16 +39,11 @@ class LocationLayout extends Component {
     let contained_locations = details.neighbors.filter(location => location.contained === true);
     let parent_locations = details.neighbors.filter(location => location.parent === true);
 
-    if (details.description === null) {
-      details.description = "None";
-    }
-
-    if (details.history === null) {
-      details.history = "None";
-    }
-
-    if (details.climate === null) {
-      details.climate = "None";
+    for (let key in details) {
+      if (details[key] === null) {
+        if (key !== 'location' && key !== 'location_id')
+          details[key] = "N/A";
+      }
     }
 
     let storiesContent = <li className="linkedElements">None</li>
@@ -95,12 +90,31 @@ class LocationLayout extends Component {
       eventsContent = details.events.map(event => <Link className="linkedElements" key={event.id} to={`/view/event/${event.id}`} >{event.name}</Link>)
     }
 
-    let editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;
-    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+    let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner === false) {
-      editButton = <div></div>;
-      privateNotes = <div></div>;
+    if (details.is_owner) {
+      let visibility = "Public",
+        userPrivate = "Public",
+        worldPrivate = "Public",
+        itemPrivate = "Public";
+      if (details.is_private || details.world_private || details.user_private) {
+        visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.world_private) {
+        worldPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
+      }
+      editButton = <Button onClick={this.editLocation} variant="contained" color="primary" > Edit Location</Button>;
+      privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World setting:</strong> {worldPrivate} - <strong>Location Setting:</strong> {itemPrivate}</p>
+      </div>
     }
 
 
@@ -116,6 +130,7 @@ class LocationLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}

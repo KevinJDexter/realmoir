@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { connect } from 'react-redux';
 import ReactSelect from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -41,6 +41,7 @@ class CharacterForm extends Component {
       related_locations: [],
       related_events: [],
       world_id: 0,
+      is_private: '',
     }
   }
   
@@ -90,6 +91,7 @@ class CharacterForm extends Component {
         related_characters: related_characters,
         related_locations: related_locations,
         related_events: related_events,
+        is_private: String(details.is_private),
       })
 
       this.props.dispatch({
@@ -117,6 +119,11 @@ class CharacterForm extends Component {
       if (toSend[key] === '') {
         toSend[key] = null;
       }
+    }
+    if (toSend.is_private === 'false') {
+      toSend.is_private = false;
+    } else {
+      toSend.is_private = true;
     }
     this.props.dispatch ({
       type: CHARACTER_ACTIONS.SUBMIT_EDIT_CHARACTER,
@@ -181,8 +188,23 @@ class CharacterForm extends Component {
             </FormControl>
           </div>
           <br />
-          <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
+          {/* <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} /> */}
           <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+          
+          <br />
+          <FormControl >
+            <FormLabel >Visibility:</FormLabel>
+            <RadioGroup
+              name="is_private"
+              value={this.state.is_private}
+              onChange={this.handleChange('is_private')}
+            >
+              <FormControlLabel value="false" control={<Radio />} label="Public" />
+              <FormControlLabel value="true" control={<Radio />} label="Private" />
+            </ RadioGroup>
+          </FormControl>
+          <br />
+          
           <h5>Related Stories</h5>
           <ReactSelect
             className="createFormSelect"

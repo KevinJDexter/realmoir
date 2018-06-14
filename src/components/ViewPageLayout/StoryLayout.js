@@ -4,7 +4,7 @@ import { STORY_ACTIONS } from '../../redux/actions/storyActions';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-const mapStateToRedux = (reduxState) => ({ 
+const mapStateToRedux = (reduxState) => ({
   storyReducer: reduxState.stories,
 })
 
@@ -34,18 +34,37 @@ class StoryLayout extends Component {
   }
 
   render() {
-    const details = {...this.props.storyReducer.storyDetails};
+    const details = { ...this.props.storyReducer.storyDetails };
 
     if (details.genre == null) {
       details.genre = "None";
     }
 
-    let editButton = <Button onClick={this.editStory} variant="contained" color="primary" >Edit Story</Button>;
-    let privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+    let editButton, privateNotes, isPrivate;
 
-    if (details.is_owner === false) {
-      editButton = <div></div>
-      privateNotes = <div></div>
+    if (details.is_owner) {
+      let visibility = "Public",
+        userPrivate = "Public",
+        worldPrivate = "Public",
+        itemPrivate = "Public";
+      if (details.is_private || details.world_private || details.user_private) {
+        visibility = "Private";
+      }
+      if (details.is_private) {
+        itemPrivate = "Private";
+      }
+      if (details.world_private) {
+        worldPrivate = "Private";
+      }
+      if (details.user_private) {
+        userPrivate = "Private";
+      }
+      editButton = <Button onClick={this.editStory} variant="contained" color="primary" >Edit Story</Button>;
+      privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div>
+        <p><strong>Visibility:</strong> {visibility}</p>
+        <p><strong>User setting:</strong> {userPrivate} - <strong>World setting:</strong> {worldPrivate} - <strong>Story Setting:</strong> {itemPrivate}</p>
+      </div>
     }
 
     let locationsContent = details.locations.map(location => <li key={location.id}><Link className="linkedElements" to={`/view/location/${location.id}`}>{location.name}</Link></li>)
@@ -73,6 +92,7 @@ class StoryLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList">
           <li><strong>Characters:</strong></li>
           {charactersContent}

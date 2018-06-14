@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 const mapStateToRedux = (reduxState) => ({ worldReducer: reduxState.worlds });
 
@@ -15,6 +15,7 @@ class WorldEditLayout extends Component {
       description: '',
       img_url: '',
       private_notes: '',
+      is_private: '',
     }
   }
 
@@ -43,6 +44,7 @@ class WorldEditLayout extends Component {
         description: details.description,
         img_url: details.img_url,
         private_notes: details.private_notes,
+        is_private: String(details.is_private),
       })
     }
   }
@@ -54,11 +56,16 @@ class WorldEditLayout extends Component {
   }
 
   confirmEdits = () => {
-    let toSend = {...this.state};
+    let toSend = { ...this.state };
     for (var key in toSend) {
       if (toSend[key] === '') {
         toSend[key] = null;
       }
+    }
+    if (toSend.is_private === 'false') {
+      toSend.is_private = false;
+    } else {
+      toSend.is_private = true;
     }
     const action = {
       type: WORLD_ACTIONS.SUBMIT_WORLD_EDITS,
@@ -86,18 +93,25 @@ class WorldEditLayout extends Component {
       <div>
         <h2>Modifying World: {this.props.worldReducer.worldDetails.name}</h2>
         <form>
-          <TextField className="editFormName" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField className="editFormStandard" label="Name" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField className="editFormWide" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
+          {/* <TextField className="editFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} /> */}
+          <TextField className="editFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+
           <br />
+          <FormControl >
+            <FormLabel >Visibility:</FormLabel>
+            <RadioGroup
+              name="is_private"
+              value={this.state.is_private}
+              onChange={this.handleChange('is_private')}
+            >
+              <FormControlLabel value="false" control={<Radio />} label="Public" />
+              <FormControlLabel value="true" control={<Radio />} label="Private" />
+            </ RadioGroup>
+          </FormControl>
           <br />
-          <TextField className="editFormDescription" rows="6" multiline label="Description" value={this.state.description} onChange={this.handleChange('description')} />
-          <br />
-          <br />
-          <TextField className="editFormUrl" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
-          <br />
-          <br />
-          <TextField className="editFormNotes" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
-          <br />
-          <br />
+
           <Button variant="contained" id="confirmWorldEditsButton" color="primary" onClick={this.confirmEdits}>Save Edits</Button>
           <Button variant="contained" id="deleteWorldButton" color="secondary" onClick={this.deleteWorld}>Delete World</Button>
         </form>
