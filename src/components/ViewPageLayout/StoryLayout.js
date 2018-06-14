@@ -29,6 +29,12 @@ class StoryLayout extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: STORY_ACTIONS.CLEAR_STORY_DETAILS,
+    })
+  }
+
   editStory = () => {
     this.props.history.push(`/edit/story/${this.props.match.params.id}`)
   }

@@ -29,6 +29,12 @@ class LocationLayout extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: LOCATION_ACTIONS.CLEAR_LOCATION_DETAILS,
+    })
+  }
+
   editLocation = () => {
     this.props.history.push(`/edit/location/${this.props.match.params.id}`);
   }

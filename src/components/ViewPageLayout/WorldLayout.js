@@ -27,6 +27,12 @@ class WorldLayout extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: WORLD_ACTIONS.CLEAR_WORLD_DETAILS,
+    })
+  }
+
   editWorld = () => {
     this.props.history.push(`/edit/world/${this.props.match.params.id}`)
   }

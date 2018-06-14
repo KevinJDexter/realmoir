@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import WorldEditLayout from '../EditPageLayouts/WorldEditLayout';
 import StoryEditLayout from '../EditPageLayouts/StoryEditLayout';
 import Sidebar from '../Sidebar/Sidebar';
-import { USER } from '../../redux/actions/userActions';
+import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 import './EditPage.css';
 import LocationEditLayout from '../EditPageLayouts/LocationEditLayout';

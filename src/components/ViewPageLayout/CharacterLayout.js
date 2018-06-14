@@ -29,6 +29,12 @@ class CharacterLayout extends Component {
     }
   }
 
+  componentWillUnmount = () => {
+    this.props.dispatch({ 
+      type: CHARACTER_ACTIONS.CLEAR_CHARACTER_DETAILS,
+    })
+  }
+
   editCharacter = () => {
     this.props.history.push(`/edit/character/${this.props.match.params.id}`)
   }
