@@ -10,11 +10,18 @@ router.get('/', (req, res) => {
     FROM "characters" AS "c"
     JOIN "worlds" AS "w"
     ON "c"."world_id" = "w"."id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
   `;
   let params = [];
   if (req.isAuthenticated()) {
-    query = query + ` WHERE "w"."user_id" = $1;`;
+    query = query + ` WHERE "u"."id" = $1;`;
     params.push(req.user.id);
+  } else {
+    query = query + ` 
+      WHERE "c"."is_private" = false
+      AND "u"."content_private" = false;
+      `;
   }
   pool.query(query, params)
     .then((results) => {
@@ -34,6 +41,8 @@ router.get('/search/general', (req, res) => {
     FROM "characters" AS "c"
     JOIN "worlds" AS "w" 
     ON "c"."world_id" = "w"."id"
+    JOIN "users" AS "u"
+    ON "w"."user_id" = "u"."id"
     WHERE (UPPER("c"."name") LIKE UPPER($1)
           OR UPPER("c"."description") LIKE UPPER($1)
           OR UPPER("c"."bio") LIKE UPPER($1))
@@ -42,6 +51,11 @@ router.get('/search/general', (req, res) => {
   if (req.isAuthenticated()) {
     query = query + ` AND "w"."user_id" = $2`;
     params.push(req.user.id);
+  } else {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
   };
   pool.query(query, params)
     .then((results) => {
@@ -58,7 +72,7 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/character/id')
   let query = `
-    SELECT "c"."id", "c"."name", "c"."alias", "c"."eye_color", "c"."hair_color", "c"."skin_color", "c"."birth_date", "c"."death_date", "c"."age", "c"."height", "c"."gender", "l"."name" as "home", "l"."id" as "home_id", "c"."description", "c"."bio", "c"."img_url", "w"."name" as "world", "c"."world_id",
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."eye_color", "c"."hair_color", "c"."skin_color", "c"."birth_date", "c"."death_date", "c"."age", "c"."height", "c"."gender", "l"."name" as "home", "l"."id" as "home_id", "c"."description", "c"."bio", "c"."img_url", "w"."name" as "world", "c"."world_id", "c"."date_created", "c"."is_private",
     CASE WHEN "w"."user_id" = $1
          THEN "c"."private_notes"
          ELSE NULL
@@ -72,12 +86,18 @@ router.get('/:id', (req, res) => {
     ON "l"."id" = "c"."home"
     JOIN "worlds" AS "w"
     ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
     WHERE "c"."id" = $2
   `;
   let userId = null;
   if (req.isAuthenticated()) {
     userId = req.user.id;
-  }
+  } else {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+  `;  }
   let params = [userId, req.params.id];
   pool.query(query, params)
     .then((results) => {
@@ -93,10 +113,20 @@ router.get('/:id', (req, res) => {
 router.get('/inWorld/:id', (req, res) => {
   console.log('GET /api/character/inWorld/id')
   let query = `
-    SELECT "id", "name", "alias", "description", "bio", "date_created"
-    FROM "characters"
-    WHERE "world_id" = $1
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."description", "c"."bio", "c"."date_created"
+    FROM "characters" AS "c"
+    JOIN "worlds" AS "w"
+    ON "c"."world_id" = "w"."id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "w"."id" = $1
   `;
+  if (!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
+  }
   let params = [req.params.id];
   pool.query(query, params)
     .then((results) => {
@@ -116,9 +146,19 @@ router.get('/inStory/:id', (req, res) => {
     FROM "characters" AS "c"
     JOIN "characters_stories_junction" AS "cs"
     ON "cs"."character_id" = "c"."id"
-    WHERE "cs"."story_id" = $1;
+    JOIN "worlds" AS "w"
+    ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "cs"."story_id" = $1
   `;
   let params = [req.params.id];
+  if (!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;  
+  }
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -137,9 +177,19 @@ router.get('/location/:id', (req, res) => {
     FROM "characters" AS "c"
     JOIN "characters_locations_junction" AS "cl"
     ON "cl"."character_id" = "c"."id"
-    WHERE "cl"."location_id" = $1;
+    JOIN "worlds" AS "w"
+    ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "cl"."location_id" = $1
   `;
   let params = [req.params.id];
+  if (!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
+  }
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -154,11 +204,21 @@ router.get('/location/:id', (req, res) => {
 router.get('/homeIs/:id', (req, res) => {
   console.log('GET /api/character/homeIs/id')
   let query = `
-    SELECT "id", "name", "alias", "description", "bio", "date_created"
-    FROM "characters"
-    WHERE "home" = $1;
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."description", "c"."bio", "c"."date_created"
+    FROM "characters" AS "c"
+    JOIN "worlds" AS "w"
+    ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
+    WHERE "home" = $1
   `; 
   let params = [req.params.id];
+  if(!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
+  }
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -173,13 +233,23 @@ router.get('/homeIs/:id', (req, res) => {
 router.get('/event/:id', (req, res) => {
   console.log('GET /api/character/event/id');
   let query = `
-    SELECT "c"."id", "c"."name", "c"."alias", "c"."description", "c"."bio", "c"."date_created" 
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."description", "c"."bio", "c"."date_created", "c"."is_private"
     FROM "characters" AS "c"
     JOIN "characters_events_junction" AS "ce"
     ON "ce"."character_id" = "c"."id"
+    JOIN "worlds" AS "w"
+    ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
     WHERE "ce"."event_id" = $1
   `;
   let params = [req.params.id];
+  if (!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
+  }
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -199,11 +269,21 @@ router.get('/relationships/:id', (req, res) => {
     JOIN "characters" AS "c"
     ON "r"."first_character_id" = "c"."id"
     OR "r"."second_character_id" = "c"."id"
+    JOIN "worlds" AS "w"
+    ON "w"."id" = "c"."world_id"
+    JOIN "users" AS "u"
+    ON "u"."id" = "w"."user_id"
     WHERE ("r"."first_character_id" = $1
     OR "r"."second_character_id" = $1)
     AND "c"."id" != $1
   `;
   let params = [req.params.id];
+  if (!req.isAuthenticated()) {
+    query = query + `
+      AND "c"."is_private" = false
+      AND "u"."content_private" = false; 
+    `;
+  }
   pool.query(query, params)
     .then((results) => {
       res.send(results.rows);
@@ -237,9 +317,10 @@ router.post('/', (req, res) => {
       "bio",
       "img_url",
       "private_notes",
-      "world_id"
+      "world_id",
+      "is_private"
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
     RETURNING "id";
   `;
     let params = [
@@ -258,7 +339,8 @@ router.post('/', (req, res) => {
       character.bio,
       character.img_url,
       character.private_notes,
-      character.world_id
+      character.world_id,
+      character.is_private
     ];
     pool.query(query, params)
       .then((results) => {
@@ -295,14 +377,15 @@ router.put('/:id', (req, res) => {
         "description" = $12,
         "bio" = $13,
         "img_url" = $14,
-        "private_notes" = $15
-    WHERE "id" = $16
+        "private_notes" = $15,
+        "is_private" = $16
+    WHERE "id" = $17
     AND EXISTS (SELECT 1
                 FROM "characters" AS "c"
                 JOIN "worlds" AS "w"
                 ON "w"."id" = "c"."world_id"
-                WHERE "c"."id" = $16
-                AND "w"."user_id" = $17);
+                WHERE "c"."id" = $17
+                AND "w"."user_id" = $18);
   `;
     let params = [
       update.name,
@@ -320,6 +403,7 @@ router.put('/:id', (req, res) => {
       update.bio,
       update.img_url,
       update.private_notes,
+      update.is_private,
       req.params.id,
       req.user.id
     ];
