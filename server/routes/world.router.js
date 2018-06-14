@@ -68,7 +68,7 @@ router.get('/search/general', (req, res) => {
 // Only shares private notes if belongs to logged in user
 router.get('/:id', (req, res) => {
   console.log('GET /api/world/id');
-  const query = `
+  let query = `
     SELECT "w"."id", "w"."name", "w"."description", "w"."img_url", "w"."date_created", "w"."is_private", "u"."content_private" as "user_private",
     CASE WHEN "u"."id" = $1
          THEN "w"."private_notes"
