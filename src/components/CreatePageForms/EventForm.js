@@ -27,7 +27,7 @@ class EventForm extends Component {
       private_notes: '',
       related_characters: [],
       related_stories: [],
-      is_private: 'true',
+      is_private: 'false',
     }
   }
 
