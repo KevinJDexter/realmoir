@@ -39,16 +39,11 @@ class LocationLayout extends Component {
     let contained_locations = details.neighbors.filter(location => location.contained === true);
     let parent_locations = details.neighbors.filter(location => location.parent === true);
 
-    if (details.description === null) {
-      details.description = "None";
-    }
-
-    if (details.history === null) {
-      details.history = "None";
-    }
-
-    if (details.climate === null) {
-      details.climate = "None";
+    for (let key in details) {
+      if (details[key] === null) {
+        if (key !== 'location' && key !== 'location_id')
+        details[key] = "N/A";
+      }
     }
 
     let storiesContent = <li className="linkedElements">None</li>
