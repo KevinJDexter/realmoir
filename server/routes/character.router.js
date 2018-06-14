@@ -74,7 +74,7 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/character/id')
   let query = `
-    SELECT "c"."id", "c"."name", "c"."alias", "c"."eye_color", "c"."hair_color", "c"."skin_color", "c"."birth_date", "c"."death_date", "c"."age", "c"."height", "c"."gender", "l"."name" as "home", "l"."id" as "home_id", "c"."description", "c"."bio", "c"."img_url", "w"."name" as "world", "c"."world_id", "c"."date_created", "c"."is_private",
+    SELECT "c"."id", "c"."name", "c"."alias", "c"."eye_color", "c"."hair_color", "c"."skin_color", "c"."birth_date", "c"."death_date", "c"."age", "c"."height", "c"."gender", "c"."description", "c"."bio", "c"."img_url", "w"."name" as "world", "c"."world_id", "c"."date_created", "c"."is_private",
     CASE WHEN "w"."user_id" = $1
          THEN "c"."private_notes"
          ELSE NULL
@@ -82,7 +82,17 @@ router.get('/:id', (req, res) => {
     CASE WHEN "w"."user_id" = $1
          THEN true
          ELSE false
-         END AS "is_owner"
+         END AS "is_owner",
+    CASE WHEN ("l"."is_private" = false
+               OR "u"."id" = $1)
+         THEN "l"."name"
+         ELSE NULL
+         END AS "home",
+    CASE WHEN ("l"."is_private" = false
+               OR "u"."id" = $1)
+         THEN "l"."id"
+         ELSE NULL
+         END AS "home_id"
     FROM "characters" AS "c"
     LEFT JOIN "locations" AS "l"
     ON "l"."id" = "c"."home"
@@ -100,7 +110,8 @@ router.get('/:id', (req, res) => {
       AND "c"."is_private" = false
       AND "w"."is_private" = false
       AND "u"."content_private" = false; 
-  `;  }
+  `;
+  }
   let params = [userId, req.params.id];
   pool.query(query, params)
     .then((results) => {
@@ -162,7 +173,7 @@ router.get('/inStory/:id', (req, res) => {
       AND "c"."is_private" = false
       AND "w"."is_private" = false
       AND "u"."content_private" = false; 
-    `;  
+    `;
   }
   pool.query(query, params)
     .then((results) => {
@@ -217,9 +228,9 @@ router.get('/homeIs/:id', (req, res) => {
     JOIN "users" AS "u"
     ON "u"."id" = "w"."user_id"
     WHERE "home" = $1
-  `; 
+  `;
   let params = [req.params.id];
-  if(!req.isAuthenticated()) {
+  if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
       AND "w"."is_private" = false

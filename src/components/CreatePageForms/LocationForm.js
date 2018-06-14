@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { connect } from 'react-redux';
 import ReactSelect from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -30,15 +30,16 @@ class LocationForm extends Component {
       contained_locations: [],
       contained_by_locations: [],
       world_id: 0,
+      is_private: 'true',
     }
   }
 
   componentDidMount() {
     if (this.props.createReducer.story.id) {
       this.setState({
-        related_stories: [{value: this.props.createReducer.story.id, label: this.props.createReducer.story.title}]
+        related_stories: [{ value: this.props.createReducer.story.id, label: this.props.createReducer.story.title }]
       })
-    } 
+    }
     this.setState({
       world_id: this.props.createReducer.world.id,
     })
@@ -63,6 +64,11 @@ class LocationForm extends Component {
         toSend[key] = null;
       }
     }
+    if (toSend.is_private === 'false') {
+      toSend.is_private = false;
+    } else {
+      toSend.is_private = true;
+    }
     this.props.dispatch({
       type: LOCATION_ACTIONS.CREATE_NEW_LOCATION,
       payload: toSend,
@@ -72,11 +78,11 @@ class LocationForm extends Component {
 
   render() {
 
-    let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({value: story.id, label: story.title}));
-    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name}));
-    let containsLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
-    let containedByLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({value: location.id, label: location.name})); 
-    let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({value: character.id, label: character.name})); 
+    let storySelectOptions = this.props.storyReducer.storiesInWorld.map(story => ({ value: story.id, label: story.title }));
+    let locationSelectOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
+    let containsLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
+    let containedByLocationsOptions = this.props.locationReducer.locationsInWorld.map(location => ({ value: location.id, label: location.name }));
+    let characterSelectOptions = this.props.characterReducer.charactersInWorld.map(character => ({ value: character.id, label: character.name }));
 
     return (
       <div>
@@ -88,6 +94,21 @@ class LocationForm extends Component {
           <TextField className="createFormStandard" label="climate" value={this.state.climate} onChange={this.handleChange('climate')} />
           <TextField className="createFormStandard" label="Image URL" value={this.state.img_url} onChange={this.handleChange('img_url')} />
           <TextField className="createFormWide" multiline rows="4" label="Private Notes" value={this.state.private_notes} onChange={this.handleChange('private_notes')} />
+
+          <br />
+          <FormControl >
+            <FormLabel >Visibility:</FormLabel>
+            <RadioGroup
+              name="is_private"
+              value={this.state.is_private}
+              onChange={this.handleChange('is_private')}
+            >
+              <FormControlLabel value="false" control={<Radio />} label="Public" />
+              <FormControlLabel value="true" control={<Radio />} label="Private" />
+            </ RadioGroup>
+          </FormControl>
+          <br />
+
           <h5>Related Stories</h5>
           <ReactSelect
             className="createFormSelect"

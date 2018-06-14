@@ -38,7 +38,8 @@ class LocationLayout extends Component {
 
     for (let key in details) {
       if (details[key] === null) {
-        details[key] = "None";
+        if (key !== 'location' && key !== 'location_id')
+        details[key] = "N/A";
       }
     }
 
@@ -64,6 +65,11 @@ class LocationLayout extends Component {
       isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
+    let locationLink = <p>N/A</p>;
+    if (details.location !== null) {
+      locationLink = <p><Link to={`/view/location/${details.location_id}`}>{details.location}</Link></p>
+    }
+
 
     return (
       <div className="formContainer" >
@@ -73,7 +79,7 @@ class LocationLayout extends Component {
         <h4>Date of Event</h4>
         <p>{details.date_of_event}</p>
         <h4>Location</h4>
-        <p><Link to={`/view/location/${details.location_id}`}>{details.location}</Link></p>
+        {locationLink}
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}

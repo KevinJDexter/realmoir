@@ -63,9 +63,9 @@ class UserPage extends Component {
     if (this.state.contentPrivate === 'true') {
       contentPrivate = true;
     }
-    this.props.dispatch({ 
-      type: USER_ACTIONS.EDIT_USER, 
-      payload: {...this.state, contentPrivate: contentPrivate}, 
+    this.props.dispatch({
+      type: USER_ACTIONS.EDIT_USER,
+      payload: { ...this.state, contentPrivate: contentPrivate },
     })
     this.toggleEdit();
   }
@@ -101,11 +101,11 @@ class UserPage extends Component {
             </ RadioGroup>
           </FormControl>
           <br />
-            <Button className="userButton" color="primary" variant="raised" onClick={this.submitEdits}>
-              Submit Edits
+          <Button className="userButton" color="primary" variant="raised" onClick={this.submitEdits}>
+            Submit Edits
             </Button>
-            <Button className="userButton" color="secondary" variant="raised" onClick={this.toggleEdit}>
-              Cancel
+          <Button className="userButton" color="secondary" variant="raised" onClick={this.toggleEdit}>
+            Cancel
             </Button>
         </div>
       } else {

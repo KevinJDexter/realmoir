@@ -37,7 +37,7 @@ class CharacterLayout extends Component {
     let details = {...this.props.characterReducer.characterDetails};
 
     for (let key in details) {
-      if (details[key] === null) {
+      if (details[key] === null && key !== 'home' && key !== 'home_id') {
         details[key] = 'N/A';
       }
     }
@@ -74,6 +74,11 @@ class CharacterLayout extends Component {
       isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
+    let homeLink = <p>N/A</p>
+    if (details.home !== null) {
+      homeLink = <p><Link to={`/view/world/${details.home_id}`}>{details.home}</Link></p>
+    }
+
     return (
       <div className="formContainer" >
         <h2>{details.name}</h2>
@@ -92,7 +97,7 @@ class CharacterLayout extends Component {
         <p>Height: {details.height}</p>
         <p>Gender: {details.gender}</p>
         <h4>Home</h4>
-        <p><Link to={`/view/world/${details.home_id}`}>{details.home}</Link></p>
+        {homeLink}
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}

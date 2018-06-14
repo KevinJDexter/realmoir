@@ -73,15 +73,25 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/event/id')
   let query = `
-    SELECT "e"."id", "e"."name", "e"."description", "e"."date_of_event", "l"."id" AS "location_id", "l"."name" as "location", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url", "e"."is_private",
-    CASE WHEN "w"."user_id" = $1
+    SELECT "e"."id", "e"."name", "e"."description", "e"."date_of_event", "e"."world_id", "w"."name" as "world", "e"."date_created", "e"."img_url", "e"."is_private",
+    CASE WHEN "u"."id" = $1
          THEN "e"."private_notes"
          ELSE NULL
          END AS "private_notes",
-    CASE WHEN "w"."user_id" = $1
+    CASE WHEN "u"."id" = $1
          THEN true
          ELSE false
-         END AS "is_owner"
+         END AS "is_owner",
+    CASE WHEN ("l"."is_private" = false
+               OR "u"."id" = $1)
+         THEN "l"."name"
+         ELSE NULL
+         END AS "location",
+    CASE WHEN ("l"."is_private" = false
+               OR "u"."id" = $1)
+         THEN "l"."id"
+         ELSE NULL
+         END AS "location_id"
     FROM "events" AS "e"
     LEFT JOIN "locations" AS "l"
     ON "l"."id" = "e"."location"
