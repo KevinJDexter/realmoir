@@ -38,7 +38,7 @@ class CharacterLayout extends Component {
 
     for (let key in details) {
       if (details[key] === null) {
-        details[key] = '';
+        details[key] = 'N/A';
       }
     }
 
@@ -62,11 +62,16 @@ class CharacterLayout extends Component {
       eventsContent = details.events.map(event => <Link key={event.id} className="linkedElements" to={`/view/event/${event.id}`}>{event.name}</Link> )
     }
 
-    let editButton, privateNotes;
+    let editButton, privateNotes, isPrivate;
 
     if (details.is_owner !== false) {
+      let visibility = "Public";
+      if (details.is_private) {
+        visibility = "Private";
+      }
       editButton = <Button onClick={this.editCharacter} variant="contained" color="primary" >Edit Character</Button>;
       privateNotes = <div><h4>Notes:</h4><p>{details.private_notes}</p></div>;
+      isPrivate = <div><h4>Visibility:</h4><p>{visibility}</p></div>
     }
 
     return (
@@ -91,6 +96,7 @@ class CharacterLayout extends Component {
         <h4>World</h4>
         <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
         {privateNotes}
+        {isPrivate}
         <ul className="connectionList" >
           <li><strong>Stories:</strong></li>
           {storiesContent}
