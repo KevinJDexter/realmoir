@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { LOCATION_ACTIONS } from '../../redux/actions/locationActions';
+import Moment from 'react-moment';
 
 const mapStateToProps = (reduxState) => ({
   locationReducer: reduxState.locations,
@@ -30,7 +31,7 @@ class LocationLayout extends Component {
   }
 
   componentWillUnmount = () => {
-    this.props.dispatch({ 
+    this.props.dispatch({
       type: LOCATION_ACTIONS.CLEAR_LOCATION_DETAILS,
     })
   }
@@ -125,38 +126,41 @@ class LocationLayout extends Component {
 
 
     return (
-      <div className="formContainer" >
-        <h2>{details.name}</h2>
-        <h4>Description</h4>
-        <p>{details.description}</p>
-        <h4>History</h4>
-        <p>{details.history}</p>
-        <h4>Climate</h4>
-        <p>{details.climate}</p>
-        <h4>World</h4>
-        <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
-        {privateNotes}
-        {isPrivate}
-        <ul className="connectionList" >
-          <li><strong>Stories:</strong></li>
-          {storiesContent}
-        </ul>
-        <ul className="connectionList" >
-          <li><strong>Related Characters:</strong></li>
-          {charactersContent}
-        </ul>
-        {homeToContent}
-        <ul className="connectionList" >
-          <li><strong>Neighboring Locations:</strong></li>
-          {neighboringLocationsContent}
-        </ul>
-        {containedLocationsContent}
-        {containedByLocationsContent}
-        <ul className="connectionList" >
-          <li><strong>Events:</strong></li>
-          {eventsContent}
-        </ul>
-        {editButton}
+      <div>
+        <div className="formContainer" >
+          <h2>{details.name}</h2>
+          <h4>Description</h4>
+          <p>{details.description}</p>
+          <h4>History</h4>
+          <p>{details.history}</p>
+          <h4>Climate</h4>
+          <p>{details.climate}</p>
+          <h4>World</h4>
+          <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
+          {privateNotes}
+          {isPrivate}
+          <ul className="connectionList" >
+            <li><strong>Stories:</strong></li>
+            {storiesContent}
+          </ul>
+          <ul className="connectionList" >
+            <li><strong>Related Characters:</strong></li>
+            {charactersContent}
+          </ul>
+          {homeToContent}
+          <ul className="connectionList" >
+            <li><strong>Neighboring Locations:</strong></li>
+            {neighboringLocationsContent}
+          </ul>
+          {containedLocationsContent}
+          {containedByLocationsContent}
+          <ul className="connectionList" >
+            <li><strong>Events:</strong></li>
+            {eventsContent}
+          </ul>
+          {editButton}
+        </div>
+        <p className="dateWatermark">Date Created: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.date_created}</Moment></p>
       </div>
     )
   }

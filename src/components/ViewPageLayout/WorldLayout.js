@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { WORLD_ACTIONS } from '../../redux/actions/worldActions';
 import { Button } from '@material-ui/core';
+import Moment from 'react-moment';
 
 const mapStateToRedux = (reduxState) => ({ worldReducer: reduxState.worlds })
 
@@ -28,7 +29,7 @@ class WorldLayout extends Component {
   }
 
   componentWillUnmount = () => {
-    this.props.dispatch({ 
+    this.props.dispatch({
       type: WORLD_ACTIONS.CLEAR_WORLD_DETAILS,
     })
   }
@@ -89,29 +90,32 @@ class WorldLayout extends Component {
     }
 
     return (
-      <div className="formContainer" >
-        <h2>{details.name}</h2>
-        <h4>Description</h4>
-        <p>{descriptionContent}</p>
-        {privateNotes}
-        {isPrivate}
-        <ul className="connectionList" >
-          <li><strong>Stories:</strong></li>
-          {storiesContent}
-        </ul>
-        <ul className="connectionList" >
-          <li><strong>Characters:</strong></li>
-          {charactersContent}
-        </ul>
-        <ul className="connectionList" >
-          <li><strong>Locations:</strong></li>
-          {locationsContent}
-        </ul>
-        <ul className="connectionList" >
-          <li><strong>Events:</strong></li>
-          {eventsContent}
-        </ul>
-        {editButton}
+      <div>
+        <div className="formContainer" >
+          <h2>{details.name}</h2>
+          <h4>Description</h4>
+          <p>{descriptionContent}</p>
+          {privateNotes}
+          {isPrivate}
+          <ul className="connectionList" >
+            <li><strong>Stories:</strong></li>
+            {storiesContent}
+          </ul>
+          <ul className="connectionList" >
+            <li><strong>Characters:</strong></li>
+            {charactersContent}
+          </ul>
+          <ul className="connectionList" >
+            <li><strong>Locations:</strong></li>
+            {locationsContent}
+          </ul>
+          <ul className="connectionList" >
+            <li><strong>Events:</strong></li>
+            {eventsContent}
+          </ul>
+          {editButton}
+        </div>
+        <p className="dateWatermark">Date Created: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.date_created}</Moment></p>
       </div>
     )
   }

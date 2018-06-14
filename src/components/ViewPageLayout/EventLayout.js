@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import { EVENT_ACTIONS } from '../../redux/actions/eventActions';
+import Moment from 'react-moment';
 
 const mapStateToProps = (reduxState) => ({
   eventReducer: reduxState.events,
@@ -30,7 +31,7 @@ class LocationLayout extends Component {
   }
 
   componentWillUnmount = () => {
-    this.props.dispatch({ 
+    this.props.dispatch({
       type: EVENT_ACTIONS.CLEAR_EVENT_DETAILS,
     })
   }
@@ -93,27 +94,30 @@ class LocationLayout extends Component {
 
 
     return (
-      <div className="formContainer" >
-        <h2>{details.name}</h2>
-        <h4>Description</h4>
-        <p>{details.description}</p>
-        <h4>Date of Event</h4>
-        <p>{details.date_of_event}</p>
-        <h4>Location</h4>
-        {locationLink}
-        <h4>World</h4>
-        <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
-        {privateNotes}
-        {isPrivate}
-        <ul className="connectionList" >
-          <li><strong>Stories:</strong></li>
-          {storiesContent}
-        </ul>
-        <ul className="connectionList" >
-          <li><strong>Related Characters:</strong></li>
-          {charactersContent}
-        </ul>
-        {editButton}
+      <div>
+        <div className="formContainer" >
+          <h2>{details.name}</h2>
+          <h4>Description</h4>
+          <p>{details.description}</p>
+          <h4>Date of Event</h4>
+          <p>{details.date_of_event}</p>
+          <h4>Location</h4>
+          {locationLink}
+          <h4>World</h4>
+          <p><Link to={`/view/world/${details.world_id}`}>{details.world}</Link></p>
+          {privateNotes}
+          {isPrivate}
+          <ul className="connectionList" >
+            <li><strong>Stories:</strong></li>
+            {storiesContent}
+          </ul>
+          <ul className="connectionList" >
+            <li><strong>Related Characters:</strong></li>
+            {charactersContent}
+          </ul>
+          {editButton}
+        </div>
+        <p className="dateWatermark">Date Created: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.date_created}</Moment></p>
       </div>
     )
   }

@@ -3,6 +3,7 @@ import { CHARACTER_ACTIONS } from '../../redux/actions/characterActions';
 import {connect} from 'react-redux';
 import {Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import Moment from 'react-moment';
 
 const mapStateToProps = (reduxState) => ({
   characterReducer: reduxState.characters,
@@ -101,6 +102,7 @@ class CharacterLayout extends Component {
     }
 
     return (
+      <div>
       <div className="formContainer" >
         <h2>{details.name}</h2>
         <h4>Alias</h4>
@@ -140,6 +142,8 @@ class CharacterLayout extends Component {
           {eventsContent}
         </ul>
         {editButton}
+      </div>
+        <p className="dateWatermark">Date Created: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.date_created}</Moment></p>
       </div>
     )
   }
