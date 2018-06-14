@@ -346,7 +346,7 @@ router.delete('/:id', (req, res) => {
     const params = [req.params.id, req.user.id];
     pool.query(query, params)
       .then(() => {
-        res.sendStatus(204);
+        res.sendStatus(202);
       })
       .catch((error) => {
         res.sendStatus(500);
