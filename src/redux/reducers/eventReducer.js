@@ -43,6 +43,8 @@ const eventDetails = (state = {stories: [], characters: []}, action) => {
   switch (action.type) {
     case EVENT_ACTIONS.SET_EVENT_DETAILS:
       return action.payload;
+    case EVENT_ACTIONS.CLEAR_EVENT_DETAILS:
+      return { stories: [], characters: [] };
     default:
       return state;
   }

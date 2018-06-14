@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import WorldEditLayout from '../EditPageLayouts/WorldEditLayout';
 import StoryEditLayout from '../EditPageLayouts/StoryEditLayout';
 import Sidebar from '../Sidebar/Sidebar';
+import { USER } from '../../redux/actions/userActions';
 
 import './EditPage.css';
 import LocationEditLayout from '../EditPageLayouts/LocationEditLayout';
@@ -10,6 +11,17 @@ import CharacterEditLayout from '../EditPageLayouts/CharacterEditLayout';
 import EventEditLayout from '../EditPageLayouts/EventEditLayout';
 
 class EditPage extends Component {
+
+  componentDidMount() {
+    if (!this.props.user.userName && !this.props.user.isLoading) {
+      this.props.history.push('/home');
+    }
+  }
+
+  componentWillMount() {
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+  }
+
   render () {
 
     let componentToMount = <div></div>

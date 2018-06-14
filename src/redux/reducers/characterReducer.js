@@ -43,6 +43,8 @@ const characterDetails = (state = {stories: [], relationships: [], locations: []
   switch (action.type) {
     case CHARACTER_ACTIONS.SET_CHARACTER_DETAILS:
       return action.payload;
+    case CHARACTER_ACTIONS.CLEAR_CHARACTER_DETAILS:
+      return { stories: [], relationships: [], locations: [], events: [] };
     default:
       return state;
   }

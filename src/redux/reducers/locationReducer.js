@@ -43,6 +43,8 @@ const locationDetails = (state = {stories: [], neighbors: [], characters: [], ho
   switch (action.type) {
     case LOCATION_ACTIONS.SET_LOCATION_DETAILS:
       return action.payload;
+    case LOCATION_ACTIONS.CLEAR_LOCATION_DETAILS:
+      return { stories: [], neightbors: [], characters: [], homeTo: [], events: [] };
     default:
       return state;
   }
