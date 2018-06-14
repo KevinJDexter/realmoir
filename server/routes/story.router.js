@@ -104,7 +104,19 @@ router.get('/inWorld/:id', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/story/id');
   let query = `
-    SELECT "s"."id", "s"."title", "s"."synopsis", "s"."img_url", "s"."genre_id", "w"."name" as "world", "s"."world_id", "g"."name" as "genre", "s"."date_created", "s"."is_private", "w"."is_private" as "world_private", "u"."content_private" as "user_private",
+    SELECT "s"."id", 
+           "s"."title", 
+           "s"."synopsis", 
+           "s"."img_url", 
+           "s"."genre_id", 
+           "w"."name" as "world", 
+           "s"."world_id", 
+           "g"."name" as "genre", 
+           "s"."date_created", 
+           "s"."last_updated",
+           "s"."is_private", 
+           "w"."is_private" as "world_private", 
+           "u"."content_private" as "user_private",
     CASE WHEN "u"."id" = $1
          THEN "s"."private_notes"
          ELSE NULL
@@ -293,7 +305,8 @@ router.put('/:id', (req, res) => {
         "img_url" = $4,
         "private_notes" = $5,
         "world_id" = $6,
-        "is_private" = $7
+        "is_private" = $7,
+        "last_updated" = NOW()
     WHERE "id" = $8
     AND EXISTS (SELECT 1 
                 FROM "stories"

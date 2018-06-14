@@ -161,6 +161,7 @@ class LocationLayout extends Component {
           {editButton}
         </div>
         <p className="dateWatermark">Date Created: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.date_created}</Moment></p>
+        <p className="dateWatermark">Last Updated: <Moment format="ddd MMM Do, YYYY HH:mm:ss">{details.last_updated}</Moment></p>
       </div>
     )
   }

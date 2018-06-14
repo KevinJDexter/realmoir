@@ -74,7 +74,19 @@ router.get('/search/general', (req, res) => {
 router.get('/:id', (req, res) => {
   console.log('GET /api/location/id');
   let query = `
-    SELECT "l"."id", "l"."name", "l"."description", "l"."history", "l"."climate", "l"."img_url", "l"."world_id", "w"."name" as "world", "l"."date_created", "l"."is_private", "w"."is_private" as "world_private", "u"."content_private" as "user_private",
+    SELECT "l"."id", 
+           "l"."name", 
+           "l"."description", 
+           "l"."history", 
+           "l"."climate", 
+           "l"."img_url", 
+           "l"."world_id", 
+           "w"."name" as "world", 
+           "l"."date_created", 
+           "l"."last_updated",
+           "l"."is_private", 
+           "w"."is_private" as "world_private", 
+           "u"."content_private" as "user_private",
     CASE WHEN "u"."id" = $1
          THEN "l"."private_notes"
          ELSE NULL
@@ -332,7 +344,8 @@ router.put('/:id', (req, res) => {
           "climate" = $4, 
           "img_url" = $5, 
           "private_notes" = $6,
-          "is_private" = $7
+          "is_private" = $7,
+          "last_updated" = NOW()
       WHERE "id" = $8
       AND EXISTS (SELECT 1
                   FROM "locations" AS "l"
