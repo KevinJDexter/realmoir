@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
   } else {
     query = query + ` 
       WHERE "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
       `;
   }
@@ -54,6 +55,7 @@ router.get('/search/general', (req, res) => {
   } else {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   };
@@ -96,6 +98,7 @@ router.get('/:id', (req, res) => {
   } else {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
   `;  }
   let params = [userId, req.params.id];
@@ -124,6 +127,7 @@ router.get('/inWorld/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   }
@@ -156,6 +160,7 @@ router.get('/inStory/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;  
   }
@@ -187,6 +192,7 @@ router.get('/location/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   }
@@ -216,6 +222,7 @@ router.get('/homeIs/:id', (req, res) => {
   if(!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   }
@@ -247,6 +254,7 @@ router.get('/event/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   }
@@ -281,6 +289,7 @@ router.get('/relationships/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "c"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false; 
     `;
   }

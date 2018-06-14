@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
   } else {
     query = query + `
       WHERE "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -53,6 +54,7 @@ router.get('/search/general', (req, res) => {
   } else {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -95,6 +97,7 @@ router.get('/:id', (req, res) => {
   } else {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -125,6 +128,7 @@ router.get('/inWorld/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -156,6 +160,7 @@ router.get('/inStory/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -185,6 +190,7 @@ router.get('/location/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
@@ -216,6 +222,7 @@ router.get('/character/:id', (req, res) => {
   if (!req.isAuthenticated()) {
     query = query + `
       AND "e"."is_private" = false
+      AND "w"."is_private" = false
       AND "u"."content_private" = false;
     `;
   }
