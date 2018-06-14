@@ -9,8 +9,45 @@ const router = express.Router();
 // Handles Ajax request for user information if user is authenticated
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
-  res.send(req.user);
+  console.log('GET /api/user');
+  let query = `
+    SELECT "first_name", "last_name", "username", "email", "content_private"
+    FROM "users"
+    WHERE "id" = $1
+  `;
+  let params = [req.user.id];
+  pool.query(query, params)
+    .then(results => {
+      res.send(results.rows[0])
+    }) 
+    .catch(error => {
+      res.sendStatus(500);
+      console.log(error);
+    })
 });
+
+router.put('/', rejectUnauthenticated, (req, res) => {
+  console.log('PUT /api/user');
+  const update = req.body;
+  let query = `
+    UPDATE "users"
+    SET "first_name" = $1,
+        "last_name" = $2,
+        "username" = $3,
+        "email" = $4,
+        "content_private" = $5
+    WHERE "id" = $6
+  `;
+  let params = [update.firstName, update.lastName, update.userName, update.email, update.contentPrivate, req.user.id];
+  pool.query(query, params)
+    .then(() => {
+      res.sendStatus(201);
+    })
+    .catch(error => {
+      res.sendStatus(500);
+      console.log(error);
+    })
+})
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen

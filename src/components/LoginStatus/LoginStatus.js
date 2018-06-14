@@ -21,7 +21,7 @@ class LoginStatus extends Component {
     if (this.props.user.userName !== null) {
       options = <div>
         <p>
-          Welcome back, {this.props.user.userName} - <a
+          Welcome back, {this.props.user.firstName} - <a
             className="logoutLink color-secondary-2-2" onClick={this.logout}>Log Out
             </a>
         </p>

@@ -28,7 +28,7 @@ class ViewPage extends Component {
     }
 
     return (
-      <div style={{ width: window.innerWidth, height: window.innerHeight }}>
+      <div style={{ width: window.innerWidth, height: window.innerHeight, display: "flex", flexDirection: "column" }}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView" >
           <div className="viewPageContent">

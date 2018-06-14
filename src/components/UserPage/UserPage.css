@@ -1,0 +1,15 @@
+.userContent {
+  flex: 6;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.userButton {
+  margin: 20px !important;
+}
+
+.userFormStandard {
+    width: 20%;
+    margin: 10px !important;
+    background-color: rgba(255,255,255,.1);
+  }

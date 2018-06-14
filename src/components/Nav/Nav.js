@@ -6,9 +6,9 @@ const Nav = () => (
     <div>
       <ul>
         <li>
-          {/* <Link className="color-secondary-2-2" to="/user">
+          <Link className="color-secondary-2-2" to="/user">
             User
-          </Link> */}
+          </Link>
         </li>
         <li>
           <Link className="color-secondary-2-2" to="/home">
