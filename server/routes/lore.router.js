@@ -98,7 +98,7 @@ router.get('/search/general', (req, res) => {
            OR UPPER("l"."synopsis") = UPPER($1)
            OR UPPER("l"."description") = UPPER($1))
   `;
-  let params = [`%${req.body.searchQuery}%`];
+  let params = [`%${req.query.searchQuery}%`];
   if (req.isAuthenticated()) {
     query = query + ` AND "u"."id" = $2;`
     params.push(req.user.id);
