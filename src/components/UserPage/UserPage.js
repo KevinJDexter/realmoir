@@ -137,7 +137,7 @@ class UserPage extends Component {
     }
 
     return (
-      <div style={{ width: window.innerWidth, height: window.innerHeight, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: window.innerHeight, display: "flex", flexDirection: "column" }}>
         <Header history={this.props.history} />
         <div className="mainView">
           <div className="userContent">

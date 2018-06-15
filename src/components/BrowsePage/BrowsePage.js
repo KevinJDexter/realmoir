@@ -156,7 +156,7 @@ class BrowsePage extends Component {
     }
 
     return (
-      <div style={{ height: window.innerHeight, width: window.innerWidth, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: window.innerHeight, display: "flex", flexDirection: "column" }}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView" >
           <div className="browsePageContent" >

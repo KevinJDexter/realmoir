@@ -83,7 +83,7 @@ class HomePage extends Component {
     let storyBrowseOptions = this.props.storiesReducer.stories.slice(0, 5);
 
     return (
-      <div style={{ height: window.innerHeight, width: window.innerWidth, display: "flex", flexDirection: "column" }}>
+      <div style={{ height: window.innerHeight, display: "flex", flexDirection: "column" }}>
         <Header title="Realmoir" history={this.props.history} />
         <div className="mainView">
           <div className="homePageContent">

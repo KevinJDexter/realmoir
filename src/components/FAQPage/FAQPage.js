@@ -7,7 +7,7 @@ import './FAQPage.css';
 class AboutPage extends Component {
   render() {
     return (
-      <div>
+      <div style={{height: window.innerHeight}}>
         <Header history={this.props.history} />
         <div className="mainView">
           <div className="faqPageContent">
