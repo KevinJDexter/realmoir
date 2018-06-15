@@ -5,6 +5,7 @@ import { callSearchStories } from '../requests/storyRequests';
 import { callSearchLocations } from '../requests/locationRequests';
 import { callSearchCharacters } from '../requests/characterRequests';
 import { callSearchEvents } from '../requests/eventRequests';
+import { callSearchLore } from '../requests/loreRequests';
 
 function* getSearchResults(action) {
   try {
@@ -19,7 +20,9 @@ function* getSearchResults(action) {
     characters = characters.map(character => ({...character, objectType: 'character'}));
     let events = yield callSearchEvents(action.payload);
     events = events.map(event => ({...event, objectType: 'event'}))
-    const searchResults = [...worlds, ...stories, ...locations, ...characters, ...events];
+    let lore = yield callSearchLore(action.payload);
+    lore = lore.map(loreItem => ({...loreItem, objectType: 'lore'}))
+    const searchResults = [...worlds, ...stories, ...locations, ...characters, ...events, ...lore];
     yield put({ type: SEARCH_ACTIONS.SET_SEARCH_RESULTS, payload: searchResults });
     yield put({ type: SEARCH_ACTIONS.REQUEST_DONE });
   } catch (error) {

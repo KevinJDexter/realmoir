@@ -7,6 +7,7 @@ import { callStoriesInWorld } from '../requests/storyRequests';
 import { callLocationsInWorld } from '../requests/locationRequests';
 import { callCharactersInWorld } from '../requests/characterRequests';
 import { callEventsInWorld } from '../requests/eventRequests';
+import { callLoreInWorld } from '../requests/loreRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchWorlds() {
@@ -56,6 +57,7 @@ function* fetchWorldDetails(action) {
     worldDetails.locations = yield callLocationsInWorld(action.payload);
     worldDetails.characters = yield callCharactersInWorld(action.payload);
     worldDetails.events = yield callEventsInWorld(action.payload);
+    worldDetails.lore = yield callLoreInWorld(action.payload);
     yield put ({ 
       type: WORLD_ACTIONS.SET_WORLD_DETAILS,
       payload: worldDetails,
