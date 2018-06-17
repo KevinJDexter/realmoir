@@ -43,6 +43,27 @@ class StoryEditLayout extends Component {
 
   componentDidUpdate = () => {
     if (!this.props.storyReducer.isLoading && !this.props.storyReducer.storyDetails.id) {
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
+      console.log('hit');
       this.props.history.push('/home');
     }
     if (this.state.startingTitle !== this.props.storyReducer.storyDetails.title && !this.props.storyReducer.isLoading) {
