@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-image: url('/images/6d4ebd84.png');
+    background-image: url('/images/demo-background.png');
 }
 
 .advancedSearchLink {
@@ -171,4 +171,12 @@ li a:hover {
     cursor: pointer;
     color: #eee;
     text-decoration: underline;
+}
+
+p, h4, a {
+    font-size: 20px;
+}
+ 
+input[type="text"] {
+    font-size: 20px;
 }

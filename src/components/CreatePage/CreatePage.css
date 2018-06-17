@@ -31,20 +31,20 @@
 
 .createFormWide{
   width: 80%;
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255,255,255,.2);
   margin: 10px 0px !important;
 }
 
 .createFormStandard{
   width: 70%;
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255,255,255,.2);
   margin: 10px 0px !important;
 }
 
 .createFormSmall {
   width: 20%;
   margin: 10px !important;
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255,255,255,.2);
 }
 
 .createFormSelect {
@@ -57,13 +57,13 @@
 }
 
 .createFormGenre {
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255,255,255,.2);
   width: fit-content;
   margin: auto;
 }
 
 .createFormHome {
-  background-color: rgba(255,255,255,.1);
+  background-color: rgba(255,255,255,.2);
   width: fit-content;
   margin: auto;
 }
