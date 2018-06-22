@@ -32,15 +32,15 @@ function* fetchStories() {
 
 function* fetchGenres() {
   try {
-    yield put({ type: STORY_ACTIONS.REQUEST_START });
+    // yield put({ type: STORY_ACTIONS.REQUEST_START });
     const genres = yield callGenreList();
     yield put({
       type: STORY_ACTIONS.SET_STORY_GENRES,
       payload: genres,
     });
-    yield put({ type: STORY_ACTIONS.REQUEST_DONE });
+    // yield put({ type: STORY_ACTIONS.REQUEST_DONE });
   } catch (error) {
-    yield put({ type: STORY_ACTIONS.REQUEST_DONE });
+    // yield put({ type: STORY_ACTIONS.REQUEST_DONE });
   }
 }
 
